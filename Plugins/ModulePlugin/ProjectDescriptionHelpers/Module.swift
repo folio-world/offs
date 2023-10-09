@@ -169,13 +169,21 @@ public extension Module {
         }
         
         func dependencies(_ product: Product) -> [Feature] {
-            if product == .Toff && (self == .Calendar || self == .Portfolio) {
-                return [
-                    .Trade
-                ]
+            switch product {
+            case .Off: return []
+            case .Toff:
+                switch self {
+                case .Calendar: return [.Trade]
+                case .Portfolio: return [.Trade]
+                default: return []
+                }
+            case .Soff:
+                switch self {
+                case .Calendar: return [.Study]
+                case .Portfolio: return [.Study]
+                default: return []
+                }
             }
-            
-            return []
         }
     }
 }
