@@ -12,33 +12,14 @@ import ProjectDescription
 
 public extension Platform {
     static func app(_ product: Module.Product) -> Self {
-        switch product {
-        case .Minimal: return .iOS
-        case .Dying: return .iOS
-        default: return .iOS
-        }
+        return .iOS
     }
     
     static func app(_ product: Module.Product, module: Module.App) -> Self {
-        switch product {
-        case .Minimal:
-            switch module {
-            case .IOS: return .iOS
-            case .Watch: return .watchOS
-            case .WatchExtension: return .watchOS
-            }
-        case .Dying:
-            switch module {
-            case .IOS: return .iOS
-            case .Watch: return .watchOS
-            case .WatchExtension: return .watchOS
-            }
-        default:
-            switch module {
-            case .IOS: return .iOS
-            case .Watch: return .watchOS
-            case .WatchExtension: return .watchOS
-            }
+        switch module {
+        case .IOS: return .iOS
+        case .Watch: return .watchOS
+        case .WatchExtension: return .watchOS
         }
     }
 }
@@ -47,19 +28,11 @@ public extension Platform {
 
 public extension Platform {
     static func feature(_ product: Module.Product) -> Self {
-        switch product {
-        case .Minimal: return .iOS
-        case .Dying: return .iOS
-        default: return .iOS
-        }
+        return .iOS
     }
     
     static func feature(_ product: Module.Product, module: Module.Feature) -> Self {
-        switch product {
-        case .Minimal: return .iOS
-        case .Dying: return .iOS
-        default: return .iOS
-        }
+        return .iOS
     }
 }
 
@@ -67,19 +40,11 @@ public extension Platform {
 
 public extension Platform {
     static func domain(_ product: Module.Product) -> Self {
-        switch product {
-        case .Minimal: return .iOS
-        case .Dying: return .iOS
-        default: return .iOS
-        }
+        return .iOS
     }
     
     static func domain(_ product: Module.Product, module: Module.Domain) -> Self {
-        switch product {
-        case .Minimal: return .iOS
-        case .Dying: return .iOS
-        default: return .iOS
-        }
+        return .iOS
     }
 }
 
@@ -87,19 +52,11 @@ public extension Platform {
 
 public extension Platform {
     static func core(_ product: Module.Product) -> Self {
-        switch product {
-        case .Minimal: return .iOS
-        case .Dying: return .iOS
-        default: return .iOS
-        }
+        return .iOS
     }
     
     static func core(_ product: Module.Product, module: Module.Core) -> Self {
-        switch product {
-        case .Minimal: return .iOS
-        case .Dying: return .iOS
-        default: return .iOS
-        }
+        return .iOS
     }
 }
 
@@ -107,18 +64,10 @@ public extension Platform {
 
 public extension Platform {
     static func shared(_ product: Module.Product) -> Self {
-        switch product {
-        case .Minimal: return .iOS
-        case .Dying: return .iOS
-        default: return .iOS
-        }
+        return .iOS
     }
     
     static func shared(_ product: Module.Product, module: Module.Shared) -> Self {
-        switch product {
-        case .Minimal: return .iOS
-        case .Dying: return .iOS
-        default: return .iOS
-        }
+        return .iOS
     }
 }

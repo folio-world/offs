@@ -7,4 +7,4 @@
 
 import ProjectDescription
 
-let workspace = Workspace(name: "Folio-World", projects: ["Projects/Minimal/*"])
+let workspace = Workspace(name: "Off", projects: ["Projects/Off/*"])

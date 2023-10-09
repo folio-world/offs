@@ -11,18 +11,18 @@ import ProjectDescription
 public extension DeploymentTarget {
     private static func iOS(_ product: Module.Product) -> Self {
         switch product {
-        case .Minimal: return .iOS(targetVersion: "16.0", devices: [.iphone])
-        case .Dying: return .iOS(targetVersion: "16.0", devices: [.iphone])
-        case .Toolinder: return .iOS(targetVersion: "17.0", devices: [.iphone, .ipad])
+        case .Off: return .iOS(targetVersion: "16.0", devices: [.iphone])
+        case .Toff: return .iOS(targetVersion: "17.0", devices: [.iphone, .ipad])
+        case .Soff: return .iOS(targetVersion: "17.0", devices: [.iphone, .ipad])
         default: return .iOS(targetVersion: "16.0", devices: [.iphone])
         }
     }
     
     private static func watchOS(_ product: Module.Product) -> Self {
         switch product {
-        case .Minimal: return .watchOS(targetVersion: "9.0")
-        case .Dying: return .watchOS(targetVersion: "9.0")
-        case .Toolinder: return .watchOS(targetVersion: "10.0")
+        case .Off: return .watchOS(targetVersion: "9.0")
+        case .Toff: return .watchOS(targetVersion: "9.0")
+        case .Soff: return .watchOS(targetVersion: "10.0")
         default: return .watchOS(targetVersion: "9.0")
         }
     }
@@ -43,33 +43,14 @@ public extension DeploymentTarget {
 
 public extension DeploymentTarget {
     static func app(_ product: Module.Product) -> Self {
-        switch product {
-        case .Minimal: return .iOS(product)
-        case .Dying: return .iOS(product)
-        default: return .iOS(product)
-        }
+        return .iOS(product)
     }
     
     static func app(_ product: Module.Product, module: Module.App) -> Self {
-        switch product {
-        case .Minimal:
-            switch module {
-            case .IOS: return .iOS(product)
-            case .Watch: return .watchOS(product)
-            case .WatchExtension: return .watchOS(product)
-            }
-        case .Dying:
-            switch module {
-            case .IOS: return .iOS(product)
-            case .Watch: return .watchOS(product)
-            case .WatchExtension: return .watchOS(product)
-            }
-        default:
-            switch module {
-            case .IOS: return .iOS(product)
-            case .Watch: return .watchOS(product)
-            case .WatchExtension: return .watchOS(product)
-            }
+        switch module {
+        case .IOS: return .iOS(product)
+        case .Watch: return .watchOS(product)
+        case .WatchExtension: return .watchOS(product)
         }
     }
 }

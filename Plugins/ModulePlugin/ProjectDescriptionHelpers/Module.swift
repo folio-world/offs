@@ -43,47 +43,28 @@ public enum Module {
 public extension Module {
     static func appPackages(_ product: Product) -> [AppPackage] {
         switch product {
-        case .Minimal:
+        case .Off:
+            return []
+        case .Toff:
             return [
-                (.Minimal, .IOS)
-            ]
-        case .Dying:
-            return [
-                (.Dying, .IOS)
-            ]
-        case .Mulling:
-            return [
-                (.Mulling, .IOS)
-            ]
-        case .Toolinder:
-            return [
-                (.Toolinder, .IOS)
+                (.Toff, .IOS)
             ]
         case .Soff:
             return [
                 (.Soff, .IOS)
             ]
-        case .Folio:
-            return []
         }
     }
     
     static func featurePackages(_ product: Product) -> [FeaturePackage] {
         switch product {
-        case .Minimal: return []
-        case .Dying:
-            return []
-        case .Mulling:
+        case .Off: return []
+        case .Toff:
             return [
-                (.Mulling, .Chat),
-                (.Mulling, .Home)
-            ]
-        case .Toolinder:
-            return [
-                (.Toolinder, .Calendar),
-                (.Toolinder, .Portfolio),
-                (.Toolinder, .MyPage),
-                (.Toolinder, .Trade),
+                (.Toff, .Calendar),
+                (.Toff, .Portfolio),
+                (.Toff, .MyPage),
+                (.Toff, .Trade),
             ]
         case .Soff:
             return [
@@ -92,77 +73,55 @@ public extension Module {
                 (.Soff, .MyPage),
                 (.Soff, .Study),
             ]
-        case .Folio: return []
         }
     }
     
     static func domainPackages(_ product: Product) -> [DomainPackage] {
         switch product {
-        case .Minimal: return []
-        case .Dying: return []
-        case .Mulling:
+        case .Off: return []
+        case .Toff:
             return [
-                (.Mulling, .Chat),
-                (.Mulling, .Point)
-            ]
-        case .Toolinder: 
-            return [
-                (.Toolinder, .Trade)
+                (.Toff, .Trade)
             ]
         case .Soff:
             return [
                 (.Soff, .Study)
             ]
-        case .Folio: return []
         }
     }
     
     static func corePackages(_ product: Product) -> [CorePackage] {
         switch product {
-        case .Minimal: return []
-        case .Dying: return []
-        case .Mulling:
+        case .Off:
             return [
-                (.Folio, .OPENAI),
-                (.Folio, .Admob)
+                (.Off, .OPENAI),
+                (.Off, .Admob)
             ]
-        case .Toolinder: return []
-        case .Soff: return []
-        case .Folio:
-            return [
-                (.Folio, .OPENAI),
-                (.Folio, .Admob)
-            ]
+        case .Toff: return [] + corePackages(.Off)
+        case .Soff: return [] + corePackages(.Off)
         }
     }
     
     static func sharedPackages(_ product: Product) -> [SharedPackage] {
         switch product {
-        case .Minimal: return []
-        case .Dying: return []
-        case .Mulling:
-            return sharedPackages(.Folio)
-            
-        case .Toolinder:
+        case .Off:
             return [
-                (.Toolinder, .ThirdPartyLib),
-                (.Toolinder, .Util)
-            ] + sharedPackages(.Folio)
-            
+                (.Off, .DesignSystem),
+                (.Off, .Network),
+                (.Off, .Util),
+                (.Off, .Foundation),
+                (.Off, .ThirdPartyLib)
+            ]
+        case .Toff:
+            return [
+                (.Toff, .ThirdPartyLib),
+                (.Toff, .Util)
+            ] + sharedPackages(.Off)
         case .Soff:
             return [
                 (.Soff, .ThirdPartyLib),
                 (.Soff, .Util)
-            ] + sharedPackages(.Folio)
-            
-        case .Folio:
-            return [
-                (.Folio, .DesignSystem),
-                (.Folio, .Network),
-                (.Folio, .Util),
-                (.Folio, .Foundation),
-                (.Folio, .ThirdPartyLib)
-            ]
+            ] + sharedPackages(.Off)
         }
     }
 }
@@ -171,11 +130,8 @@ public extension Module {
 
 public extension Module {
     enum Product: String, CaseIterable {
-        case Minimal
-        case Dying
-        case Mulling
-        case Toolinder
-        case Folio
+        case Off
+        case Toff
         case Soff
         
         public static let name: String = "Product"
@@ -199,18 +155,10 @@ public extension Module {
 
 public extension Module {
     enum Feature: String, CaseIterable {
-        case Onboarding
-        case Home
-        case MyPage
-        
-        case Lifespan
-        case Goal
-        case Health
-        
-        case Chat
-        
         case Calendar
         case Portfolio
+        case MyPage
+        
         case Trade
         case Study
         
@@ -221,7 +169,7 @@ public extension Module {
         }
         
         func dependencies(_ product: Product) -> [Feature] {
-            if product == .Toolinder && (self == .Calendar || self == .Portfolio) {
+            if product == .Toff && (self == .Calendar || self == .Portfolio) {
                 return [
                     .Trade
                 ]
@@ -236,9 +184,6 @@ public extension Module {
 
 public extension Module {
     enum Domain: String, CaseIterable {
-        case Health
-        case Chat
-        case Point
         case Trade
         case Study
         
@@ -254,8 +199,6 @@ public extension Module {
 
 public extension Module {
     enum Core: String, CaseIterable {
-        case HealthKit
-        
         case OPENAI
         case Admob
         
@@ -271,12 +214,11 @@ public extension Module {
 
 public extension Module {
     enum Shared: String, CaseIterable {
+        case Foundation
         case Util
         case DesignSystem
         case ThirdPartyLib
-        
         case Network
-        case Foundation
         
         public static let name: String = "Shared"
         

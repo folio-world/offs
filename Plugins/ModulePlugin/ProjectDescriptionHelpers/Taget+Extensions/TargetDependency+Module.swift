@@ -109,20 +109,19 @@ public extension TargetDependency {
 public extension [TargetDependency] {
     static func thirdPartyLibs(_ product: Module.Product) -> Self {
         switch product {
-        case .Minimal: return []
-        case .Dying: return [.package(product: "ComposableArchitecture")]
-        case .Mulling: return []
-        case .Toolinder:
-            return [
-                .external(name: "ComposableArchitecture"),
-                .external(name: "RealmSwift")
-            ]
-        case .Folio:
+        case .Off:
             return [
                 .external(name: "GoogleMobileAds"),
                 .external(name: "FirebaseAnalytics")
             ]
-        default: return []
+        case .Toff:
+            return [
+                .external(name: "ComposableArchitecture")
+            ]
+        case .Soff:
+            return [
+                .external(name: "ComposableArchitecture")
+            ]
         }
     }
 }
