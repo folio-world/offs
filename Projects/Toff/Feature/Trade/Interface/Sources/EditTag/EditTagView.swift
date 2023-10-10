@@ -10,8 +10,8 @@ import SwiftUI
 
 import ComposableArchitecture
 
-import ToolinderDomain
-import ToolinderShared
+import ToffDomain
+import ToffShared
 
 public struct EditTagView: View {
     let store: StoreOf<EditTagStore>

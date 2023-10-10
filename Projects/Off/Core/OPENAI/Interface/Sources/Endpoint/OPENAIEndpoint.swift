@@ -7,7 +7,7 @@
 
 import Foundation
 
-import MullingShared
+import OffShared
 
 enum OPENAIEndpoint {
     case completion(request: ChatCompletionRequestDTO)

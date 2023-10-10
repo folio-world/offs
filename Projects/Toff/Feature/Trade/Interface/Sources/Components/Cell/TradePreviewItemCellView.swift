@@ -9,8 +9,8 @@ import SwiftUI
 
 import ComposableArchitecture
 
-import ToolinderDomain
-import ToolinderShared
+import ToffDomain
+import ToffShared
 
 public struct TradePreviewItemCellView: View {
     private let store: StoreOf<TradePreviewItemCellStore>

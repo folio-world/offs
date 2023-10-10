@@ -7,20 +7,20 @@
 
 import Foundation
 
-@_exported import ToolinderSharedUtilInterface
-@_exported import ToolinderSharedUtil
+@_exported import ToffSharedUtilInterface
+@_exported import ToffSharedUtil
 
-@_exported import FolioSharedDesignSystemInterface
-@_exported import FolioSharedDesignSystem
+@_exported import OffSharedDesignSystemInterface
+@_exported import OffSharedDesignSystem
 
-@_exported import FolioSharedFoundationInterface
-@_exported import FolioSharedFoundation
+@_exported import OffSharedFoundationInterface
+@_exported import OffSharedFoundation
 
-@_exported import FolioSharedNetworkInterface
-@_exported import FolioSharedNetwork
+@_exported import OffSharedNetworkInterface
+@_exported import OffSharedNetwork
 
-@_exported import FolioSharedUtilInterface
-@_exported import FolioSharedUtil
+@_exported import OffSharedUtilInterface
+@_exported import OffSharedUtil
 
-@_exported import FolioSharedThirdPartyLibInterface
-@_exported import FolioSharedThirdPartyLib
+@_exported import OffSharedThirdPartyLibInterface
+@_exported import OffSharedThirdPartyLib

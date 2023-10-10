@@ -9,7 +9,7 @@ import SwiftUI
 
 import ComposableArchitecture
 
-import ToolinderFeatureTradeInterface
+import ToffFeatureTradeInterface
 
 public struct PortfolioNavigationStackView: View {
     let store: StoreOf<PortfolioNavigationStackStore>

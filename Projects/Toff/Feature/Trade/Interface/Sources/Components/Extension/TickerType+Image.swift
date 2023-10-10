@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-import ToolinderDomain
+import ToffDomain
 
 public extension TickerType {
     var systemImageName: String {

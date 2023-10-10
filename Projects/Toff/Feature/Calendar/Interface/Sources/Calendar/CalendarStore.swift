@@ -9,8 +9,8 @@ import Foundation
 
 import ComposableArchitecture
 
-import ToolinderDomain
-import ToolinderFeatureTradeInterface
+import ToffDomain
+import ToffFeatureTradeInterface
 
 public struct CalendarStore: Reducer {
     public init() {}

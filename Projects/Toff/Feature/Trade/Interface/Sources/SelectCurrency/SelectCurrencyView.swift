@@ -9,8 +9,8 @@ import SwiftUI
 
 import ComposableArchitecture
 
-import ToolinderDomain
-import ToolinderShared
+import ToffDomain
+import ToffShared
 
 public struct SelectCurrencyView: View {
     let store: StoreOf<SelectCurrencyStore>

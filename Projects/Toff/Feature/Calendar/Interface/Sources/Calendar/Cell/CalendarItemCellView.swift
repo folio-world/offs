@@ -9,9 +9,9 @@ import SwiftUI
 
 import ComposableArchitecture
 
-import ToolinderFeatureTradeInterface
-import ToolinderDomain
-import ToolinderShared
+import ToffFeatureTradeInterface
+import ToffDomain
+import ToffShared
 
 public struct CalendarItemCellView: View {
     private let store: StoreOf<CalendarItemCellStore>

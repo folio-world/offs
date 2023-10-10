@@ -9,12 +9,12 @@ import SwiftUI
 
 import ComposableArchitecture
 
-import ToolinderFeatureCalendarInterface
-import ToolinderFeatureCalendar
-import ToolinderFeaturePortfolioInterface
-import ToolinderFeaturePortfolio
-import ToolinderFeatureMyPageInterface
-import ToolinderFeatureMyPage
+import ToffFeatureCalendarInterface
+import ToffFeatureCalendar
+import ToffFeaturePortfolioInterface
+import ToffFeaturePortfolio
+import ToffFeatureMyPageInterface
+import ToffFeatureMyPage
 
 public struct MainTabView: View {
     let store: StoreOf<MainTabStore>

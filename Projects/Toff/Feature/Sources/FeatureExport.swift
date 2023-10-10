@@ -5,11 +5,11 @@
 //  Created by 송영모 on 2023/07/19.
 //
 
-@_exported import ToolinderFeatureCalendarInterface
-@_exported import ToolinderFeatureCalendar
+@_exported import ToffFeatureCalendarInterface
+@_exported import ToffFeatureCalendar
 
-@_exported import ToolinderFeaturePortfolioInterface
-@_exported import ToolinderFeaturePortfolio
+@_exported import ToffFeaturePortfolioInterface
+@_exported import ToffFeaturePortfolio
 
-@_exported import ToolinderFeatureMyPageInterface
-@_exported import ToolinderFeatureMyPage
+@_exported import ToffFeatureMyPageInterface
+@_exported import ToffFeatureMyPage

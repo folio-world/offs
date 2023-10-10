@@ -9,8 +9,8 @@ import Foundation
 
 import ComposableArchitecture
 
-import ToolinderFeatureTradeInterface
-import ToolinderDomain
+import ToffFeatureTradeInterface
+import ToffDomain
 
 public struct CalendarItemCellStore: Reducer {
     static let PREVIEW_CELL_MAX_LENGTH = 3

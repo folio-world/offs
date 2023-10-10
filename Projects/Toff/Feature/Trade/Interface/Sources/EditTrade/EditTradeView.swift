@@ -11,8 +11,8 @@ import PhotosUI
 
 import ComposableArchitecture
 
-import ToolinderDomain
-import ToolinderShared
+import ToffDomain
+import ToffShared
 
 public struct EditTradeView: View {
     let store: StoreOf<EditTradeStore>

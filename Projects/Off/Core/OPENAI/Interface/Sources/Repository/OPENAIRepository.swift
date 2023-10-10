@@ -7,7 +7,7 @@
 
 import Foundation
 
-import MullingShared
+import OffShared
 
 public protocol OPENAIRepositoryInterface {
     func postChatCompletion(request: ChatCompletionRequestDTO) async -> Result<ChatCompletionResponseDTO, RequestError>
