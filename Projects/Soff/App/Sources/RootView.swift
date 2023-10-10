@@ -10,7 +10,7 @@ import SwiftUI
 
 import ComposableArchitecture
 
-import ToolinderFeature
+import SoffFeature
 
 struct RootView: View {
     let store: StoreOf<RootStore>

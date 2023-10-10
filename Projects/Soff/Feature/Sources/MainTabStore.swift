@@ -7,12 +7,13 @@
 
 import ComposableArchitecture
 
-import ToolinderFeatureCalendarInterface
-import ToolinderFeatureCalendar
-import ToolinderFeaturePortfolioInterface
-import ToolinderFeaturePortfolio
-import ToolinderFeatureMyPageInterface
-import ToolinderFeatureMyPage
+import SoffFeatureCalendarInterface
+import SoffFeatureCalendar
+import SoffFeaturePortfolioInterface
+import SoffFeaturePortfolio
+import SoffFeatureMyPageInterface
+import SoffFeatureMyPage
+import SoffDomain
 
 
 public struct MainTabStore: Reducer {
@@ -34,6 +35,8 @@ public struct MainTabStore: Reducer {
         public init() { }
     }
     
+    @Dependency(\.tradeClient) var tradeClient
+    
     public enum Action: BindableAction, Equatable {
         case binding(BindingAction<State>)
         
@@ -54,6 +57,10 @@ public struct MainTabStore: Reducer {
                 return .none
                 
             case .onAppear:
+                if let tt = try? tradeClient.fetchTrades().get() {
+                    print("[D] \(tt.first?.ticker?.name)")
+                    return .none
+                }
                 return .send(.refresh)
                 
             case .refresh:

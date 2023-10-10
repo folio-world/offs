@@ -109,6 +109,10 @@ public extension TargetDependency {
 public extension [TargetDependency] {
     static func thirdPartyLibs(_ product: Module.Product) -> Self {
         switch product {
+        case .Offs: 
+            return [
+                .external(name: "ComposableArchitecture")
+            ]
         case .Off:
             return [
                 .external(name: "GoogleMobileAds"),

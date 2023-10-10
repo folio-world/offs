@@ -7,7 +7,7 @@
 
 import Foundation
 
-import ToolinderShared
+import SoffShared
 
 public struct CalendarEntity: Equatable, Identifiable {
     public let id: UUID

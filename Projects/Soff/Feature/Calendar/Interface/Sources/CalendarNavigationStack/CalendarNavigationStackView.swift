@@ -9,8 +9,6 @@ import SwiftUI
 
 import ComposableArchitecture
 
-import ToolinderFeatureTradeInterface
-
 public struct CalendarNavigationStackView: View {
     let store: StoreOf<CalendarNavigationStackStore>
     
@@ -19,26 +17,31 @@ public struct CalendarNavigationStackView: View {
     }
     
     public var body: some View {
-        NavigationStackStore(self.store.scope(
-                state: \.path,
-                action: CalendarNavigationStackStore.Action.path)) {
-            WithViewStore(self.store, observe: { $0 }) { viewStore in
-                CalendarMainView(
-                    store: self.store.scope(
-                        state: \.main,
-                        action: CalendarNavigationStackStore.Action.main))
-                .onAppear {
-                    viewStore.send(.onAppear)
-                }
-            }
-        } destination: {
-            switch $0 {
-            case .detail:
-                CaseLet(
-                    /CalendarNavigationStackStore.Path.State.detail,
-                     action: CalendarNavigationStackStore.Path.Action.detail,
-                     then: TradeDetailView.init(store:))
+        WithViewStore(self.store, observe: { $0 }) { viewStore in
+            VStack {
+                Text("Calendar")
             }
         }
+//        NavigationStackStore(self.store.scope(
+//                state: \.path,
+//                action: CalendarNavigationStackStore.Action.path)) {
+//            WithViewStore(self.store, observe: { $0 }) { viewStore in
+//                CalendarMainView(
+//                    store: self.store.scope(
+//                        state: \.main,
+//                        action: CalendarNavigationStackStore.Action.main))
+//                .onAppear {
+//                    viewStore.send(.onAppear)
+//                }
+//            }
+//        } destination: {
+//            switch $0 {
+//            case .detail:
+//                CaseLet(
+//                    /CalendarNavigationStackStore.Path.State.detail,
+//                     action: CalendarNavigationStackStore.Path.Action.detail,
+//                     then: TradeDetailView.init(store:))
+//            }
+//        }
     }
 }

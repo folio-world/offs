@@ -11,7 +11,7 @@ import SwiftData
 
 import ComposableArchitecture
 
-import ToolinderDomain
+import SoffDomain
 
 @main
 struct RootApp: App {

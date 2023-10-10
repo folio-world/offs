@@ -7,13 +7,11 @@
 
 import ComposableArchitecture
 
-import ToolinderFeatureTradeInterface
-
 public struct CalendarNavigationStackStore: Reducer {
     public init() {}
     
     public struct State: Equatable {
-        var path: StackState<Path.State> = .init()
+//        var path: StackState<Path.State> = .init()
         
         var main: CalendarMainStore.State = .init()
         
@@ -26,24 +24,24 @@ public struct CalendarNavigationStackStore: Reducer {
         case onAppear
         
         case main(CalendarMainStore.Action)
-        case path(StackAction<Path.State, Path.Action>)
+//        case path(StackAction<Path.State, Path.Action>)
     }
     
-    public struct Path: Reducer {
-        public enum State: Equatable {
-            case detail(TradeDetailStore.State)
-        }
-        
-        public enum Action: Equatable {
-            case detail(TradeDetailStore.Action)
-        }
-        
-        public var body: some Reducer<State, Action> {
-            Scope(state: /State.detail, action: /Action.detail) {
-                TradeDetailStore()
-            }
-        }
-    }
+//    public struct Path: Reducer {
+//        public enum State: Equatable {
+//            case detail(TradeDetailStore.State)
+//        }
+//        
+//        public enum Action: Equatable {
+//            case detail(TradeDetailStore.Action)
+//        }
+//        
+//        public var body: some Reducer<State, Action> {
+//            Scope(state: /State.detail, action: /Action.detail) {
+//                TradeDetailStore()
+//            }
+//        }
+//    }
     
     public var body: some Reducer<State, Action> {
         BindingReducer()
@@ -51,14 +49,6 @@ public struct CalendarNavigationStackStore: Reducer {
         Reduce { state, action in
             switch action {
             case .onAppear:
-                return .none
-                
-            case let .main(.delegate(.detail(trade))):
-                state.path.append(.detail(.init(trade: trade)))
-                return .none
-                
-            case .path(.element(id: _, action: .detail(.delegate(.delete)))):
-                state.path.removeLast()
                 return .none
                 
             default:
@@ -70,8 +60,8 @@ public struct CalendarNavigationStackStore: Reducer {
             CalendarMainStore()._printChanges()
         }
         
-        .forEach(\.path, action: /Action.path) {
-            Path()
-        }
+//        .forEach(\.path, action: /Action.path) {
+//            Path()
+//        }
     }
 }

@@ -43,8 +43,11 @@ public enum Module {
 public extension Module {
     static func appPackages(_ product: Product) -> [AppPackage] {
         switch product {
-        case .Off:
-            return []
+        case .Offs:
+            return [
+                (.Offs, .IOS)
+            ]
+        case .Off: return []
         case .Toff:
             return [
                 (.Toff, .IOS)
@@ -58,6 +61,7 @@ public extension Module {
     
     static func featurePackages(_ product: Product) -> [FeaturePackage] {
         switch product {
+        case .Offs: return [] + featurePackages(.Toff) + featurePackages(.Soff)
         case .Off: return []
         case .Toff:
             return [
@@ -78,6 +82,8 @@ public extension Module {
     
     static func domainPackages(_ product: Product) -> [DomainPackage] {
         switch product {
+        case .Offs:
+            return [] + domainPackages(.Toff) + domainPackages(.Soff)
         case .Off: return []
         case .Toff:
             return [
@@ -92,6 +98,7 @@ public extension Module {
     
     static func corePackages(_ product: Product) -> [CorePackage] {
         switch product {
+        case .Offs: return [] + corePackages(.Toff) + corePackages(.Soff)
         case .Off:
             return [
                 (.Off, .OPENAI),
@@ -104,6 +111,7 @@ public extension Module {
     
     static func sharedPackages(_ product: Product) -> [SharedPackage] {
         switch product {
+        case .Offs: return [] + sharedPackages(.Toff) + sharedPackages(.Soff)
         case .Off:
             return [
                 (.Off, .DesignSystem),
@@ -130,6 +138,7 @@ public extension Module {
 
 public extension Module {
     enum Product: String, CaseIterable {
+        case Offs
         case Off
         case Toff
         case Soff
@@ -170,6 +179,7 @@ public extension Module {
         
         func dependencies(_ product: Product) -> [Feature] {
             switch product {
+            case .Offs: return []
             case .Off: return []
             case .Toff:
                 switch self {
