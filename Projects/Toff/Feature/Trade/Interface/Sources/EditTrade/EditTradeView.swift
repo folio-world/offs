@@ -32,7 +32,7 @@ public struct EditTradeView: View {
                 
                 Spacer()
                 
-                MinimalButton(title: "Save") {
+                OffMinimalButton(title: "Save") {
                     viewStore.send(.saveButtonTapped)
                 }
             }

@@ -31,7 +31,7 @@ public struct EditTagView: View {
                 
                 Spacer()
                 
-                MinimalButton(title: "Save") {
+                OffMinimalButton(title: "Save") {
                     viewStore.send(.saveButtonTapped)
                 }
             }

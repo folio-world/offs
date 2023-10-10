@@ -35,7 +35,7 @@ public struct EditTickerView: View {
                 
                 Spacer()
                 
-                MinimalButton(title: "Save") {
+                OffMinimalButton(title: "Save") {
                     viewStore.send(.saveButtonTapped)
                 }
             }

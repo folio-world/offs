@@ -32,7 +32,7 @@ public struct SelectTagView: View {
                         
                         Spacer()
                         
-                        MinimalButton(title: "Confirm") {
+                        OffMinimalButton(title: "Confirm") {
                             viewStore.send(.confirmButtonTapped)
                         }
                         .padding()

@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-public struct MinimalButton: View {
+public struct OffMinimalButton: View {
     public let title: String
     public let isActive: Bool
     
