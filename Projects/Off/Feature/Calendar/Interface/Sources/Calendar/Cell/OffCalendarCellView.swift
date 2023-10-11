@@ -10,6 +10,8 @@ import SwiftUI
 
 import ComposableArchitecture
 
+import OffShared
+
 public struct OffCalendarCellView<T: Equatable>: View {
     private let store: StoreOf<OffCalendarCellStore<T>>
     
@@ -23,7 +25,7 @@ public struct OffCalendarCellView<T: Equatable>: View {
                 HStack {
                     Spacer()
                     
-                    Text("\(viewStore.state.date.day)")
+                    Text("\(viewStore.state.date)")
                         .font(.subheadline)
                         .fontWeight(.semibold)
                         .foregroundStyle(viewStore.state.isSelected ? Color.background : Color.foreground)
