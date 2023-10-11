@@ -102,40 +102,6 @@ public struct CalendarMainStore: Reducer {
                 }
                 return .none
                 
-            case let .fetched(trades):
-                state.trades = trades
-                return .send(.refreshCalendar(state.selectedDate, trades))
-                
-            case let .refreshCalendar(date, trades):
-                if state.calendars.isEmpty {
-                    let prevDate = date.add(byAdding: .month, value: -1)
-                    let nextDate = date.add(byAdding: .month, value: 1)
-                    state.calendars = [
-                        .init(
-                            offset: -1,
-                            calendars: CalendarEntity.toDomain(date: prevDate, trades: trades),
-                            selectedDate: prevDate
-                        ),
-                        .init(
-                            offset: 0,
-                            calendars: CalendarEntity.toDomain(date: date, trades: trades),
-                            selectedDate: .now
-                        ),
-                        .init(
-                            offset: 1,
-                            calendars: CalendarEntity.toDomain(date: nextDate, trades: trades),
-                            selectedDate: nextDate
-                        )
-                    ]
-                } else {
-                    for id in state.calendars.ids {
-                        let date = state.calendars[id: id]?.selectedDate ?? .now
-                        state.calendars[id: id]?.calendars = CalendarEntity.toDomain(date: date, trades: trades)
-                    }
-                }
-                
-                return .none
-                
 //            case let .calendar(id, action):
 //                switch action {
 //                case .delegate(.refresh):
@@ -154,11 +120,15 @@ public struct CalendarMainStore: Reducer {
 //                    return .none
 //                }
                 
+            case let .offCalendars(id: id, action: .delegate(.tapped)):
+                
+                return .none
+                
             case let .fetchTradesResponse(trades):
-                for id in state.offCalendars.ids {
-                    state.offCalendars[id: id]?.offCalendarItems.ids
-//                    state.offCalendars[id: id]
-                }
+                state.offCalendars = state.updateOffCalendarStoreState(
+                    offCalendars: state.offCalendars,
+                    trades: trades
+                )
                 return .none
                 
             default:
@@ -168,6 +138,9 @@ public struct CalendarMainStore: Reducer {
         
         .forEach(\.calendars, action: /Action.calendar(id:action:)) {
             CalendarStore()
+        }
+        .forEach(\.offCalendars, action: /Action.offCalendars(id:action:)) {
+            OffCalendarStore()
         }
     }
 }
@@ -184,7 +157,6 @@ public extension CalendarMainStore.State {
                 color: trade.side == .buy ? .pink : .mint
             )
         }
-        
         let makeOffCalendarItemCellState: (Date, [Trade]) -> OffCalendarItemCellStore<Trade>.State = { date, trades in
             return .init(
                 date: date,
@@ -194,8 +166,8 @@ public extension CalendarMainStore.State {
         
         return .init(
             id: id,
-            selectedDate: date,
             dates: date.allDatesInMonth(),
+            selectedDate: date,
             data: trades,
             makeOffCalendarItemCellState: makeOffCalendarItemCellState
         )

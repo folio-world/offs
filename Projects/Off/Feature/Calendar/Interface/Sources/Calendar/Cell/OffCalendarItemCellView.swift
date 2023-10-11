@@ -48,7 +48,7 @@ public struct OffCalendarItemCellView<T: Equatable>: View {
                 )
             )
             .onTapGesture {
-//                viewStore.send(.tapped)
+                viewStore.send(.tapped)
             }
         }
     }

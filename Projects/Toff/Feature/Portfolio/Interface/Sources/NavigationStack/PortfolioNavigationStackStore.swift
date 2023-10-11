@@ -73,7 +73,7 @@ public struct PortfolioNavigationStackStore: Reducer {
         }
         
         Scope(state: \.main, action: /Action.main) {
-            PortfolioMainStore()._printChanges()
+            PortfolioMainStore()
         }
         
         .forEach(\.path, action: /Action.path) {

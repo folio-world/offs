@@ -17,7 +17,11 @@ public struct OffCalendarItemCellStore<T: Equatable>: Reducer {
     public struct State: Equatable, Identifiable {
         public let id: UUID
         public let date: Date
-        public var isSelected: Bool
+        public var isSelected: Bool {
+            didSet {
+                self.offCalendarPreviews = self.updateOffCalendarPreviews(offCalendarPreviews: offCalendarPreviews, isSelected: isSelected)
+            }
+        }
         
         public let data: [T]
         
@@ -43,6 +47,8 @@ public struct OffCalendarItemCellStore<T: Equatable>: Reducer {
     public indirect enum Action: Equatable {
         case onAppear
         
+        case tapped
+        
         case offCalendarPreviews(id: OffCalendarPreviewCellStore.State.ID, action: OffCalendarPreviewCellStore.Action)
         case delegate(Delegate)
         
@@ -57,9 +63,25 @@ public struct OffCalendarItemCellStore<T: Equatable>: Reducer {
             case .onAppear:
                 return .none
                 
+            case .tapped:
+                return .send(.delegate(.tapped))
+                
             default:
                 return .none
             }
         }
+    }
+}
+
+public extension OffCalendarItemCellStore.State {
+    func updateOffCalendarPreviews(
+        offCalendarPreviews: IdentifiedArrayOf<OffCalendarPreviewCellStore.State>,
+        isSelected: Bool
+    ) -> IdentifiedArrayOf<OffCalendarPreviewCellStore.State> {
+        var newOffCalendarPreviews = offCalendarPreviews
+        for id in offCalendarPreviews.ids {
+            newOffCalendarPreviews[id: id]?.isSelected = isSelected
+        }
+        return newOffCalendarPreviews
     }
 }

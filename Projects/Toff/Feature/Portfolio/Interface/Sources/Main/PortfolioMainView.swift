@@ -124,6 +124,6 @@ public struct PortfolioMainView: View {
 
 #Preview {
     PortfolioMainView(store: .init(initialState: .init()) {
-        PortfolioMainStore()._printChanges()
+        PortfolioMainStore()
     })
 }

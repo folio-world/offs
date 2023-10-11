@@ -61,7 +61,7 @@ public struct MyPageNavigationStackStore: Reducer {
         }
         
         Scope(state: \.main, action: /Action.main) {
-            MyPageMainStore()._printChanges()
+            MyPageMainStore()
         }
         
         .forEach(\.path, action: /Action.path) {

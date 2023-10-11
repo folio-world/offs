@@ -67,7 +67,7 @@ public struct CalendarNavigationStackStore: Reducer {
         }
         
         Scope(state: \.main, action: /Action.main) {
-            CalendarMainStore()._printChanges()
+            CalendarMainStore()
         }
         
         .forEach(\.path, action: /Action.path) {

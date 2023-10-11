@@ -73,13 +73,13 @@ public struct MainTabStore: Reducer {
         }
         
         Scope(state: \.calendar, action: /Action.calendar) {
-            CalendarNavigationStackStore()._printChanges()
+            CalendarNavigationStackStore()
         }
         Scope(state: \.portfolio, action: /Action.portfolio) {
-            PortfolioNavigationStackStore()._printChanges()
+            PortfolioNavigationStackStore()
         }
         Scope(state: \.myPage, action: /Action.myPage) {
-            MyPageNavigationStackStore()._printChanges()
+            MyPageNavigationStackStore()
         }
     }
 }
