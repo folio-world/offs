@@ -14,35 +14,35 @@ public struct OffCalendarStore<T: Equatable>: Reducer {
     
     public struct State: Equatable, Identifiable {
         public let id: UUID
-        public let dates: [Date]
-        public var selectedDate: Date {
-            didSet {
-                self.offCalendarItems = updateOffCalendarItems(offCalendarItems: offCalendarItems, selectedDate: selectedDate)
-            }
-        }
+        public let initialDate: Date
         public var data: [T] {
             didSet {
                 self.offCalendarItems =  makeOffCalendarItems(dates: dates, data: data)
             }
         }
         public let makeOffCalendarItemCellState: (Date, [T]) -> OffCalendarItemCellStore<T>.State
+        public let dates: [Date]
         
+        public var selectedDate: Date {
+            didSet {
+                self.offCalendarItems = updateOffCalendarItems(offCalendarItems: offCalendarItems, selectedDate: selectedDate)
+            }
+        }
         public var offCalendarItems: IdentifiedArrayOf<OffCalendarItemCellStore<T>.State> = []
         
         public init(
             id: UUID = .init(),
-            dates: [Date],
-            selectedDate: Date,
+            initialDate: Date,
             data: [T],
             makeOffCalendarItemCellState: @escaping (Date, [T]) -> OffCalendarItemCellStore<T>.State
         ) {
             self.id = id
-            self.dates = dates
-            self.selectedDate = selectedDate
+            self.initialDate = initialDate
+            self.dates = initialDate.allDatesInMonth()
+            self.selectedDate = initialDate
             self.data = data
             self.makeOffCalendarItemCellState = makeOffCalendarItemCellState
             self.offCalendarItems = makeOffCalendarItems(dates: dates, data: data)
-            self.offCalendarItems = updateOffCalendarItems(offCalendarItems: self.offCalendarItems, selectedDate: selectedDate)
         }
         
         public static func == (lhs: OffCalendarStore<T>.State, rhs: OffCalendarStore<T>.State) -> Bool {
@@ -57,7 +57,7 @@ public struct OffCalendarStore<T: Equatable>: Reducer {
         case delegate(Delegate)
         
         public enum Delegate: Equatable {
-            case tapped
+            case tapped(Date)
         }
     }
     
@@ -65,12 +65,13 @@ public struct OffCalendarStore<T: Equatable>: Reducer {
         Reduce { state, action in
             switch action {
             case .onAppear:
+                state.offCalendarItems = state.updateOffCalendarItems(offCalendarItems: state.offCalendarItems, selectedDate: state.selectedDate)
                 return .none
                 
             case let .offCalendarItems(id: id, action: .delegate(.tapped)):
-                state.selectedDate = state.offCalendarItems[id: id]?.date ?? .now
-                print("[D] hi")
-                return .send(.delegate(.tapped))
+                let date = state.offCalendarItems[id: id]?.date ?? .now
+                state.selectedDate = date
+                return .send(.delegate(.tapped(date)))
                 
             default:
                 return .none
