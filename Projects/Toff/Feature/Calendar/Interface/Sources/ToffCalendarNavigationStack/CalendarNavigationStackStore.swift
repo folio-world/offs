@@ -9,13 +9,13 @@ import ComposableArchitecture
 
 import ToffFeatureTradeInterface
 
-public struct CalendarNavigationStackStore: Reducer {
+public struct ToffCalendarNavigationStackStore: Reducer {
     public init() {}
     
     public struct State: Equatable {
         var path: StackState<Path.State> = .init()
         
-        var main: CalendarMainStore.State = .init()
+        var main: ToffCalendarMainStore.State = .init()
         
         public init() {}
     }
@@ -25,7 +25,7 @@ public struct CalendarNavigationStackStore: Reducer {
         
         case onAppear
         
-        case main(CalendarMainStore.Action)
+        case main(ToffCalendarMainStore.Action)
         case path(StackAction<Path.State, Path.Action>)
     }
     
@@ -67,7 +67,7 @@ public struct CalendarNavigationStackStore: Reducer {
         }
         
         Scope(state: \.main, action: /Action.main) {
-            CalendarMainStore()
+            ToffCalendarMainStore()
         }
         
         .forEach(\.path, action: /Action.path) {

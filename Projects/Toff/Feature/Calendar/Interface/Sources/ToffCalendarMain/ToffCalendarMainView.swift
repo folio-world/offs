@@ -14,18 +14,18 @@ import ComposableArchitecture
 import OffFeatureCalendarInterface
 import ToffDomainTradeInterface
 
-public struct CalendarMainView: View {
-    let store: StoreOf<CalendarMainStore>
+public struct ToffCalendarMainView: View {
+    let store: StoreOf<ToffCalendarMainStore>
     
-    public init(store: StoreOf<CalendarMainStore>) {
+    public init(store: StoreOf<ToffCalendarMainStore>) {
         self.store = store
     }
     
     public var body: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
             GeometryReader { proxy in
-                TabView(selection: viewStore.binding(get: \.currentTab, send: CalendarMainStore.Action.selectTab)) {
-                    ForEachStore(self.store.scope(state: \.offCalendars, action: CalendarMainStore.Action.offCalendars(id:action:))) {
+                TabView(selection: viewStore.binding(get: \.currentTab, send: ToffCalendarMainStore.Action.selectTab)) {
+                    ForEachStore(self.store.scope(state: \.offCalendars, action: ToffCalendarMainStore.Action.offCalendars(id:action:))) {
                         OffCalendarView<Trade>(store: $0)
                     }
                 }

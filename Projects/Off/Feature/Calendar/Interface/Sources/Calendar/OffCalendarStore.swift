@@ -42,6 +42,7 @@ public struct OffCalendarStore<T: Equatable>: Reducer {
             self.data = data
             self.makeOffCalendarItemCellState = makeOffCalendarItemCellState
             self.offCalendarItems = makeOffCalendarItems(dates: dates, data: data)
+            self.offCalendarItems = updateOffCalendarItems(offCalendarItems: self.offCalendarItems, selectedDate: selectedDate)
         }
         
         public static func == (lhs: OffCalendarStore<T>.State, rhs: OffCalendarStore<T>.State) -> Bool {

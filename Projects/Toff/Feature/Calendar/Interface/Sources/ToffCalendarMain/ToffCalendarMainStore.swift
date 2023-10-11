@@ -12,7 +12,7 @@ import ComposableArchitecture
 import OffFeatureCalendarInterface
 import ToffDomain
 
-public struct CalendarMainStore: Reducer {
+public struct ToffCalendarMainStore: Reducer {
     public init() {}
     
     public struct State: Equatable {
@@ -121,7 +121,6 @@ public struct CalendarMainStore: Reducer {
 //                }
                 
             case let .offCalendars(id: id, action: .delegate(.tapped)):
-                
                 return .none
                 
             case let .fetchTradesResponse(trades):
@@ -145,7 +144,7 @@ public struct CalendarMainStore: Reducer {
     }
 }
 
-public extension CalendarMainStore.State {
+public extension ToffCalendarMainStore.State {
     func makeOffCalendarStoreState(
         id: UUID = .init(),
         date: Date,

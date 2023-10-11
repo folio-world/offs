@@ -26,7 +26,7 @@ public struct MainTabView: View {
     public var body: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
             TabView(selection: viewStore.binding(get: \.currentTab, send: MainTabStore.Action.selectTab)) {
-                CalendarNavigationStackView(store: self.store.scope(state: \.calendar, action: MainTabStore.Action.calendar))
+                ToffCalendarNavigationStackView(store: self.store.scope(state: \.calendar, action: MainTabStore.Action.calendar))
                     .tabItem {
                         Label(MainTabStore.Tab.calendar.rawValue, systemImage: "calendar")
                     }
