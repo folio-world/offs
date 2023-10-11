@@ -12,11 +12,8 @@ import ProjectDescription
 
 public extension Settings {
     static func app(_ product: Module.Product) -> Self {
-        let base = SettingsDictionary()
-            .otherLinkerFlags(["-ObjC"])
-        
         return .settings(
-            base: base,
+            base: SettingsDictionary().otherLinkerFlags(["-ObjC"]),
             configurations: [
                 .debug(name: "Debug", xcconfig: .relativeToRoot("\(Path.app(product, module: .IOS).pathString)/Sources/Config/Debug.xcconfig")),
                 .release(name: "Release", xcconfig: .relativeToRoot("\(Path.app(product, module: .IOS).pathString)/Sources/Config/Release.xcconfig")),
@@ -29,7 +26,7 @@ public extension Settings {
 
 public extension Settings {
     static func feature(_ product: Module.Product) -> Self {
-        return .settings()
+        return .settings(base: SettingsDictionary().otherLinkerFlags(["-ObjC"]))
     }
 }
 

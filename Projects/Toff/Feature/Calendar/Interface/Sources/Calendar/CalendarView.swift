@@ -84,13 +84,14 @@ public struct CalendarView: View {
     }
     
     private func calenderItemListView(viewStore: ViewStoreOf<CalendarStore>, proxy: GeometryProxy) -> some View {
-        LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: .zero), count: 7), spacing: .zero) {
-            ForEachStore(self.store.scope(state: \.calendarItem, action: CalendarStore.Action.calendarItem(id:action:))) {
-                CalendarItemCellView(store: $0)
-                    .frame(height: proxy.size.height * 0.12)
-            }
-            Spacer()
-        }
+        OffCalendarView(proxy, items: viewStore.calendarItems)
+//        LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: .zero), count: 7), spacing: .zero) {
+//            ForEachStore(self.store.scope(state: \.calendarItem, action: CalendarStore.Action.calendarItem(id:action:))) {
+//                CalendarItemCellView(store: $0)
+//                    .frame(height: proxy.size.height * 0.12)
+//            }
+//            Spacer()
+//        }
     }
     
     private func tradeItemList(viewStore: ViewStoreOf<CalendarStore>) -> some View {

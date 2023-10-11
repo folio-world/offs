@@ -11,7 +11,7 @@ import ProjectDescription
 public extension DeploymentTarget {
     private static func iOS(_ product: Module.Product) -> Self {
         switch product {
-        case .Off: return .iOS(targetVersion: "16.0", devices: [.iphone])
+        case .Off: return .iOS(targetVersion: "17.0", devices: [.iphone, .ipad])
         case .Toff: return .iOS(targetVersion: "17.0", devices: [.iphone, .ipad])
         case .Soff: return .iOS(targetVersion: "17.0", devices: [.iphone, .ipad])
         default: return .iOS(targetVersion: "16.0", devices: [.iphone])

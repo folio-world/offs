@@ -7,5 +7,8 @@
 
 import Foundation
 
-@_exported import
-@_exported import MullingCoreOPENAI
+@_exported import OffCoreOPENAIInterface
+@_exported import OffCoreOPENAI
+
+@_exported import OffCoreAdmobInterface
+@_exported import OffCoreAdmob

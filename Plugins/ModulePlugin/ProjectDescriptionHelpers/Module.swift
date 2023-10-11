@@ -62,21 +62,24 @@ public extension Module {
     static func featurePackages(_ product: Product) -> [FeaturePackage] {
         switch product {
         case .Offs: return [] + featurePackages(.Toff) + featurePackages(.Soff)
-        case .Off: return []
+        case .Off: 
+            return [
+                (.Off, .Calendar)
+            ]
         case .Toff:
             return [
                 (.Toff, .Calendar),
                 (.Toff, .Portfolio),
                 (.Toff, .MyPage),
                 (.Toff, .Trade),
-            ]
+            ] + featurePackages(.Off)
         case .Soff:
             return [
                 (.Soff, .Calendar),
                 (.Soff, .Portfolio),
                 (.Soff, .MyPage),
                 (.Soff, .Study),
-            ]
+            ] + featurePackages(.Off)
         }
     }
     
@@ -84,15 +87,18 @@ public extension Module {
         switch product {
         case .Offs:
             return [] + domainPackages(.Toff) + domainPackages(.Soff)
-        case .Off: return []
+        case .Off: 
+            return [
+                (.Off, .Calendar)
+            ]
         case .Toff:
             return [
                 (.Toff, .Trade)
-            ]
+            ] + domainPackages(.Off)
         case .Soff:
             return [
                 (.Soff, .Study)
-            ]
+            ] + domainPackages(.Off)
         }
     }
     
@@ -177,20 +183,34 @@ public extension Module {
             return MicroTargetType.allCases
         }
         
-        func dependencies(_ product: Product) -> [Feature] {
+        func interfaceDependencies(_ product: Product) -> [FeaturePackage] {
             switch product {
             case .Offs: return []
             case .Off: return []
             case .Toff:
                 switch self {
-                case .Calendar: return [.Trade]
-                case .Portfolio: return [.Trade]
+                case .Calendar: 
+                    return [
+                        (.Off, .Calendar),
+                        (.Toff, .Trade)
+                    ]
+                case .Portfolio:
+                    return [
+                        (.Toff, .Trade)
+                    ]
                 default: return []
                 }
             case .Soff:
                 switch self {
-                case .Calendar: return [.Study]
-                case .Portfolio: return [.Study]
+                case .Calendar:
+                    return [
+                        (.Off, .Calendar),
+                        (.Soff, .Study)
+                    ]
+                case .Portfolio:
+                    return [
+                        (.Soff, .Study)
+                    ]
                 default: return []
                 }
             }
@@ -202,6 +222,7 @@ public extension Module {
 
 public extension Module {
     enum Domain: String, CaseIterable {
+        case Calendar
         case Trade
         case Study
         

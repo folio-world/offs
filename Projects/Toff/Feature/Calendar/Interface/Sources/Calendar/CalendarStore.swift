@@ -11,12 +11,15 @@ import ComposableArchitecture
 
 import ToffDomain
 import ToffFeatureTradeInterface
+import ToffShared
 
 public struct CalendarStore: Reducer {
     public init() {}
     
     public struct State: Equatable, Identifiable {
         public var id: UUID
+        public var calendarItems: [OffCalendarItem<[Trade]>] = []
+        
         public var offset: Int
         public var calendars: [CalendarEntity] {
             didSet {
@@ -69,6 +72,9 @@ public struct CalendarStore: Reducer {
                     isSelected: isSelected
                 )
             })
+            self.calendarItems = calendars.map { calendar in
+                return .init(date: calendar.date, previews: calendar.trades.map { return .init(color: .blue, title: $0.ticker?.name ?? "") }, data: calendar.trades)
+            }
         }
     }
     
