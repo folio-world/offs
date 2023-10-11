@@ -27,7 +27,11 @@ struct RootApp: App {
                                     .init(
                                         date: $0,
                                         isSelected: false,
-                                        offCalendarPreview: []
+                                        offCalendarPreview: .init(
+                                            uniqueElements: [
+                                                .init(title: "test", color: .pink)
+                                            ]
+                                        )
                                     )
                                 }
                             )
