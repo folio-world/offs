@@ -101,5 +101,13 @@ public extension Date {
         components.second = -1
         return Calendar(identifier: .gregorian).date(byAdding: components, to: startOfMonth)!
     }
+    
+    func localizedString(dateStyle: DateFormatter.Style, timeStyle: DateFormatter.Style) -> String {
+        let formatter = DateFormatter()
+        formatter.formatterBehavior = .behavior10_4
+        formatter.dateStyle = dateStyle
+        formatter.timeStyle = timeStyle
 
+        return formatter.string(from: self)
+    }
 }

@@ -21,27 +21,29 @@ public struct OffCalendarItemCellStore<T: Equatable>: Reducer {
         
         public let data: [T]
         
-        public var offCalendarPreview: IdentifiedArrayOf<OffCalendarPreviewCellStore.State>
+        public var offCalendarPreviews: IdentifiedArrayOf<OffCalendarPreviewCellStore.State>
         
         public init(
             id: UUID = .init(),
             date: Date,
             isSelected: Bool,
             data: [T] = [],
-            makeOffCalendarPreview: @escaping ([T]) -> IdentifiedArrayOf<OffCalendarPreviewCellStore.State>
+            makeOffCalendarPreviewCellStoreState: @escaping (T) -> OffCalendarPreviewCellStore.State
         ) {
             self.id = id
             self.date = date
             self.isSelected = isSelected
             self.data = data
-            self.offCalendarPreview = makeOffCalendarPreview(data)
+            self.offCalendarPreviews = .init(
+                uniqueElements: data.map { makeOffCalendarPreviewCellStoreState($0) }
+            )
         }
     }
     
     public indirect enum Action: Equatable {
         case onAppear
         
-        case offCalendarPreview(id: OffCalendarPreviewCellStore.State.ID, action: OffCalendarPreviewCellStore.Action)
+        case offCalendarPreviews(id: OffCalendarPreviewCellStore.State.ID, action: OffCalendarPreviewCellStore.Action)
         case delegate(Delegate)
         
         public enum Delegate: Equatable {

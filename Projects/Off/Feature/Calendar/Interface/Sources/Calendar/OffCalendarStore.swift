@@ -14,14 +14,23 @@ public struct OffCalendarStore<T: Equatable>: Reducer {
     
     public struct State: Equatable, Identifiable {
         public let id: UUID
+        public var selectedDate: Date
         public var offCalendarItems: IdentifiedArrayOf<OffCalendarItemCellStore<T>.State> = []
         
         public init(
             id: UUID = .init(),
-            offCalendarItems: IdentifiedArrayOf<OffCalendarItemCellStore<T>.State>
+            selectedDate: Date,
+            dates: [Date],
+            data: [T],
+            makeOffCalendarItemCellState: @escaping (Date, [T]) -> OffCalendarItemCellStore<T>.State
         ) {
             self.id = id
-            self.offCalendarItems = offCalendarItems
+            self.selectedDate = selectedDate
+            self.offCalendarItems = .init(
+                uniqueElements: dates.map { date in
+                    makeOffCalendarItemCellState(date, data)
+                }
+            )
         }
     }
     

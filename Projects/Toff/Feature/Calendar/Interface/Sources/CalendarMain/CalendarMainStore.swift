@@ -21,38 +21,17 @@ public struct CalendarMainStore: Reducer {
         public var currentTab: Int = 0
         
         public var calendars: IdentifiedArrayOf<CalendarStore.State> = []
-        public var offCalendars: IdentifiedArrayOf<OffCalendarStore<Trade>.State>
+        public var offCalendars: IdentifiedArrayOf<OffCalendarStore<Trade>.State> = []
         
         public init() {
-            let makeOffCalendarPreview: ([Trade]) -> IdentifiedArrayOf<OffCalendarPreviewCellStore.State> =  { trades in
-                return .init(
-                    uniqueElements: trades.map {
-                        .init(
-                            title: $0.ticker?.name ?? "",
-                            color: $0.side == .buy ? .pink : .mint
-                        )
-                    }
-                )
-            }
-            self.offCalendars = .init(uniqueElements: [
-                .init(
-                    offCalendarItems: .init(
-                        uniqueElements: Date.now.allDatesInMonth().map { date in
-                            .init(
-                                date: date,
-                                isSelected: false,
-                                makeOffCalendarPreview: makeOffCalendarPreview
-                            )
-                        }
-                    )
-                )
+            offCalendars = .init(uniqueElements: [
+                makeOffCalendarStoreState(date: .now, trades: [])
             ])
         }
     }
     
     public enum Action: Equatable {
         case onAppear
-//        case fetch
         
         case selectTab(Int)
         
@@ -183,5 +162,30 @@ public struct CalendarMainStore: Reducer {
         .forEach(\.calendars, action: /Action.calendar(id:action:)) {
             CalendarStore()
         }
+    }
+}
+
+public extension CalendarMainStore.State {
+    func makeOffCalendarStoreState(date: Date, trades: [Trade]) -> OffCalendarStore<Trade>.State {
+        let makeOffCalendarPreviewCellStoreState: (Trade) -> OffCalendarPreviewCellStore.State = { trade in
+            return .init(
+                title: trade.ticker?.name ?? "",
+                color: trade.side == .buy ? .pink : .mint
+            )
+        }
+        
+        let makeOffCalendarItemCellState: (Date, [Trade]) -> OffCalendarItemCellStore<Trade>.State = { date, trades in
+            return .init(
+                date: date,
+                isSelected: false,
+                makeOffCalendarPreviewCellStoreState: makeOffCalendarPreviewCellStoreState)
+        }
+        
+        return .init(
+            selectedDate: date,
+            dates: date.allDatesInMonth(),
+            data: trades,
+            makeOffCalendarItemCellState: makeOffCalendarItemCellState
+        )
     }
 }

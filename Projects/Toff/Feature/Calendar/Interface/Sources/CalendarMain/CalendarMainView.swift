@@ -11,6 +11,7 @@ import Combine
 
 import ComposableArchitecture
 
+import OffFeatureCalendarInterface
 import ToffDomainTradeInterface
 
 public struct CalendarMainView: View {
@@ -24,11 +25,8 @@ public struct CalendarMainView: View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
             GeometryReader { proxy in
                 TabView(selection: viewStore.binding(get: \.currentTab, send: CalendarMainStore.Action.selectTab)) {
-                    ForEachStore(
-                        self.store.scope(state: \.calendars, action: CalendarMainStore.Action.calendar(id:action:))
-                    ) {
-                        CalendarView(store: $0)
-                            .frame(width: proxy.size.width, height: proxy.size.height)
+                    ForEachStore(self.store.scope(state: \.offCalendars, action: CalendarMainStore.Action.offCalendars(id:action:))) {
+                        OffCalendarView<Trade>(store: $0)
                     }
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
@@ -36,6 +34,12 @@ public struct CalendarMainView: View {
             .onAppear {
                 viewStore.send(.onAppear, animation: .default)
             }
+        }
+    }
+    
+    private func calendarView(store: StoreOf<OffCalendarStore<Trade>>) -> some View {
+        VStack {
+            
         }
     }
 }
