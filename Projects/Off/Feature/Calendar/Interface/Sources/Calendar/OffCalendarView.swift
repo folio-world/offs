@@ -28,6 +28,7 @@ public struct OffCalendarView<T: Equatable>: View {
                     Spacer()
                 }
             }
+            .tag(viewStore.id)
         }
     }
 }

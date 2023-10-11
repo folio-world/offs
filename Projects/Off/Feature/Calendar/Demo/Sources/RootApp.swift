@@ -19,23 +19,6 @@ struct RootApp: App {
     var body: some Scene {
         WindowGroup {
             VStack {
-                OffCalendarView<Int>(
-                    store: Store(
-                        initialState: OffCalendarStore<Int>.State(
-                            offCalendarItems: .init(
-                                uniqueElements: Date.now.allDatesInMonth().map {
-                                    .init(
-                                        date: $0,
-                                        isSelected: false,
-                                        makeOffCalendarPreview: { _ in return .init() }
-                                    )
-                                }
-                            )
-                        )
-                    ) {
-                        OffCalendarStore()._printChanges()
-                    }
-                )
             }
         }
     }

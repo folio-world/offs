@@ -16,16 +16,35 @@ public struct CalendarMainStore: Reducer {
     public init() {}
     
     public struct State: Equatable {
-        public var trades: [Trade] = []
-        public var selectedDate: Date = .now
-        public var currentTab: Int = 0
+        public var trades: [Trade]
+        public var selectedDate: Date
+        public var initialTab: UUID
+        public var currentTab: UUID
         
         public var calendars: IdentifiedArrayOf<CalendarStore.State> = []
         public var offCalendars: IdentifiedArrayOf<OffCalendarStore<Trade>.State> = []
         
         public init() {
-            offCalendars = .init(uniqueElements: [
-                makeOffCalendarStoreState(date: .now, trades: [])
+            let id = UUID()
+            
+            self.trades = []
+            self.selectedDate = .now
+            self.initialTab = id
+            self.currentTab = id
+            self.offCalendars = .init(uniqueElements: [
+                makeOffCalendarStoreState(
+                    date: .now.add(byAdding: .month, value: -1),
+                    trades: []
+                ),
+                makeOffCalendarStoreState(
+                    id: id,
+                    date: .now,
+                    trades: []
+                ),
+                makeOffCalendarStoreState(
+                    date: .now.add(byAdding: .month, value: 1),
+                    trades: []
+                ),
             ])
         }
     }
@@ -33,7 +52,7 @@ public struct CalendarMainStore: Reducer {
     public enum Action: Equatable {
         case onAppear
         
-        case selectTab(Int)
+        case selectTab(UUID)
         
         case fetchTradesRequest
         case fetchTradesResponse([Trade])
@@ -59,40 +78,28 @@ public struct CalendarMainStore: Reducer {
                 return .concatenate([
                     .send(.fetchTradesRequest)
                 ])
-//                return .send(.fetch)
-                
-//            case .fetch:
-//                if let trades = try? tradeClient.fetchTrades().get() {
-//                    return .send(.fetched(trades))
-//                } else {
-//                    return .none
-//                }
                 
             case let .selectTab(tab):
+                state.currentTab = tab
+                
+                let initialTabIndex = state.offCalendars.index(id: state.initialTab) ?? 0
+                let currentTabIndex = state.offCalendars.index(id: tab) ?? 0
+                let date = Date.now.add(
+                    byAdding: .month,
+                    value: currentTabIndex - initialTabIndex
+                )
+                let calendarStoreState = state.makeOffCalendarStoreState(
+                    date: date,
+                    trades: state.trades
+                )
+                
                 switch tab {
-                case state.calendars.first?.offset:
-                    let offset = tab - 1
-                    let date = Date.now.add(byAdding: .month, value: offset)
-                    let calendarEntities = CalendarEntity.toDomain(date: date, trades: state.trades)
-                    let calendarState = CalendarStore.State(
-                        offset: offset,
-                        calendars: calendarEntities,
-                        selectedDate: date
-                    )
-                    state.calendars.insert(calendarState, at: 0)
-                case state.calendars.last?.offset:
-                    let offset = tab + 1
-                    let date = Date.now.add(byAdding: .month, value: offset)
-                    let calendarEntities = CalendarEntity.toDomain(date: date, trades: state.trades)
-                    let calendarState = CalendarStore.State(
-                        offset: offset,
-                        calendars: calendarEntities,
-                        selectedDate: .now.add(byAdding: .month, value: offset)
-                    )
-                    state.calendars.append(calendarState)
+                case state.offCalendars.ids.first:
+                    state.offCalendars.insert(calendarStoreState, at: 0)
+                case state.offCalendars.ids.last:
+                    state.offCalendars.append(calendarStoreState)
                 default: break
                 }
-                state.currentTab = tab
                 return .none
                 
             case let .fetched(trades):
@@ -166,7 +173,11 @@ public struct CalendarMainStore: Reducer {
 }
 
 public extension CalendarMainStore.State {
-    func makeOffCalendarStoreState(date: Date, trades: [Trade]) -> OffCalendarStore<Trade>.State {
+    func makeOffCalendarStoreState(
+        id: UUID = .init(),
+        date: Date,
+        trades: [Trade]
+    ) -> OffCalendarStore<Trade>.State {
         let makeOffCalendarPreviewCellStoreState: (Trade) -> OffCalendarPreviewCellStore.State = { trade in
             return .init(
                 title: trade.ticker?.name ?? "",
@@ -182,10 +193,22 @@ public extension CalendarMainStore.State {
         }
         
         return .init(
+            id: id,
             selectedDate: date,
             dates: date.allDatesInMonth(),
             data: trades,
             makeOffCalendarItemCellState: makeOffCalendarItemCellState
         )
+    }
+    
+    func updateOffCalendarStoreState(
+        offCalendars: IdentifiedArrayOf<OffCalendarStore<Trade>.State>,
+        trades: [Trade]
+    ) -> IdentifiedArrayOf<OffCalendarStore<Trade>.State> {
+        var offCalendars = offCalendars
+        for id in offCalendars.ids {
+            offCalendars[id: id]?.data = trades
+        }
+        return offCalendars
     }
 }
