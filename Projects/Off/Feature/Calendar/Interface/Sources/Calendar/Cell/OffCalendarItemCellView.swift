@@ -12,10 +12,10 @@ import ComposableArchitecture
 
 import OffShared
 
-public struct OffCalendarCellView<T: Equatable>: View {
-    private let store: StoreOf<OffCalendarCellStore<T>>
+public struct OffCalendarItemCellView<T: Equatable>: View {
+    private let store: StoreOf<OffCalendarItemCellStore<T>>
     
-    public init(store: StoreOf<OffCalendarCellStore<T>>) {
+    public init(store: StoreOf<OffCalendarItemCellStore<T>>) {
         self.store = store
     }
     
@@ -34,7 +34,7 @@ public struct OffCalendarCellView<T: Equatable>: View {
                 }
                 .padding(.top, 2)
                 
-                ForEachStore(self.store.scope(state: \.offCalendarPreview, action: OffCalendarCellStore.Action.offCalendarPreview(id:action:))) {
+                ForEachStore(self.store.scope(state: \.offCalendarPreview, action: OffCalendarItemCellStore.Action.offCalendarPreview(id:action:))) {
                     OffCalendarPreviewCellView(store: $0)
                 }
                 

@@ -21,8 +21,8 @@ public struct OffCalendarView<T: Equatable>: View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
             GeometryReader { proxy in
                 LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: .zero), count: 7), spacing: .zero) {
-                    ForEachStore(self.store.scope(state: \.offCalendars, action: OffCalendarStore.Action.offCalendars(id:action:))) {
-                        OffCalendarCellView(store: $0)
+                    ForEachStore(self.store.scope(state: \.offCalendarItems, action: OffCalendarStore.Action.offCalendarItems(id:action:))) {
+                        OffCalendarItemCellView(store: $0)
                             .frame(height: proxy.size.height * 0.12)
                     }
                     Spacer()

@@ -9,6 +9,7 @@ import Foundation
 
 import ComposableArchitecture
 
+import OffFeatureCalendarInterface
 import ToffDomain
 
 public struct CalendarMainStore: Reducer {
@@ -20,20 +21,48 @@ public struct CalendarMainStore: Reducer {
         public var currentTab: Int = 0
         
         public var calendars: IdentifiedArrayOf<CalendarStore.State> = []
+        public var offCalendars: IdentifiedArrayOf<OffCalendarStore<Trade>.State>
         
-        public init() {}
+        public init() {
+            let makeOffCalendarPreview: ([Trade]) -> IdentifiedArrayOf<OffCalendarPreviewCellStore.State> =  { trades in
+                return .init(
+                    uniqueElements: trades.map {
+                        .init(
+                            title: $0.ticker?.name ?? "",
+                            color: $0.side == .buy ? .pink : .mint
+                        )
+                    }
+                )
+            }
+            self.offCalendars = .init(uniqueElements: [
+                .init(
+                    offCalendarItems: .init(
+                        uniqueElements: Date.now.allDatesInMonth().map { date in
+                            .init(
+                                date: date,
+                                isSelected: false,
+                                makeOffCalendarPreview: makeOffCalendarPreview
+                            )
+                        }
+                    )
+                )
+            ])
+        }
     }
     
     public enum Action: Equatable {
         case onAppear
-        case fetch
+//        case fetch
         
         case selectTab(Int)
         
+        case fetchTradesRequest
+        case fetchTradesResponse([Trade])
         case fetched([Trade])
         case refreshCalendar(Date, [Trade])
         
         case calendar(id: CalendarStore.State.ID, action: CalendarStore.Action)
+        case offCalendars(id: OffCalendarStore<Trade>.State.ID, action: OffCalendarStore<Trade>.Action)
         
         case delegate(Delegate)
         
@@ -48,14 +77,17 @@ public struct CalendarMainStore: Reducer {
         Reduce { state, action in
             switch action {
             case .onAppear:
-                return .send(.fetch)
+                return .concatenate([
+                    .send(.fetchTradesRequest)
+                ])
+//                return .send(.fetch)
                 
-            case .fetch:
-                if let trades = try? tradeClient.fetchTrades().get() {
-                    return .send(.fetched(trades))
-                } else {
-                    return .none
-                }
+//            case .fetch:
+//                if let trades = try? tradeClient.fetchTrades().get() {
+//                    return .send(.fetched(trades))
+//                } else {
+//                    return .none
+//                }
                 
             case let .selectTab(tab):
                 switch tab {
@@ -118,23 +150,30 @@ public struct CalendarMainStore: Reducer {
                 
                 return .none
                 
-            case let .calendar(id, action):
-                switch action {
-                case .delegate(.refresh):
-                    return .send(.fetch)
-                    
-                case .editTrade(.presented(.delegate(.save))):
-                    return .send(.fetch)
-                    
-                case .editTrade(.dismiss):
-                    return .send(.fetch)
-                    
-                case let .delegate(.detail(trade)):
-                    return .send(.delegate(.detail(trade)))
-                    
-                default:
-                    return .none
+//            case let .calendar(id, action):
+//                switch action {
+//                case .delegate(.refresh):
+//                    return .send(.fetch)
+//                    
+//                case .editTrade(.presented(.delegate(.save))):
+//                    return .send(.fetch)
+//                    
+//                case .editTrade(.dismiss):
+//                    return .send(.fetch)
+//                    
+//                case let .delegate(.detail(trade)):
+//                    return .send(.delegate(.detail(trade)))
+//                    
+//                default:
+//                    return .none
+//                }
+                
+            case let .fetchTradesResponse(trades):
+                for id in state.offCalendars.ids {
+                    state.offCalendars[id: id]?.offCalendarItems.ids
+//                    state.offCalendars[id: id]
                 }
+                return .none
                 
             default:
                 return .none

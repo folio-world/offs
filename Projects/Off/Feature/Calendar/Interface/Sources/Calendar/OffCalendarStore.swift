@@ -12,18 +12,23 @@ import ComposableArchitecture
 public struct OffCalendarStore<T: Equatable>: Reducer {
     public init() {}
     
-    public struct State: Equatable {
-        public var offCalendars: IdentifiedArrayOf<OffCalendarCellStore<T>.State> = []
+    public struct State: Equatable, Identifiable {
+        public let id: UUID
+        public var offCalendarItems: IdentifiedArrayOf<OffCalendarItemCellStore<T>.State> = []
         
-        public init(offCalendars: IdentifiedArrayOf<OffCalendarCellStore<T>.State>) {
-            self.offCalendars = offCalendars
+        public init(
+            id: UUID = .init(),
+            offCalendarItems: IdentifiedArrayOf<OffCalendarItemCellStore<T>.State>
+        ) {
+            self.id = id
+            self.offCalendarItems = offCalendarItems
         }
     }
     
     public enum Action: Equatable {
         case onAppear
         
-        case offCalendars(id: OffCalendarCellStore<T>.State.ID, action: OffCalendarCellStore<T>.Action)
+        case offCalendarItems(id: OffCalendarItemCellStore<T>.State.ID, action: OffCalendarItemCellStore<T>.Action)
         case delegate(Delegate)
         
         public enum Delegate: Equatable {

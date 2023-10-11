@@ -11,7 +11,7 @@ import ComposableArchitecture
 
 import OffDomain
 
-public struct OffCalendarCellStore<T: Equatable>: Reducer {
+public struct OffCalendarItemCellStore<T: Equatable>: Reducer {
     public init() {}
     
     public struct State: Equatable, Identifiable {
@@ -28,13 +28,13 @@ public struct OffCalendarCellStore<T: Equatable>: Reducer {
             date: Date,
             isSelected: Bool,
             data: [T] = [],
-            offCalendarPreview: IdentifiedArrayOf<OffCalendarPreviewCellStore.State>
+            makeOffCalendarPreview: @escaping ([T]) -> IdentifiedArrayOf<OffCalendarPreviewCellStore.State>
         ) {
             self.id = id
             self.date = date
             self.isSelected = isSelected
             self.data = data
-            self.offCalendarPreview = offCalendarPreview
+            self.offCalendarPreview = makeOffCalendarPreview(data)
         }
     }
     

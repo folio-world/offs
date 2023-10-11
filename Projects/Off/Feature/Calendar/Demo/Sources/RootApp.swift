@@ -22,16 +22,12 @@ struct RootApp: App {
                 OffCalendarView<Int>(
                     store: Store(
                         initialState: OffCalendarStore<Int>.State(
-                            offCalendars: .init(
+                            offCalendarItems: .init(
                                 uniqueElements: Date.now.allDatesInMonth().map {
                                     .init(
                                         date: $0,
                                         isSelected: false,
-                                        offCalendarPreview: .init(
-                                            uniqueElements: [
-                                                .init(title: "test", color: .pink)
-                                            ]
-                                        )
+                                        makeOffCalendarPreview: { _ in return .init() }
                                     )
                                 }
                             )
