@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+import ComposableArchitecture
+
+import OffFeatureCalendarInterface
+import OffFeatureCalendar
+
 @main
 struct RootApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
@@ -14,7 +19,23 @@ struct RootApp: App {
     var body: some Scene {
         WindowGroup {
             VStack {
-                Text("DEMO")
+                OffCalendarView<Int>(
+                    store: Store(
+                        initialState: OffCalendarStore<Int>.State(
+                            offCalendars: .init(
+                                uniqueElements: Date.now.allDatesInMonth().map {
+                                    .init(
+                                        date: $0,
+                                        isSelected: false,
+                                        offCalendarPreview: []
+                                    )
+                                }
+                            )
+                        )
+                    ) {
+                        OffCalendarStore()._printChanges()
+                    }
+                )
             }
         }
     }

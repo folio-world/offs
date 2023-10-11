@@ -25,7 +25,7 @@ public struct OffCalendarCellView<T: Equatable>: View {
                 HStack {
                     Spacer()
                     
-                    Text("\(viewStore.state.date)")
+                    Text("\(viewStore.state.date.day)")
                         .font(.subheadline)
                         .fontWeight(.semibold)
                         .foregroundStyle(viewStore.state.isSelected ? Color.background : Color.foreground)

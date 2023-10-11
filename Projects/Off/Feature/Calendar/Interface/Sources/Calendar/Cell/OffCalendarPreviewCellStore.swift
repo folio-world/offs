@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 import ComposableArchitecture
 
@@ -16,13 +17,19 @@ public struct OffCalendarPreviewCellStore: Reducer {
     
     public struct State: Equatable, Identifiable {
         public let id: UUID
+        public let title: String
+        public let color: Color
         public var isSelected: Bool
         
         public init(
             id: UUID = .init(),
+            title: String,
+            color: Color,
             isSelected: Bool = false
         ) {
             self.id = id
+            self.title = title
+            self.color = color
             self.isSelected = isSelected
         }
     }

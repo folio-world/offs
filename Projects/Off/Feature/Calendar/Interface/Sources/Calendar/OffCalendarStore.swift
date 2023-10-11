@@ -9,17 +9,21 @@ import Foundation
 
 import ComposableArchitecture
 
-public struct OffCalendarStore: Reducer {
+public struct OffCalendarStore<T: Equatable>: Reducer {
     public init() {}
     
     public struct State: Equatable {
-//        public var offCalendarItems:
-        public init() { }
+        public var offCalendars: IdentifiedArrayOf<OffCalendarCellStore<T>.State> = []
+        
+        public init(offCalendars: IdentifiedArrayOf<OffCalendarCellStore<T>.State>) {
+            self.offCalendars = offCalendars
+        }
     }
     
     public enum Action: Equatable {
         case onAppear
         
+        case offCalendars(id: OffCalendarCellStore<T>.State.ID, action: OffCalendarCellStore<T>.Action)
         case delegate(Delegate)
         
         public enum Delegate: Equatable {
