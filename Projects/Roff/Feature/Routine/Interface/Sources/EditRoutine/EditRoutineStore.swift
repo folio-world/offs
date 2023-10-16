@@ -6,22 +6,29 @@
 //
 
 import Foundation
+import SwiftUI
 
 import ComposableArchitecture
 
 import RoffDomainRoutineInterface
+import RoffShared
 
 public struct EditRoutineStore: Reducer {
     public init() {}
     
     public struct State: Equatable {
-        public var mode: EditMode
-        public var routine: Routine?
+        var mode: OffEditMode
+        var routine: Routine?
         
-        @BindingState public var title: String = ""
+        @BindingState var title: String = ""
+        @BindingState var startDate: Date = .now
+        @BindingState var endDate: Date = .now
+        @BindingState var color: Color = .foreground
+        
+        var tagItems: IdentifiedArrayOf<TagItemCellStore.State> = []
         
         public init(
-            mode: EditMode = .add,
+            mode: OffEditMode = .add,
             routine: Routine? = nil
         ) {
             self.mode = mode
@@ -34,6 +41,11 @@ public struct EditRoutineStore: Reducer {
         
         case onAppear
         
+        case editButtonTapped(OffEditMode.Action)
+        case tagButtonTapped
+        case saveButtonTapped
+        
+        case tagItems(id: TagItemCellStore.State.ID, action: TagItemCellStore.Action)
         case delegate(Delegate)
         
         public enum Alert: Equatable {
@@ -46,11 +58,17 @@ public struct EditRoutineStore: Reducer {
         }
     }
     
-    
     public var body: some ReducerOf<Self> {
+        BindingReducer()
         Reduce { state, action in
             switch action {
+            case .binding:
+                return .none
+                
             case .onAppear:
+                return .none
+                
+            case let .editButtonTapped(action):
                 return .none
                 
             default:

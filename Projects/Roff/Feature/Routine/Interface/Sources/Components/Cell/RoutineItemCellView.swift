@@ -21,8 +21,14 @@ public struct RoutineItemCellView: View {
     public var body: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
             HStack {
-                tradeView(viewStore: viewStore)
+                titleView(title: viewStore.routine.title)
             }
+        }
+    }
+    
+    private func titleView(title: String) -> some View {
+        HStack {
+            Text(title)
         }
     }
     

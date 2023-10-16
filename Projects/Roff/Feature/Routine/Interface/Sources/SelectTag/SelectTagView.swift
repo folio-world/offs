@@ -57,7 +57,7 @@ public struct SelectTagView: View {
     
     @ViewBuilder
     private func headerView(viewStore: ViewStoreOf<SelectTagStore>) -> some View {
-        EditHeaderView(mode: .select, title: "Tag", isShowNewButton: true) { mode in
+        OffEditHeaderView(mode: .select, title: "Tag", isShowNewButton: true) { mode in
             switch mode {
             case .new:
                 viewStore.send(.addButtonTapped)

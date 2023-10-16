@@ -1,14 +1,14 @@
 //
 //  EditHeaderView.swift
-//  ToolinderFeatureTradeInterface
+//  OffSharedDesignSystem
 //
-//  Created by 송영모 on 2023/10/02.
+//  Created by 송영모 on 10/16/23.
 //
 
 import Foundation
 import SwiftUI
 
-public enum EditMode {
+public enum OffEditMode {
     case add
     case edit
     case select
@@ -20,22 +20,22 @@ public enum EditMode {
     }
 }
 
-public struct EditHeaderView: View {
-    public let mode: EditMode
+public struct OffEditHeaderView: View {
+    public let mode: OffEditMode
     public let title: LocalizedStringKey
     public let isShowDismissButton: Bool
     public let isShowNewButton: Bool
     public let isShowDeleteButton: Bool
     
-    public var action: (EditMode.Action) -> ()
+    public var action: (OffEditMode.Action) -> ()
     
     public init(
-        mode: EditMode,
+        mode: OffEditMode,
         title: LocalizedStringKey,
         isShowDismissButton: Bool = false,
         isShowNewButton: Bool = false,
         isShowDeleteButton: Bool = false,
-        action: @escaping (EditMode.Action) -> Void
+        action: @escaping (OffEditMode.Action) -> Void
     ) {
         self.mode = mode
         self.title = title

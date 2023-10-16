@@ -17,21 +17,20 @@ public struct RoffCalendarMainStore: Reducer {
     public init() {}
     
     public struct State: Equatable {
-        public let id: UUID
-        public var routines: [Routine]
-        public var currentTab: UUID
+        let id: UUID
+        var routines: [Routine]
+        var currentTab: UUID
         
-        public var headerDate: Date
-        public var selectedDate: Date {
+        var headerDate: Date
+        var selectedDate: Date {
             didSet {
-//                self.tradeItems = self.makeTradeItems(from: trades.filter({ $0.date.isEqual(date: selectedDate) }))
+                self.routineItems = self.makeRoutineItmes(from: routines)
             }
         }
         
-        public var offCalendars: IdentifiedArrayOf<OffCalendarStore<Routine>.State> = []
-//        public var tradeItems: IdentifiedArrayOf<TradeItemCellStore.State> = []
-//        @PresentationState var selectTicker: SelectTickerStore.State?
-//        @PresentationState var editTrade: EditTradeStore.State?
+        var offCalendars: IdentifiedArrayOf<OffCalendarStore<Routine>.State> = []
+        var routineItems: IdentifiedArrayOf<RoutineItemCellStore.State> = []
+        @PresentationState var editRoutine: EditRoutineStore.State?
         
         public init(
             id: UUID = .init(),
@@ -71,7 +70,8 @@ public struct RoffCalendarMainStore: Reducer {
         case fetchRoutinesResponse([Routine])
         
         case offCalendars(id: OffCalendarStore<Routine>.State.ID, action: OffCalendarStore<Routine>.Action)
-        
+        case routineItems(id: RoutineItemCellStore.State.ID, action: RoutineItemCellStore.Action)
+        case editRoutine(PresentationAction<EditRoutineStore.Action>)
         case delegate(Delegate)
         
         public enum Delegate: Equatable {
@@ -118,7 +118,7 @@ public struct RoffCalendarMainStore: Reducer {
                 return .none
                 
             case .newButtonTapped:
-//                state.selectTicker = .init()
+                state.editRoutine = .init()
                 return .none
                 
             case .fetchRoutinesRequest:
@@ -131,13 +131,15 @@ public struct RoffCalendarMainStore: Reducer {
                     offCalendars: state.offCalendars,
                     routines: routines
                 )
-//                state.tradeItems = state.makeTradeItems(
-//                    from: trades.filter({ $0.date.isEqual(date: state.selectedDate) })
-//                )
+                state.routineItems = state.makeRoutineItmes(from: state.routines)
                 return .none
                 
             case let .offCalendars(id: _, action: .delegate(.tapped(date))):
                 state.selectedDate = date
+                return .none
+                
+            case .editRoutine(.dismiss):
+                state.editRoutine = nil
                 return .none
                 
             default:
@@ -146,6 +148,9 @@ public struct RoffCalendarMainStore: Reducer {
         }
         .forEach(\.offCalendars, action: /Action.offCalendars(id:action:)) {
             OffCalendarStore()
+        }
+        .ifLet(\.$editRoutine, action: /Action.editRoutine) {
+            EditRoutineStore()
         }
     }
 }
@@ -190,11 +195,11 @@ public extension RoffCalendarMainStore.State {
         return offCalendars
     }
     
-//    func makeTradeItems(from trades: [Trade]) -> IdentifiedArrayOf<TradeItemCellStore.State> {
-//        return .init(
-//            uniqueElements: trades.map { trade in
-//                return .init(trade: trade, dateStyle: .short, timeStyle: .short)
-//            }
-//        )
-//    }
+    func makeRoutineItmes(from routines: [Routine]) -> IdentifiedArrayOf<RoutineItemCellStore.State> {
+        return .init(
+            uniqueElements: routines.map { routine in
+                return .init(routine: routine, dateStyle: .none, timeStyle: .short)
+            }
+        )
+    }
 }

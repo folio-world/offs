@@ -22,7 +22,7 @@ public struct RoutineItemCellStore: Reducer {
         public let timeStyle: DateFormatter.Style
         
         public init(
-            id: UUID,
+            id: UUID = .init(),
             routine: Routine,
             dateStyle: DateFormatter.Style,
             timeStyle: DateFormatter.Style

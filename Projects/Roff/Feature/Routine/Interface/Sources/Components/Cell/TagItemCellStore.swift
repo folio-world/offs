@@ -10,19 +10,20 @@ import Foundation
 import ComposableArchitecture
 
 import RoffDomain
+import RoffShared
 
 public struct TagItemCellStore: Reducer {
     public init() {}
     
     public struct State: Equatable, Identifiable {
-        public let mode: EditMode
+        public let mode: OffEditMode
         public let id: UUID
         
         public let tag: Tag
         public var isSelected: Bool
         
         public init(
-            mode: EditMode = .edit,
+            mode: OffEditMode = .edit,
             id: UUID = .init(),
             tag: Tag,
             isSelected: Bool = false

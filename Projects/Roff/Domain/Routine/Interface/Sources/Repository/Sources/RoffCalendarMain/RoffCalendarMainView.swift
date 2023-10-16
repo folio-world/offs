@@ -14,6 +14,7 @@ import ComposableArchitecture
 import OffFeatureCalendarInterface
 import RoffFeatureRoutineInterface
 import RoffDomain
+import RoffShared
 
 public struct RoffCalendarMainView: View {
     let store: StoreOf<RoffCalendarMainStore>
@@ -36,24 +37,15 @@ public struct RoffCalendarMainView: View {
             .onAppear {
                 viewStore.send(.onAppear, animation: .default)
             }
-//            .sheet(
-//                store: self.store.scope(
-//                    state: \.$selectTicker,
-//                    action: { .selectTicker($0) }
-//                )
-//            ) {
-//                SelectTickerView(store: $0)
-//                    .presentationDetents([.medium])
-//            }
-//            .sheet(
-//                store: self.store.scope(
-//                    state: \.$editTrade,
-//                    action: { .editTrade($0) }
-//                )
-//            ) {
-//                EditTradeView(store: $0)
-//                    .presentationDetents([.medium])
-//            }
+            .sheet(
+                store: self.store.scope(
+                    state: \.$editRoutine,
+                    action: { .editRoutine($0) }
+                )
+            ) {
+                EditRoutineView(store: $0)
+                    .presentationDetents([.medium])
+            }
         }
     }
     
@@ -62,25 +54,27 @@ public struct RoffCalendarMainView: View {
         viewStore: ViewStoreOf<RoffCalendarMainStore>,
         proxy: GeometryProxy
     ) -> some View {
-        ZStack {
+        ZStack(alignment: .top) {
             ScrollView {
-                VStack {
+                VStack(alignment: .leading) {
                     OffCalendarView<Routine>(store: store, proxy: proxy)
                         .padding(.top, 40)
                     
-                    tradeItemsView(viewStore: viewStore)
+                    Text(viewStore.state.selectedDate.localizedString(dateStyle: .medium, timeStyle: .none))
+                        .font(.title3)
+                        .fontWeight(.bold)
                     
-                    Spacer()
+                    ForEachStore(self.store.scope(state: \.routineItems, action: RoffCalendarMainStore.Action.routineItems(id:action:))) {
+                        RoutineItemCellView(store: $0)
+                    }
+                    
+                    OffTitleButton(title: "New") {
+                        viewStore.send(.newButtonTapped)
+                    }
                 }
                 .padding(10)
             }
             
-            headerView(viewStore: viewStore)
-        }
-    }
-    
-    private func headerView(viewStore: ViewStoreOf<RoffCalendarMainStore>) -> some View {
-        VStack(alignment: .leading) {
             HStack {
                 Text("\(Calendar.current.shortMonthSymbols[viewStore.state.headerDate.month - 1])".uppercased())
                     .font(.largeTitle)
@@ -88,25 +82,7 @@ public struct RoffCalendarMainView: View {
                 Spacer()
             }
             .padding(.horizontal, 10)
-            .background(Color(uiColor: .systemBackground).opacity(0.7))
-            
-            Spacer()
-        }
-    }
-    
-    private func tradeItemsView(viewStore: ViewStoreOf<RoffCalendarMainStore>) -> some View {
-        VStack(alignment: .leading) {
-            Text(viewStore.state.selectedDate.localizedString(dateStyle: .medium, timeStyle: .none))
-                .font(.title3)
-                .fontWeight(.bold)
-            
-//            ForEachStore(self.store.scope(state: \.tradeItems, action: RoffCalendarMainStore.Action.tradeItems(id:action:))) {
-//                TradeItemCellView(store: $0)
-//            }
-            
-//            TradeNewItem() {
-//                viewStore.send(.newButtonTapped)
-//            }
+            .background(.background.opacity(0.7))
         }
     }
 }

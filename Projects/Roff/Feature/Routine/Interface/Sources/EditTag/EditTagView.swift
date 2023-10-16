@@ -43,7 +43,7 @@ public struct EditTagView: View {
     private func headerView(viewStore: ViewStoreOf<EditTagStore>) -> some View {
         switch viewStore.state.mode {
         case .add:
-            EditHeaderView(
+            OffEditHeaderView(
                 mode: viewStore.state.mode,
                 title: "Tag",
                 isShowDismissButton: true
@@ -55,7 +55,7 @@ public struct EditTagView: View {
                 }
             }
         case .edit:
-            EditHeaderView(
+            OffEditHeaderView(
                 mode: viewStore.state.mode,
                 title: "Tag",
                 isShowDeleteButton: true

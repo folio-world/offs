@@ -11,12 +11,13 @@ import SwiftUI
 import ComposableArchitecture
 
 import RoffDomain
+import RoffShared
 
 public struct EditTagStore: Reducer {
     public init() {}
     
     public struct State: Equatable {
-        public var mode: EditMode
+        public var mode: OffEditMode
         public var tag: Tag?
         
         public var title: LocalizedStringKey = ""
@@ -25,7 +26,7 @@ public struct EditTagStore: Reducer {
         public var tagColor: Color = .foreground
         
         public init(
-            mode: EditMode,
+            mode: OffEditMode,
             tag: Tag? = nil
         ) {
             self.mode = mode

@@ -69,7 +69,6 @@ public struct RoffCalendarNavigationStackStore: Reducer {
         Scope(state: \.main, action: /Action.main) {
             RoffCalendarMainStore()
         }
-        
         .forEach(\.path, action: /Action.path) {
             Path()
         }

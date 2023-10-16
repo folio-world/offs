@@ -10,18 +10,19 @@ import Foundation
 import ComposableArchitecture
 
 import RoffDomainRoutineInterface
+import RoffShared
 
 public struct RoutineDetailStore: Reducer {
     public init() {}
     
     public struct State: Equatable {
-        public var mode: EditMode
+        public var mode: OffEditMode
         public var routine: Routine?
         
         @BindingState public var title: String = ""
         
         public init(
-            mode: EditMode = .add,
+            mode: OffEditMode = .add,
             routine: Routine? = nil
         ) {
             self.mode = mode
