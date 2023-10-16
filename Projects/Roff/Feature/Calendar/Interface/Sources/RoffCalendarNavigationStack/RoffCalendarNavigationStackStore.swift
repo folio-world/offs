@@ -9,7 +9,7 @@ import ComposableArchitecture
 
 import ToffFeatureTradeInterface
 
-public struct ToffCalendarNavigationStackStore: Reducer {
+public struct RoffCalendarNavigationStackStore: Reducer {
     public init() {}
     
     public struct State: Equatable {

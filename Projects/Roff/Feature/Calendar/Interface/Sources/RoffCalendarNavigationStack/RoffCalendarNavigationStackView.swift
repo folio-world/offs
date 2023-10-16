@@ -11,22 +11,22 @@ import ComposableArchitecture
 
 import ToffFeatureTradeInterface
 
-public struct ToffCalendarNavigationStackView: View {
-    let store: StoreOf<ToffCalendarNavigationStackStore>
+public struct RoffCalendarNavigationStackView: View {
+    let store: StoreOf<RoffCalendarNavigationStackStore>
     
-    public init(store: StoreOf<ToffCalendarNavigationStackStore>) {
+    public init(store: StoreOf<RoffCalendarNavigationStackStore>) {
         self.store = store
     }
     
     public var body: some View {
         NavigationStackStore(self.store.scope(
             state: \.path,
-            action: ToffCalendarNavigationStackStore.Action.path)
+            action: RoffCalendarNavigationStackStore.Action.path)
         ) { WithViewStore(self.store, observe: { $0 }) { viewStore in
             ToffCalendarMainView(
                 store: self.store.scope(
                     state: \.main,
-                    action: ToffCalendarNavigationStackStore.Action.main)
+                    action: RoffCalendarNavigationStackStore.Action.main)
             )
             .onAppear {
                 viewStore.send(.onAppear)
@@ -36,8 +36,8 @@ public struct ToffCalendarNavigationStackView: View {
             switch $0 {
             case .detail:
                 CaseLet(
-                    /ToffCalendarNavigationStackStore.Path.State.detail,
-                     action: ToffCalendarNavigationStackStore.Path.Action.detail,
+                    /RoffCalendarNavigationStackStore.Path.State.detail,
+                     action: RoffCalendarNavigationStackStore.Path.Action.detail,
                      then: TradeDetailView.init(store:)
                 )
             }
