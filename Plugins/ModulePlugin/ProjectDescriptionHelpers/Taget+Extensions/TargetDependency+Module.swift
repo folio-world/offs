@@ -119,7 +119,7 @@ public extension [TargetDependency] {
             ]
         case .Toff:
             return []
-        case .Soff:
+        case .Roff:
             return []
         }
     }

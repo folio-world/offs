@@ -15,7 +15,7 @@ public extension String {
         case .Offs: return "off"
         case .Off: return "off"
         case .Toff: return ""
-        case .Soff: return "off"
+        case .Roff: return "off"
         default: return ""
         }
     }

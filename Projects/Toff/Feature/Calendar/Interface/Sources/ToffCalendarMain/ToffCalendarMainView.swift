@@ -36,6 +36,24 @@ public struct ToffCalendarMainView: View {
             .onAppear {
                 viewStore.send(.onAppear, animation: .default)
             }
+            .sheet(
+                store: self.store.scope(
+                    state: \.$selectTicker,
+                    action: { .selectTicker($0) }
+                )
+            ) {
+                SelectTickerView(store: $0)
+                    .presentationDetents([.medium])
+            }
+            .sheet(
+                store: self.store.scope(
+                    state: \.$editTrade,
+                    action: { .editTrade($0) }
+                )
+            ) {
+                EditTradeView(store: $0)
+                    .presentationDetents([.medium])
+            }
         }
     }
     
@@ -87,7 +105,7 @@ public struct ToffCalendarMainView: View {
             }
             
             TradeNewItem() {
-//                viewStore.send(.newButtonTapped)
+                viewStore.send(.newButtonTapped)
             }
         }
     }

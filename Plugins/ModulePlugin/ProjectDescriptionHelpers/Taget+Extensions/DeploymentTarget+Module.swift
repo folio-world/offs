@@ -13,7 +13,7 @@ public extension DeploymentTarget {
         switch product {
         case .Off: return .iOS(targetVersion: "17.0", devices: [.iphone, .ipad])
         case .Toff: return .iOS(targetVersion: "17.0", devices: [.iphone, .ipad])
-        case .Soff: return .iOS(targetVersion: "17.0", devices: [.iphone, .ipad])
+        case .Roff: return .iOS(targetVersion: "17.0", devices: [.iphone, .ipad])
         default: return .iOS(targetVersion: "16.0", devices: [.iphone])
         }
     }
@@ -22,7 +22,7 @@ public extension DeploymentTarget {
         switch product {
         case .Off: return .watchOS(targetVersion: "9.0")
         case .Toff: return .watchOS(targetVersion: "9.0")
-        case .Soff: return .watchOS(targetVersion: "10.0")
+        case .Roff: return .watchOS(targetVersion: "10.0")
         default: return .watchOS(targetVersion: "9.0")
         }
     }

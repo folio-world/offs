@@ -77,7 +77,6 @@ public struct OffCalendarStore<T: Equatable>: Reducer {
                 return .none
             }
         }
-        
         .forEach(\.offCalendarItems, action: /Action.offCalendarItems(id:action:)) {
             OffCalendarItemCellStore()
         }

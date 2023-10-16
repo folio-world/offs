@@ -13,12 +13,7 @@ import Foundation
 public extension String {
     struct Name {
         private static func product(_ product: Module.Product) -> String {
-            switch product {
-            case .Offs: return "Offs"
-            case .Off: return "Off"
-            case .Toff: return "Toff"
-            case .Soff: return "Soff"
-            }
+            return product.rawValue
         }
     }
 }

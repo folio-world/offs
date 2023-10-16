@@ -41,10 +41,6 @@ public extension Color {
         return Color(uiColor: .systemBackground)
     }
     
-//    static func blackOrWhite(_ isSelected: Bool = false) -> Self {
-//        return isSelected ? Color(uiColor: .label) : Color(uiColor: .systemBackground)
-//    }
-    
     func toHex() -> String {
         let uic = UIColor(self)
         guard let components = uic.cgColor.components, components.count >= 3 else {
