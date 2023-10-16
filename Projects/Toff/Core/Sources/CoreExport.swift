@@ -6,3 +6,6 @@
 //
 
 import Foundation
+
+@_exported import OffCoreOPENAIInterface
+@_exported import OffCoreAdmob

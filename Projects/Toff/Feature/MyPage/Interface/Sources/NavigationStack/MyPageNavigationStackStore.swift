@@ -51,9 +51,12 @@ public struct MyPageNavigationStackStore: Reducer {
             case .onAppear:
                 return .none
                 
-            case .main(.delegate(.whatIsNew)):
-                state.path.append(.whatIsNew(.init()))
-                return .none
+            case let .main(.delegate(action)):
+                switch action {
+                case .navigateToWhatIsNew:
+                    state.path.append(.whatIsNew(.init()))
+                    return .none
+                }
                 
             default:
                 return .none
@@ -61,7 +64,7 @@ public struct MyPageNavigationStackStore: Reducer {
         }
         
         Scope(state: \.main, action: /Action.main) {
-            MyPageMainStore()
+            MyPageMainStore()._printChanges()
         }
         
         .forEach(\.path, action: /Action.path) {
