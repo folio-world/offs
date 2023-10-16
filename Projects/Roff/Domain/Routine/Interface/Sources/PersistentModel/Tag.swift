@@ -15,7 +15,7 @@ public class Tag {
     public var hex: String = ""
     public var name: String = ""
     
-    @Relationship public var tickers: [Ticker]? = []
+    @Relationship public var routines: [Routine]? = []
     
     public init(
         id: UUID = .init(),
@@ -25,5 +25,37 @@ public class Tag {
         self.id = id
         self.hex = hex
         self.name = name
+    }
+    
+    func toDTO() -> TagDTO {
+        return TagDTO(
+            id: id,
+            hex: hex,
+            name: name
+        )
+    }
+}
+
+public class TagDTO {
+    public var id: UUID = UUID()
+    public var hex: String = ""
+    public var name: String = ""
+    
+    public init(
+        id: UUID = .init(),
+        hex: String,
+        name: String
+    ) {
+        self.id = id
+        self.hex = hex
+        self.name = name
+    }
+    
+    func toDomain() -> Tag {
+        return Tag(
+            id: id,
+            hex: hex,
+            name: name
+        )
     }
 }

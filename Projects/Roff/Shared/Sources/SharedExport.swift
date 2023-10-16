@@ -7,9 +7,6 @@
 
 import Foundation
 
-@_exported import SoffSharedUtilInterface
-@_exported import SoffSharedUtil
-
 @_exported import OffSharedDesignSystemInterface
 @_exported import OffSharedDesignSystem
 
