@@ -121,7 +121,6 @@ public struct SelectTagStore: Reducer {
         .ifLet(\.$editTag, action: /Action.editTag) {
             EditTagStore()
         }
-        
         .forEach(\.tagItem, action: /Action.tagItem(id:action:)) {
             TagItemCellStore()
         }

@@ -17,13 +17,11 @@ public struct EditTagStore: Reducer {
     public init() {}
     
     public struct State: Equatable {
-        public var mode: OffEditMode
-        public var tag: Tag?
+        var mode: OffEditMode
+        var tag: Tag?
         
-        public var title: LocalizedStringKey = ""
-        
-        public var tagName: String = ""
-        public var tagColor: Color = .foreground
+        @BindingState var name: String = ""
+        @BindingState var color: Color = .foreground
         
         public init(
             mode: OffEditMode,
@@ -33,19 +31,18 @@ public struct EditTagStore: Reducer {
             self.tag = tag
             
             if mode == .edit {
-                self.tagName = tag?.name ?? ""
-                self.tagColor = Color(hex: tag?.hex ?? "")
+                self.name = tag?.name ?? ""
+                self.color = Color(hex: tag?.hex ?? "")
             }
         }
     }
     
-    public enum Action: Equatable {
+    public enum Action: BindableAction, Equatable {
+        case binding(BindingAction<State>)
+        
         case onAppear
         
-        case setTagName(String)
-        case setTagColor(Color)
-        case dismissButtonTapped
-        case deleteButtonTapped
+        case editButtonTapped(OffEditMode.Action)
         case saveButtonTapped
         
         case delegate(Delegate)
@@ -60,31 +57,27 @@ public struct EditTagStore: Reducer {
     @Dependency(\.tagClient) var tagClient
     
     public var body: some ReducerOf<Self> {
+        BindingReducer()
         Reduce { state, action in
             switch action {
             case .onAppear:
                 return .none
                 
-            case let .setTagName(name):
-                state.tagName = name
-                return .none
-                
-            case let .setTagColor(color):
-                state.tagColor = color
-                return .none
-                
-            case .dismissButtonTapped:
-                return .send(.delegate(.cancle))
-                
-            case .deleteButtonTapped:
-                if let tag = state.tag, let deletedTag = tagClient.deleteTag(tag) {
-                    return .send(.delegate(.delete(deletedTag)))
+            case let .editButtonTapped(action):
+                switch action {
+                case .dismiss:
+                    return .send(.delegate(.cancle))
+                case .delete:
+                    if let tag = state.tag, let deletedTag = tagClient.deleteTag(tag) {
+                        return .send(.delegate(.delete(deletedTag)))
+                    }
+                default: break
                 }
                 return .none
                 
             case .saveButtonTapped:
-                guard state.tagName != "" else { return .none }
-                if let tag = tagClient.saveTag(.init(hex: state.tagColor.toHex(), name: state.tagName)) {
+                guard state.name != "" else { return .none }
+                if let tag = tagClient.saveTag(.init(hex: state.color.toHex(), name: state.name)) {
                     return .send(.delegate(.save(tag)))
                 }
                 return .none

@@ -25,9 +25,9 @@ public struct EditTagView: View {
             VStack(alignment: .leading, spacing: 20) {
                 headerView(viewStore: viewStore)
                 
-                nameView(viewStore: viewStore)
+                inputNameView(name: viewStore.$name)
                 
-                colorView(viewStore: viewStore)
+                inputColorView(color: viewStore.$color)
                 
                 Spacer()
                 
@@ -48,11 +48,7 @@ public struct EditTagView: View {
                 title: "Tag",
                 isShowDismissButton: true
             ) { action in
-                switch action {
-                case .dismiss:
-                    viewStore.send(.dismissButtonTapped)
-                default: break
-                }
+                viewStore.send(.editButtonTapped(action))
             }
         case .edit:
             OffEditHeaderView(
@@ -60,32 +56,28 @@ public struct EditTagView: View {
                 title: "Tag",
                 isShowDeleteButton: true
             ) { action in
-                switch action {
-                case .dismiss:
-                    viewStore.send(.dismissButtonTapped)
-                case .delete:
-                    viewStore.send(.deleteButtonTapped)
-                default: break
-                }
+                viewStore.send(.editButtonTapped(action))
             }
             
         default: EmptyView()
         }
     }
     
-    private func nameView(viewStore: ViewStoreOf<EditTagStore>) -> some View {
-        TextField(
-            text: viewStore.binding(get: \.tagName, send: EditTagStore.Action.setTagName), 
-            label: {
-                Label("Name", systemImage: "highlighter")
-            }
-        )
-        .foregroundStyle(.foreground)
+    private func inputNameView(name: Binding<String>) -> some View {
+        HStack {
+            TextField(
+                text: name,
+                label: {
+                    Label("Name", systemImage: "highlighter")
+                }
+            )
+            .foregroundStyle(.foreground)
+        }
     }
     
-    private func colorView(viewStore: ViewStoreOf<EditTagStore>) -> some View {
-        ColorPicker(selection: viewStore.binding(get: \.tagColor, send: EditTagStore.Action.setTagColor), label: {
-            Label("Color", systemImage: "paintpalette.fill")
+    private func inputColorView(color: Binding<Color>) -> some View {
+        ColorPicker(selection: color, label: {
+            Label("Color", systemImage: "paintpalette")
         })
     }
 }
