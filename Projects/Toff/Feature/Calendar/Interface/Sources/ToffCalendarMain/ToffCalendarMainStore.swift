@@ -131,9 +131,13 @@ public struct ToffCalendarMainStore: Reducer {
                 return .none
                 
             case let .fetchTradesResponse(trades):
+                state.trades = trades
                 state.offCalendars = state.updateOffCalendars(
                     offCalendars: state.offCalendars,
                     trades: trades
+                )
+                state.tradeItems = state.makeTradeItems(
+                    from: trades.filter({ $0.date.isEqual(date: state.selectedDate) })
                 )
                 return .none
                 
