@@ -27,7 +27,7 @@ public class Tag {
         self.name = name
     }
     
-    func toDTO() -> TagDTO {
+    public func toDTO() -> TagDTO {
         return TagDTO(
             id: id,
             hex: hex,
@@ -51,7 +51,7 @@ public class TagDTO {
         self.name = name
     }
     
-    func toDomain() -> Tag {
+    public func toDomain() -> Tag {
         return Tag(
             id: id,
             hex: hex,

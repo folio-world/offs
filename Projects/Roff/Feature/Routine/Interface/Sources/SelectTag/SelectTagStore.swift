@@ -41,7 +41,7 @@ public struct SelectTagStore: Reducer {
         case delegate(Delegate)
         
         public enum Delegate: Equatable {
-            case select([Tag])
+            case selected([Tag])
             case deleted(Tag)
         }
     }
@@ -61,7 +61,7 @@ public struct SelectTagStore: Reducer {
                 return .none
                 
             case .confirmButtonTapped:
-                return .send(.delegate(.select(state.selectedTags)))
+                return .send(.delegate(.selected(state.selectedTags)))
                 
             case .fetchTagsRequest:
                 let tags = tagClient.fetchTags()

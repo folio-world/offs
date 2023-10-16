@@ -26,6 +26,7 @@ struct RootApp: App {
                 }
             )
             .modelContainer(for: [
+                Routine.self,
                 Tag.self
             ])
             .onAppear(perform: UIApplication.shared.hideKeyboard)

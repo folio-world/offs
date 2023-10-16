@@ -10,7 +10,7 @@ import SwiftData
 
 @Model
 public class Routine {
-    @Attribute(.unique) public let id: UUID = UUID()
+    public let id: UUID = UUID()
     
     public var title: String = ""
     public var startDate: Date = Date.now
@@ -55,7 +55,7 @@ public struct RoutineDTO {
     public var doneDates: [Date]
     public var tags: [TagDTO]
     
-    init(
+    public init(
         id: UUID = UUID(),
         title: String,
         startDate: Date,

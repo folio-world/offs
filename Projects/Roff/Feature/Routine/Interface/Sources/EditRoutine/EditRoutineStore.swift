@@ -56,9 +56,12 @@ public struct EditRoutineStore: Reducer {
         
         public enum Delegate: Equatable {
             case cancle
+            case saved(Routine)
             case delete
         }
     }
+    
+    @Dependency(\.routineClient) var routineClient
     
     public var body: some ReducerOf<Self> {
         BindingReducer()
@@ -70,12 +73,37 @@ public struct EditRoutineStore: Reducer {
             case .onAppear:
                 return .none
                 
-            case let .editButtonTapped(action):
+            case .editButtonTapped:
                 return .none
                 
             case .tagButtonTapped:
                 state.selectTag = .init(selectedTags: state.routine?.tags ?? [])
                 return .none
+                
+            case .saveButtonTapped:
+                if let routineDTO = validateRoutineDTO(
+                    title: state.title,
+                    startDate: state.startDate,
+                    endDate: state.endDate,
+                    doneDates: [],
+                    tags: state.tagItems.map(\.tag).map { $0.toDTO() }
+                ), let routine = routineClient.saveRoutine(routineDTO) {
+                    return .send(.delegate(.saved(routine)))
+                }
+                return .none
+                
+            case let .selectTag(.presented(.delegate(action))):
+                state.selectTag = nil
+                switch action {
+                case let .selected(tags):
+                    state.tagItems = .init(
+                        uniqueElements: tags.map { tag in
+                            return .init(mode: .select, tag: tag)
+                        }
+                    )
+                    return .none
+                case .deleted: return .none
+                }
                 
             case .selectTag(.dismiss):
                 state.selectTag = nil
@@ -88,5 +116,27 @@ public struct EditRoutineStore: Reducer {
         .ifLet(\.$selectTag, action: /Action.selectTag) {
             SelectTagStore()
         }
+    }
+    
+    private func validateRoutineDTO(
+        title: String,
+        startDate: Date,
+        endDate: Date,
+        doneDates: [Date],
+        tags: [TagDTO]
+    ) -> RoutineDTO? {
+        guard 
+            !title.isEmpty,
+            startDate < endDate
+        else {
+            return nil
+        }
+        return .init(
+            title: title,
+            startDate: startDate,
+            endDate: endDate,
+            doneDates: doneDates,
+            tags: tags
+        )
     }
 }

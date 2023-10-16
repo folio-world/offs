@@ -138,6 +138,14 @@ public struct RoffCalendarMainStore: Reducer {
                 state.selectedDate = date
                 return .none
                 
+            case let .editRoutine(.presented(.delegate(action))):
+                state.editRoutine = nil
+                switch action {
+                case .cancle: return .none
+                case .delete: return .send(.fetchRoutinesRequest)
+                case .saved: return .send(.fetchRoutinesRequest)
+                }
+                
             case .editRoutine(.dismiss):
                 state.editRoutine = nil
                 return .none
