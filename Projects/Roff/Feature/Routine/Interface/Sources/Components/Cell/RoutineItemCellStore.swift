@@ -1,47 +1,36 @@
 //
-//  TradeItemCellStore.swift
-//  ToolinderFeatureCalendarDemo
+//  RoutineItemCellStore.swift
+//  RoffFeatureRoutineInterface
 //
-//  Created by 송영모 on 2023/09/18.
+//  Created by 송영모 on 10/16/23.
 //
 
 import Foundation
 
 import ComposableArchitecture
 
-import ToffDomain
+import RoffDomain
 
-public struct TradeItemCellStore: Reducer {
+public struct RoutineItemCellStore: Reducer {
     public init() {}
-    
-    public enum ViewType {
-        case `default`
-        case edit
-    }
     
     public struct State: Equatable, Identifiable {
         public let id: UUID
-        public let trade: Trade
-        
-        public let viewType: ViewType
+        public let routine: Routine
+
         public let dateStyle: DateFormatter.Style
         public let timeStyle: DateFormatter.Style
         
-        public var isSelected: Bool
         public init(
-            id: UUID = .init(),
-            trade: Trade,
-            viewType: ViewType = .default,
+            id: UUID,
+            routine: Routine,
             dateStyle: DateFormatter.Style,
-            timeStyle: DateFormatter.Style,
-            isSelected: Bool = false
+            timeStyle: DateFormatter.Style
         ) {
             self.id = id
-            self.trade = trade
-            self.viewType = viewType
+            self.routine = routine
             self.dateStyle = dateStyle
             self.timeStyle = timeStyle
-            self.isSelected = isSelected
         }
     }
     
@@ -49,13 +38,11 @@ public struct TradeItemCellStore: Reducer {
         case onAppear
         
         case tapped
-        case editButtonTapped
         
         case delegate(Delegate)
         
         public enum Delegate: Equatable {
             case tapped
-            case editButtonTapped
         }
     }
     
@@ -67,9 +54,6 @@ public struct TradeItemCellStore: Reducer {
                 
             case .tapped:
                 return .send(.delegate(.tapped))
-                
-            case .editButtonTapped:
-                return .send(.delegate(.editButtonTapped))
                 
             default:
                 return .none

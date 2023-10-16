@@ -7,7 +7,7 @@
 
 import ComposableArchitecture
 
-import ToffFeatureTradeInterface
+import RoffFeatureRoutineInterface
 
 public struct RoffCalendarNavigationStackStore: Reducer {
     public init() {}
@@ -15,7 +15,7 @@ public struct RoffCalendarNavigationStackStore: Reducer {
     public struct State: Equatable {
         var path: StackState<Path.State> = .init()
         
-        var main: ToffCalendarMainStore.State = .init()
+        var main: RoffCalendarMainStore.State = .init()
         
         public init() {}
     }
@@ -25,22 +25,22 @@ public struct RoffCalendarNavigationStackStore: Reducer {
         
         case onAppear
         
-        case main(ToffCalendarMainStore.Action)
+        case main(RoffCalendarMainStore.Action)
         case path(StackAction<Path.State, Path.Action>)
     }
     
     public struct Path: Reducer {
         public enum State: Equatable {
-            case detail(TradeDetailStore.State)
+            case detail(RoutineDetailStore.State)
         }
         
         public enum Action: Equatable {
-            case detail(TradeDetailStore.Action)
+            case detail(RoutineDetailStore.Action)
         }
         
         public var body: some Reducer<State, Action> {
             Scope(state: /State.detail, action: /Action.detail) {
-                TradeDetailStore()
+                RoutineDetailStore()
             }
         }
     }
@@ -54,7 +54,7 @@ public struct RoffCalendarNavigationStackStore: Reducer {
                 return .none
                 
             case let .main(.delegate(.detail(trade))):
-                state.path.append(.detail(.init(trade: trade)))
+                state.path.append(.detail(.init()))
                 return .none
                 
             case .path(.element(id: _, action: .detail(.delegate(.delete)))):
@@ -67,7 +67,7 @@ public struct RoffCalendarNavigationStackStore: Reducer {
         }
         
         Scope(state: \.main, action: /Action.main) {
-            ToffCalendarMainStore()
+            RoffCalendarMainStore()
         }
         
         .forEach(\.path, action: /Action.path) {

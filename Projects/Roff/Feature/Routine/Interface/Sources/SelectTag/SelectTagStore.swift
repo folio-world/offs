@@ -10,7 +10,7 @@ import SwiftUI
 
 import ComposableArchitecture
 
-import ToffDomain
+import RoffDomain
 
 public struct SelectTagStore: Reducer {
     public init() {}
@@ -64,7 +64,7 @@ public struct SelectTagStore: Reducer {
                 return .send(.delegate(.select(state.selectedTags)))
                 
             case .fetchTagsRequest:
-                let tags = (try? tagClient.fetchTags().get()) ?? []
+                let tags = tagClient.fetchTags()
                 return .send(.fetchTagsResponse(tags))
                 
             case let .fetchTagsResponse(tags):

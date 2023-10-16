@@ -11,7 +11,7 @@ import SwiftData
 
 import ComposableArchitecture
 
-import SoffDomain
+import RoffDomain
 
 @main
 struct RootApp: App {
@@ -26,8 +26,6 @@ struct RootApp: App {
                 }
             )
             .modelContainer(for: [
-                Ticker.self,
-                Trade.self,
                 Tag.self
             ])
             .onAppear(perform: UIApplication.shared.hideKeyboard)

@@ -9,7 +9,7 @@ import SwiftUI
 
 import ComposableArchitecture
 
-import ToffFeatureTradeInterface
+import RoffFeatureRoutineInterface
 
 public struct RoffCalendarNavigationStackView: View {
     let store: StoreOf<RoffCalendarNavigationStackStore>
@@ -23,7 +23,7 @@ public struct RoffCalendarNavigationStackView: View {
             state: \.path,
             action: RoffCalendarNavigationStackStore.Action.path)
         ) { WithViewStore(self.store, observe: { $0 }) { viewStore in
-            ToffCalendarMainView(
+            RoffCalendarMainView(
                 store: self.store.scope(
                     state: \.main,
                     action: RoffCalendarNavigationStackStore.Action.main)
@@ -38,7 +38,7 @@ public struct RoffCalendarNavigationStackView: View {
                 CaseLet(
                     /RoffCalendarNavigationStackStore.Path.State.detail,
                      action: RoffCalendarNavigationStackStore.Path.Action.detail,
-                     then: TradeDetailView.init(store:)
+                     then: RoutineDetailView.init(store:)
                 )
             }
         }

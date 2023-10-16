@@ -10,7 +10,7 @@ import SwiftUI
 
 import ComposableArchitecture
 
-import ToffDomain
+import RoffDomain
 
 public struct EditTagStore: Reducer {
     public init() {}
@@ -76,14 +76,14 @@ public struct EditTagStore: Reducer {
                 return .send(.delegate(.cancle))
                 
             case .deleteButtonTapped:
-                if let tag = state.tag, let deletedTag = try? tagClient.deleteTag(tag).get() {
+                if let tag = state.tag, let deletedTag = tagClient.deleteTag(tag) {
                     return .send(.delegate(.delete(deletedTag)))
                 }
                 return .none
                 
             case .saveButtonTapped:
                 guard state.tagName != "" else { return .none }
-                if let tag = try? tagClient.saveTag(.init(hex: state.tagColor.toHex(), name: state.tagName)).get() {
+                if let tag = tagClient.saveTag(.init(hex: state.tagColor.toHex(), name: state.tagName)) {
                     return .send(.delegate(.save(tag)))
                 }
                 return .none

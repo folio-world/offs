@@ -10,7 +10,7 @@ import Charts
 
 import ComposableArchitecture
 
-import SoffShared
+import RoffDomain
 
 public struct PortfolioMainView: View {
     public let store: StoreOf<PortfolioMainStore>
