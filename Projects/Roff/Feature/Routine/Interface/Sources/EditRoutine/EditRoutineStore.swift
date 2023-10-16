@@ -26,6 +26,7 @@ public struct EditRoutineStore: Reducer {
         @BindingState var color: Color = .foreground
         
         var tagItems: IdentifiedArrayOf<TagItemCellStore.State> = []
+        @PresentationState var selectTag: SelectTagStore.State?
         
         public init(
             mode: OffEditMode = .add,
@@ -46,6 +47,7 @@ public struct EditRoutineStore: Reducer {
         case saveButtonTapped
         
         case tagItems(id: TagItemCellStore.State.ID, action: TagItemCellStore.Action)
+        case selectTag(PresentationAction<SelectTagStore.Action>)
         case delegate(Delegate)
         
         public enum Alert: Equatable {
@@ -71,9 +73,20 @@ public struct EditRoutineStore: Reducer {
             case let .editButtonTapped(action):
                 return .none
                 
+            case .tagButtonTapped:
+                state.selectTag = .init(selectedTags: state.routine?.tags ?? [])
+                return .none
+                
+            case .selectTag(.dismiss):
+                state.selectTag = nil
+                return .none
+                
             default:
                 return .none
             }
+        }
+        .ifLet(\.$selectTag, action: /Action.selectTag) {
+            SelectTagStore()
         }
     }
 }

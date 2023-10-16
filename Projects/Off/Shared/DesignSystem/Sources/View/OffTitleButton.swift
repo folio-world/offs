@@ -10,19 +10,22 @@ import SwiftUI
 
 public struct OffTitleButton: View {
     let title: LocalizedStringKey
+    let systemName: String
     public var action: () -> ()
     
     public init(
-        title: LocalizedStringKey,
+        title: LocalizedStringKey = "",
+        systemName: String = "plus",
         action: @escaping () -> Void
     ) {
         self.title = title
+        self.systemName = systemName
         self.action = action
     }
     
     public var body: some View {
         HStack(spacing: 10) {
-            Image(systemName: "plus")
+            Image(systemName: systemName)
                 .font(.headline)
 
             Text(title)

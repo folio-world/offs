@@ -40,6 +40,15 @@ public struct EditRoutineView: View {
                     viewStore.send(.saveButtonTapped)
                 }
             }
+            .sheet(
+                store: self.store.scope(
+                    state: \.$selectTag,
+                    action: { .selectTag($0) }
+                )
+            ) {
+                SelectTagView(store: $0)
+                    .presentationDetents([.medium])
+            }
             .padding()
         }
     }
