@@ -145,6 +145,12 @@ public struct ToffCalendarMainStore: Reducer {
                 state.selectedDate = date
                 return .none
                 
+            case let .tradeItems(id: id, action: .delegate(.tapped)):
+                if let trade = state.tradeItems[id: id]?.trade {
+                    return .send(.delegate(.detail(trade)))
+                }
+                return .none
+                
             case let .selectTicker(.presented(.delegate(.select(ticker)))):
                 state.selectTicker = nil
                 state.editTrade = .init(selectedTicker: ticker, selectedDate: state.selectedDate)
