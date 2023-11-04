@@ -9,13 +9,13 @@ import SwiftUI
 
 
 public struct OffMinimalButton: View {
-    public let title: String
+    public let title: LocalizedStringKey
     public let isActive: Bool
     
     public var action: () -> ()
     
     public init(
-        title: String = "",
+        title: LocalizedStringKey = "",
         isActive: Bool = false,
         action: @escaping () -> Void
     ) {
@@ -34,7 +34,7 @@ public struct OffMinimalButton: View {
                 Text(self.title)
                     .font(.title3)
                     .fontWeight(.semibold)
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.background)
                 
                 Spacer()
             }

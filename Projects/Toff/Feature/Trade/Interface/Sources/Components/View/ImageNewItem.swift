@@ -12,9 +12,9 @@ public struct ImageNewItem: View {
         VStack {
             Image(systemName: "plus")
         }
-        .foregroundStyle(.black)
+        .foregroundStyle(.foreground)
         .frame(width: 48, height: 48)
-        .background(Color(uiColor: .systemGray6))
+        .background(.ultraThickMaterial)
         .clipShape(
             RoundedRectangle(
                 cornerRadius: 8,
