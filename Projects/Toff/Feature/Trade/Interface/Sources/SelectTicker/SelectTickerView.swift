@@ -24,7 +24,7 @@ public struct SelectTickerView: View {
                 headerView(viewStore: viewStore)
                     .padding()
                 
-                if true {
+                if viewStore.state.tickerItem.isEmpty {
                     EmptyGuideView() {
                         viewStore.send(.addButtonTapped)
                     }
