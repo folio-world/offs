@@ -24,8 +24,14 @@ public struct SelectTickerView: View {
                 headerView(viewStore: viewStore)
                     .padding()
                 
-                tickerItemListView()
-                    .padding()
+                if true {
+                    EmptyGuideView() {
+                        viewStore.send(.addButtonTapped)
+                    }
+                } else {
+                    tickerItemListView()
+                        .padding()
+                }
             }
             .onAppear {
                 viewStore.send(.onAppear)

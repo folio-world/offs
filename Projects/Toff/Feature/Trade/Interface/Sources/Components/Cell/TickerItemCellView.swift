@@ -37,11 +37,15 @@ public struct TickerItemCellView: View {
             }
             .frame(height: 35)
             .padding(10)
-            .background(viewStore.state.isSelected ? Color(uiColor: .systemGray5) : Color(uiColor: .systemGray6))
+            .background(.ultraThickMaterial)
             .clipShape(
                 RoundedRectangle(
                     cornerRadius: 8
                 )
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(viewStore.state.isSelected ? Color.foreground : Color.clear, lineWidth: 1)
             )
         }
     }

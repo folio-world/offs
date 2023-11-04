@@ -40,12 +40,16 @@ public struct TagItemCellView: View {
                 }
             }
             .padding(10)
-            .background(viewStore.state.isSelected ? Color(uiColor: .systemGray5) : Color(uiColor: .systemGray6))
+            .background(.ultraThickMaterial)
             .clipShape(
                 RoundedRectangle(
                     cornerRadius: 8,
                     style: .continuous
                 )
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(viewStore.state.isSelected ? Color.foreground : Color.clear, lineWidth: 1)
             )
             .onTapGesture {
                 viewStore.send(.tapped)

@@ -25,7 +25,7 @@ public struct TradeNewItem: View {
         }
         .frame(height: 35)
         .padding(10)
-        .background(Color(uiColor: .systemGray6))
+        .background(.ultraThickMaterial)
         .clipShape(
             RoundedRectangle(
                 cornerRadius: 8

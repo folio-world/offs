@@ -7,5 +7,6 @@
 
 import Foundation
 
+@_exported import OffDomain
 @_exported import ToffDomainTradeInterface
 @_exported import ToffDomainTrade
