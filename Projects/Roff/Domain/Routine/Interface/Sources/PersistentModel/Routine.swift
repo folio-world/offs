@@ -12,6 +12,7 @@ import SwiftData
 public class Routine {
     public let id: UUID = UUID()
     
+    public var type: RoutineType = RoutineType.custom
     public var title: String = ""
     public var startDate: Date = Date.now
     public var endDate: Date = Date.now
@@ -21,6 +22,7 @@ public class Routine {
     
     public init(
         id: UUID = .init(),
+        type: RoutineType = .custom,
         title: String = "",
         startDate: Date = .now,
         endDate: Date = .now,
@@ -49,6 +51,8 @@ public class Routine {
 
 public struct RoutineDTO {
     public let id: UUID
+    
+    public var type: RoutineType = .custom
     public var title: String
     public var startDate: Date
     public var endDate: Date
@@ -57,6 +61,7 @@ public struct RoutineDTO {
     
     public init(
         id: UUID = UUID(),
+        type: RoutineType = .custom,
         title: String,
         startDate: Date,
         endDate: Date,
