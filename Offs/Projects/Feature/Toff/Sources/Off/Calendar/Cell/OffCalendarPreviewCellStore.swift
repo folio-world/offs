@@ -10,7 +10,7 @@ import SwiftUI
 
 import ComposableArchitecture
 
-import OffDomain
+import Domain
 
 public struct OffCalendarPreviewCellStore: Reducer {
     public init() {}

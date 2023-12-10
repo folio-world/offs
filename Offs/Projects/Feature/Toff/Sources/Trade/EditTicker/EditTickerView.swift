@@ -12,6 +12,7 @@ import ComposableArchitecture
 
 import Domain
 import Shared
+import SharedDesignSystem
 
 public struct EditTickerView: View {
     let store: StoreOf<EditTickerStore>

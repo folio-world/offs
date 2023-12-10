@@ -11,7 +11,7 @@ import OffsPlugin
 let coreTarget = Target(
     name: "Core",
     destinations: [.iPhone, .iPad, .appleWatch],
-    product: .framework,
+    product: .staticFramework,
     bundleId: "off.core",
     deploymentTargets: .iOS("17.0"),
     infoPlist: .default,

@@ -11,4 +11,8 @@ public struct Environment {
     public static var apiKey: String {
         return Bundle.main.infoDictionary?["API_KEY"] as? String ?? ""
     }
+    
+    public static var appOpenAdsId: String {
+        return Bundle.main.infoDictionary?["APP_OPEN_ADS_ID"] as? String ?? ""
+    }
 }

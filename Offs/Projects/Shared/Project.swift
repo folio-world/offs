@@ -12,7 +12,7 @@ import OffsPlugin
 let shared = Target(
     name: "Shared",
     destinations: [.iPhone, .iPad, .appleWatch],
-    product: .framework,
+    product: .staticFramework,
     bundleId: "off.shared",
     deploymentTargets: .iOS("17.0"),
     infoPlist: .default,
@@ -27,7 +27,7 @@ let shared = Target(
 let thirdPartyLibTarget = Target(
     name: "SharedThirdPartyLib",
     destinations: [.iPhone, .iPad, .appleWatch],
-    product: .framework,
+    product: .staticFramework,
     bundleId: "off.shared.thirdpartylib",
     deploymentTargets: .iOS("17.0"),
     infoPlist: .default,
@@ -45,7 +45,7 @@ let thirdPartyLibTarget = Target(
 let designSystemTarget = Target(
     name: "SharedDesignSystem",
     destinations: [.iPhone, .iPad, .appleWatch],
-    product: .framework,
+    product: .staticFramework,
     bundleId: "off.shared.designSystem",
     deploymentTargets: .iOS("17.0"),
     infoPlist: .default,

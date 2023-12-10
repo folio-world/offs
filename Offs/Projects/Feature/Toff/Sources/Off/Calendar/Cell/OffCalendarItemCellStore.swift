@@ -9,7 +9,7 @@ import Foundation
 
 import ComposableArchitecture
 
-import OffDomain
+import Domain
 
 public struct OffCalendarItemCellStore<T: Equatable>: Reducer {
     public init() {}

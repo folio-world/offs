@@ -11,7 +11,7 @@ import OffsPlugin
 let toffFeatureTarget = Target(
     name: "ToffFeature",
     destinations: [.iPhone, .iPad, .appleWatch],
-    product: .framework,
+    product: .staticFramework,
     bundleId: "toff.feature",
     deploymentTargets: .iOS("17.0"),
     infoPlist: .default,

@@ -28,7 +28,7 @@ public struct MainTabStore: Reducer {
         var currentTab: Tab = .calendar
         
         var isPurchasedRemoveAD: Bool = false
-        var interstitialed: Interstitialed = .init(id: Environment.interstitialId)
+        var appOpenAds: AppOpenAds = .init(id: Environment.appOpenAdsId)
         
         public init() { }
     }
@@ -41,15 +41,10 @@ public struct MainTabStore: Reducer {
         
         case selectTab(Tab)
         
-        case fetchIsPurchasedRemoveADReuqest
-        case fetchIsPurchasedRemoveADResponse(TaskResult<Bool>)
-        
         case calendar(ToffCalendarNavigationStackStore.Action)
         case portfolio(PortfolioNavigationStackStore.Action)
         case myPage(MyPageNavigationStackStore.Action)
     }
-    
-    @Dependency(\.storeClient) var storeClient
     
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
@@ -58,7 +53,7 @@ public struct MainTabStore: Reducer {
                 return .none
                 
             case .onAppear:
-                return .send(.fetchIsPurchasedRemoveADReuqest)
+                return .none
                 
             case .refresh:
                 state = .init()
@@ -68,25 +63,8 @@ public struct MainTabStore: Reducer {
                 state.currentTab = tab
                 return .none
                 
-            case .fetchIsPurchasedRemoveADReuqest:
-                return .run { send in
-                    await send(.fetchIsPurchasedRemoveADResponse(TaskResult { await storeClient.isPurchasedRemoveAD() }))
-                }
-                
-            case let .fetchIsPurchasedRemoveADResponse(.success(isPurchased)):
-                state.isPurchasedRemoveAD = isPurchased
-                return .none
-                
             case .portfolio(.delegate(.deleted)):
                 return .send(.refresh)
-                
-            case .calendar(.path(.element(id: _, action: .detail(.onAppear)))), .portfolio(.path(.element(id: _, action: .tickerDetail(.onAppear)))):
-                if !state.isPurchasedRemoveAD {
-                    state.interstitialed.show {
-                        print("showed AD")
-                    }
-                }
-                return .none
                 
             default:
                 return .none

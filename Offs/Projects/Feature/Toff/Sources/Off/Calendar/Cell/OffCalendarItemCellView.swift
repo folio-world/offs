@@ -10,7 +10,7 @@ import SwiftUI
 
 import ComposableArchitecture
 
-import OffShared
+import Shared
 
 public struct OffCalendarItemCellView<T: Equatable>: View {
     private let store: StoreOf<OffCalendarItemCellStore<T>>

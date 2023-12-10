@@ -12,7 +12,7 @@ import OffsPlugin
 let featureTarget = Target(
     name: "Feature",
     destinations: [.iPhone, .iPad, .appleWatch],
-    product: .framework,
+    product: .staticFramework,
     bundleId: "off.feature",
     deploymentTargets: .iOS("17.0"),
     infoPlist: .default,

@@ -31,23 +31,15 @@ public struct RemoveADStore: Reducer {
     
     private enum CancelID { case products }
     
-    @Dependency(\.storeClient) var storeClient
-    
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .onAppear:
-                return .send(.fetchProductsRequest)
+                return .none
                 
             case let .purchased(product):
                 debugPrint(product)
                 return .none
-                
-            case .fetchProductsRequest:
-                return .run { send in
-                    await send(.fetchProductResponse(TaskResult { try await self.storeClient.fetchProducts() }))
-                }
-                .cancellable(id: CancelID.products, cancelInFlight: true)
                 
             case let .fetchProductResponse(.success(products)):
                 state.products = products

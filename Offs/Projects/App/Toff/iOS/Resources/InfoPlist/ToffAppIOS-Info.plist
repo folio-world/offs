@@ -21,11 +21,11 @@
 	<key>CFBundleVersion</key>
 	<string>2.3.0</string>
 	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-2392187154020666~7018659983</string>
+	<string>ca-app-pub-2392187154020666~3429915837</string>
 	<key>GADIsAdManagerApp</key>
 	<true/>
-	<key>OPENAI_API_KEY</key>
-	<string>$(OPENAI_API_KEY)</string>
+	<key>APP_OPEN_ADS_ID</key>
+	<string>$(APP_OPEN_ADS_ID)</string>
 	<key>Primary App Icon Set Name</key>
 	<string>AppIcon</string>
 	<key>REWARDED_ID</key>

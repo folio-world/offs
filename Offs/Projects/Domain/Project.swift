@@ -12,7 +12,7 @@ import OffsPlugin
 let domainTarget = Target(
     name: "Domain",
     destinations: [.iPhone, .iPad, .appleWatch],
-    product: .framework,
+    product: .staticFramework,
     bundleId: "off.domain",
     deploymentTargets: .iOS("17.0"),
     infoPlist: .default,
