@@ -9,6 +9,19 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 import OffsPlugin
 
+let offAppTarget = Target(
+    name: "OffApp",
+    destinations: [.iPhone, .iPad],
+    product: .app,
+    bundleId: "off.app",
+    deploymentTargets: .iOS("17.0"),
+    infoPlist: .default,
+    dependencies: [
+        .project(target: "Feature", path: .relativeToRoot("Projects/Feature")),
+    ],
+    settings: nil
+)
+
 let toffAppTarget = Target(
     name: "ToffApp",
     destinations: [.iPhone, .iPad],
@@ -30,6 +43,7 @@ let project = Project(
     packages: [],
     settings: nil,
     targets: [
+        offAppTarget,
         toffAppTarget
     ]
 )
