@@ -7,14 +7,9 @@
 
 import ComposableArchitecture
 
-import ToffFeatureCalendarInterface
-import ToffFeatureCalendar
-import ToffFeaturePortfolioInterface
-import ToffFeaturePortfolio
-import ToffFeatureMyPageInterface
-import ToffFeatureMyPage
-import ToffCore
-import ToffShared
+import Core
+import Domain
+import Shared
 
 public struct MainTabStore: Reducer {
     public init() {}

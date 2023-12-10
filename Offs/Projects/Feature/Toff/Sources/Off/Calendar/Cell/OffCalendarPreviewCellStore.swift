@@ -1,40 +1,41 @@
 //
-//  TradePreviewItemCellStore.swift
-//  ToolinderFeatureCalendarDemo
+//  OffCalendarPreviewCellStore.swift
+//  OffFeatureCalendarInterface
 //
-//  Created by 송영모 on 2023/09/18.
+//  Created by 송영모 on 10/11/23.
 //
 
 import Foundation
+import SwiftUI
 
 import ComposableArchitecture
 
-import Domain
+import OffDomain
 
-public struct TradePreviewItemCellStore: Reducer {
+public struct OffCalendarPreviewCellStore: Reducer {
     public init() {}
     
     public struct State: Equatable, Identifiable {
         public let id: UUID
-        
-        public let trade: Trade
+        public let title: String
+        public let color: Color
         public var isSelected: Bool
         
         public init(
             id: UUID = .init(),
-            trade: Trade,
+            title: String,
+            color: Color,
             isSelected: Bool = false
         ) {
             self.id = id
-            self.trade = trade
+            self.title = title
+            self.color = color
             self.isSelected = isSelected
         }
     }
     
     public enum Action: Equatable {
         case onAppear
-        
-        case tapped
         
         case delegate(Delegate)
         
@@ -48,9 +49,6 @@ public struct TradePreviewItemCellStore: Reducer {
             switch action {
             case .onAppear:
                 return .none
-                
-            case .tapped:
-                return .send(.delegate(.tapped))
                 
             default:
                 return .none

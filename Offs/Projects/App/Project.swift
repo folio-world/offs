@@ -28,13 +28,26 @@ let toffAppTarget = Target(
     product: .app,
     bundleId: "toff.app",
     deploymentTargets: .iOS("17.0"),
-    infoPlist: .default,
+    infoPlist: .file(path: .relativeToRoot("Projects/App/Toff/iOS/Resources/InfoPlist/ToffAppIOS-Info.plist")),
     sources: ["Toff/iOS/Sources/**"],
-    resources: ["Toff/iOS/Resources/**"],
+    resources: ["Toff/iOS/Resources/**"], 
+    entitlements: .file(path: .relativeToRoot("Projects/App/Toff/iOS/Resources/ToffIOS.entitlements")),
     dependencies: [
         .project(target: "ToffFeature", path: .relativeToRoot("Projects/Feature/Toff")),
     ],
-    settings: nil
+    settings: .settings(
+        base: SettingsDictionary().otherLinkerFlags(["-ObjC"]),
+        configurations: [
+            .debug(
+                name: "Debug",
+                xcconfig: .relativeToRoot("Projects/App/Toff/iOS/Resources/Config/Debug.xcconfig")
+            ),
+            .release(
+                name: "Release",
+                xcconfig: .relativeToRoot("Projects/App/Toff/iOS/Resources/Config/Release.xcconfig")
+            ),
+        ]
+    )
 )
 
 let project = Project(

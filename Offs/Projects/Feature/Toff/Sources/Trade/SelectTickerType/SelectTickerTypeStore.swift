@@ -9,7 +9,7 @@ import Foundation
 
 import ComposableArchitecture
 
-import ToffDomain
+import Domain
 
 public struct SelectTickerTypeStore: Reducer {
     public init() {}

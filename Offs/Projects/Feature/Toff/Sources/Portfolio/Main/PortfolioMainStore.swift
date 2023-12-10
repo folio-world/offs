@@ -9,8 +9,7 @@ import Foundation
 
 import ComposableArchitecture
 
-import ToffFeatureTradeInterface
-import ToffDomain
+import Domain
 
 public struct PortfolioMainStore: Reducer {
     public init() {}

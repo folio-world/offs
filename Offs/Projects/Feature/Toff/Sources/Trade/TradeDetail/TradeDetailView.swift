@@ -10,8 +10,8 @@ import SwiftData
 
 import ComposableArchitecture
 
-import ToffDomain
-import ToffShared
+import Domain
+import Shared
 
 public struct TradeDetailView: View {
     let store: StoreOf<TradeDetailStore>

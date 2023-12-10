@@ -7,4 +7,4 @@
 
 import ProjectDescription
 
-let workspace = Workspace(name: "Interest", projects: ["Projects/*"])
+let workspace = Workspace(name: "Off", projects: ["Projects/*"])

@@ -9,7 +9,7 @@ import Foundation
 
 import ComposableArchitecture
 
-import ToffDomainTradeInterface
+import Domain
 
 public struct EditTickerStore: Reducer {
     public init() {}

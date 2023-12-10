@@ -10,10 +10,7 @@ import SwiftData
 import Combine
 
 import ComposableArchitecture
-
-import OffFeatureCalendarInterface
-import ToffFeatureTradeInterface
-import ToffDomainTradeInterface
+import Domain
 
 public struct ToffCalendarMainView: View {
     let store: StoreOf<ToffCalendarMainStore>

@@ -10,7 +10,7 @@ import StoreKit
 
 import ComposableArchitecture
 
-import ToffDomain
+import Domain
 
 public struct RemoveADStore: Reducer {
     public init() {}

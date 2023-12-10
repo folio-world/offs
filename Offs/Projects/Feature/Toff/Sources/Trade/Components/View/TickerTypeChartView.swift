@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import Charts
 
-import ToffDomain
+import Domain
 
 public struct TickerTypeChartView: View {
     public let tickerTypeChartDataEntity: TickerTypeChartDataEntity

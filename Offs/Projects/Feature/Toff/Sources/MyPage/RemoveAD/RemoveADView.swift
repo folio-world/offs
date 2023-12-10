@@ -11,7 +11,7 @@ import StoreKit
 
 import ComposableArchitecture
 
-import ToffShared
+import Shared
 
 public struct RemoveADView: View {
     let store: StoreOf<RemoveADStore>

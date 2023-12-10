@@ -27,7 +27,7 @@ let shared = Target(
 let thirdPartyLibTarget = Target(
     name: "SharedThirdPartyLib",
     destinations: [.iPhone, .iPad, .appleWatch],
-    product: .staticLibrary,
+    product: .framework,
     bundleId: "off.shared.thirdpartylib",
     deploymentTargets: .iOS("17.0"),
     infoPlist: .default,
@@ -37,7 +37,9 @@ let thirdPartyLibTarget = Target(
         .external(name: "GoogleMobileAds"),
         .external(name: "FirebaseAnalytics")
     ],
-    settings: nil
+    settings: .settings(
+        base: SettingsDictionary().otherLinkerFlags(["-ObjC"])
+    )
 )
 
 let designSystemTarget = Target(

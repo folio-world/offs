@@ -10,8 +10,7 @@ import Charts
 
 import ComposableArchitecture
 
-import ToffFeatureTradeInterface
-import ToffShared
+import Shared
 
 public struct PortfolioMainView: View {
     public let store: StoreOf<PortfolioMainStore>

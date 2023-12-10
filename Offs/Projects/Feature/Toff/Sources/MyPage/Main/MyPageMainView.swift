@@ -10,7 +10,7 @@ import StoreKit
 
 import ComposableArchitecture
 
-import ToffShared
+import Shared
 
 public struct MyPageMainView: View {
     let store: StoreOf<MyPageMainStore>

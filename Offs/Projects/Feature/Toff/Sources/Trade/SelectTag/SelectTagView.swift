@@ -10,8 +10,8 @@ import SwiftUI
 
 import ComposableArchitecture
 
-import ToffDomain
-import ToffShared
+import Domain
+import Shared
 
 public struct SelectTagView: View {
     let store: StoreOf<SelectTagStore>

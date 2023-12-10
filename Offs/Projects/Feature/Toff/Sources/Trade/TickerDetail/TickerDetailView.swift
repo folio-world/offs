@@ -9,8 +9,8 @@ import SwiftUI
 
 import ComposableArchitecture
 
-import ToffDomain
-import ToffShared
+import Domain
+import Shared
 
 public struct TickerDetailView: View {
     private let store: StoreOf<TickerDetailStore>

@@ -8,8 +8,8 @@
 
 import UIKit
 import SwiftUI
-import FirebaseCore
 
+import FirebaseCore
 import GoogleMobileAds
 
 import AppTrackingTransparency

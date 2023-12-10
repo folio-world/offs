@@ -10,7 +10,7 @@ import PhotosUI
 
 import ComposableArchitecture
 
-import ToffDomain
+import Domain
 
 public struct EditTradeStore: Reducer {
     public init() {}
