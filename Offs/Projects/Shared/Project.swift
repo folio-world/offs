@@ -7,14 +7,14 @@
 
 import ProjectDescription
 import ProjectDescriptionHelpers
-import MyPlugin
+import OffsPlugin
 
 let shared = Target(
     name: "Shared",
     destinations: [.iPhone, .iPad, .appleWatch],
     product: .framework,
-    bundleId: "interest.shared",
-    deploymentTargets: .init(iOS: "17.0", watchOS: "10.0"),
+    bundleId: "off.shared",
+    deploymentTargets: .iOS("17.0"),
     infoPlist: .default,
     sources: ["Sources/**"],
     dependencies: [
@@ -28,8 +28,8 @@ let thirdPartyLibTarget = Target(
     name: "SharedThirdPartyLib",
     destinations: [.iPhone, .iPad, .appleWatch],
     product: .framework,
-    bundleId: "interest.shared.thirdpartylib",
-    deploymentTargets: .init(iOS: "17.0", watchOS: "10.0"),
+    bundleId: "off.shared.thirdpartylib",
+    deploymentTargets: .iOS("17.0"),
     infoPlist: .default,
     sources: ["ThirdPartyLib/Sources/**"],
     dependencies: [
@@ -41,8 +41,8 @@ let designSystemTarget = Target(
     name: "SharedDesignSystem",
     destinations: [.iPhone, .iPad, .appleWatch],
     product: .framework,
-    bundleId: "interest.shared.designSystem",
-    deploymentTargets: .init(iOS: "17.0", watchOS: "10.0"),
+    bundleId: "off.shared.designSystem",
+    deploymentTargets: .iOS("17.0"),
     infoPlist: .default,
     sources: ["DesignSystem/Sources/**"],
     resources: ["DesignSystem/Resources/**"],

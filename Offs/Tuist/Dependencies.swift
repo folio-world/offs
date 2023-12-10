@@ -8,6 +8,7 @@
 import ProjectDescription
 
 let SPM = SwiftPackageManagerDependencies([
+    
 ])
 
 let dependencies = Dependencies(

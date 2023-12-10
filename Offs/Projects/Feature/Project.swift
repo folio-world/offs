@@ -7,29 +7,29 @@
 
 import ProjectDescription
 import ProjectDescriptionHelpers
-import MyPlugin
+import OffsPlugin
 
-let toffFeatureTarget = Target(
-    name: "ToffFeature",
+let featureTarget = Target(
+    name: "Feature",
     destinations: [.iPhone, .iPad, .appleWatch],
     product: .framework,
-    bundleId: "toff.feature",
-    deploymentTargets: .init(iOS: "17.0", watchOS: "10.0"),
+    bundleId: "off.feature",
+    deploymentTargets: .iOS("17.0"),
     infoPlist: .default,
     sources: ["Sources/**"],
     resources: ["Resources/**"],
     dependencies: [
-        .project(target: "Domain", path: .relativeToRoot("Projects/Domain")),
+        .project(target: "ToffFeature", path: .relativeToRoot("Projects/Feature/Toff")),
     ],
     settings: nil
 )
 
 let project = Project(
-    name: "ToffFeature",
+    name: "Feature",
     organizationName: "",
     packages: [],
     settings: nil,
     targets: [
-        toffFeatureTarget
+        featureTarget
     ]
 )

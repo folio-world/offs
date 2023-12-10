@@ -6,19 +6,19 @@
 //
 
 import ProjectDescription
-import MyPlugin
+import OffsPlugin
 
 let toffFeatureTarget = Target(
     name: "ToffFeature",
     destinations: [.iPhone, .iPad, .appleWatch],
     product: .framework,
     bundleId: "toff.feature",
-    deploymentTargets: .init(iOS: "17.0", watchOS: "10.0"),
+    deploymentTargets: .iOS("17.0"),
     infoPlist: .default,
     sources: ["Sources/**"],
     resources: ["Resources/**"],
     dependencies: [
-        .project(target: "ToffCalendarFeature", path: .relativeToRoot("Projects/Feature/Toff/Calendar")),
+        .project(target: "Domain", path: .relativeToRoot("Projects/Domain"))
     ],
     settings: nil
 )

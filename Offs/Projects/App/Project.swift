@@ -7,7 +7,7 @@
 
 import ProjectDescription
 import ProjectDescriptionHelpers
-import MyPlugin
+import OffsPlugin
 
 let toffAppTarget = Target(
     name: "ToffApp",
@@ -24,28 +24,12 @@ let toffAppTarget = Target(
     settings: nil
 )
 
-let roffAppTarget = Target(
-    name: "RoffApp",
-    destinations: [.iPhone, .iPad, .appleWatch],
-    product: .app,
-    bundleId: "roff.app",
-    deploymentTargets: .iOS("17.0"),
-    infoPlist: .default,
-    sources: ["Roff/iOS/Sources/**"],
-    resources: ["Roff/iOS/Resources/**"],
-    dependencies: [
-        
-    ],
-    settings: nil
-)
-
 let project = Project(
     name: "Off",
     organizationName: "",
     packages: [],
     settings: nil,
     targets: [
-        toffAppTarget,
-        roffAppTarget
+        toffAppTarget
     ]
 )

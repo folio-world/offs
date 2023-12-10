@@ -2,34 +2,33 @@
 //  Project.swift
 //  ProjectDescriptionHelpers
 //
-//  Created by 송영모 on 11/2/23.
+//  Created by 송영모 on 12/10/23.
 //
 
 import ProjectDescription
-import ProjectDescriptionHelpers
 import OffsPlugin
 
-let domainTarget = Target(
-    name: "Domain",
+let coreTarget = Target(
+    name: "Core",
     destinations: [.iPhone, .iPad, .appleWatch],
     product: .framework,
-    bundleId: "off.domain",
+    bundleId: "off.core",
     deploymentTargets: .iOS("17.0"),
     infoPlist: .default,
     sources: ["Sources/**"],
     resources: ["Resources/**"],
     dependencies: [
-        .project(target: "Core", path: .relativeToRoot("Projects/Core")),
+        .project(target: "Shared", path: .relativeToRoot("Projects/Shared")),
     ],
     settings: nil
 )
 
 let project = Project(
-    name: "Domain",
+    name: "Core",
     organizationName: "",
     packages: [],
     settings: nil,
     targets: [
-        domainTarget
+        coreTarget
     ]
 )
