@@ -11,7 +11,7 @@ import SwiftData
 
 import ComposableArchitecture
 
-import ToffDomain
+import Domain
 
 @main
 struct RootApp: App {
@@ -30,7 +30,6 @@ struct RootApp: App {
                 Trade.self,
                 Tag.self
             ])
-            .onAppear(perform: UIApplication.shared.hideKeyboard)
         }
     }
 }

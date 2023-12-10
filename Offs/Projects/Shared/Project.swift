@@ -27,12 +27,15 @@ let shared = Target(
 let thirdPartyLibTarget = Target(
     name: "SharedThirdPartyLib",
     destinations: [.iPhone, .iPad, .appleWatch],
-    product: .framework,
+    product: .staticLibrary,
     bundleId: "off.shared.thirdpartylib",
     deploymentTargets: .iOS("17.0"),
     infoPlist: .default,
     sources: ["ThirdPartyLib/Sources/**"],
     dependencies: [
+        .external(name: "ComposableArchitecture"),
+        .external(name: "GoogleMobileAds"),
+        .external(name: "FirebaseAnalytics")
     ],
     settings: nil
 )
