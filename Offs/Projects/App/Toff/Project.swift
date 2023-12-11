@@ -1,8 +1,8 @@
 //
 //  Project.swift
-//  ProjectDescriptionHelpers
+//  AppManifests
 //
-//  Created by 송영모 on 11/2/23.
+//  Created by 송영모 on 12/10/23.
 //
 
 import ProjectDescription
@@ -11,13 +11,13 @@ import OffsPlugin
 
 let toffAppTarget = Target(
     name: "ToffApp",
-    destinations: .iOS,
+    destinations: [.iPhone, .iPad, .macWithiPadDesign],
     product: .app,
     bundleId: "com.tamsadan.toolinder",
     deploymentTargets: .iOS("17.0"),
     infoPlist: .file(path: .relativeToRoot("Projects/App/Toff/iOS/Resources/InfoPlist/ToffAppIOS-Info.plist")),
-    sources: ["Toff/iOS/Sources/**"],
-    resources: ["Toff/iOS/Resources/**"],
+    sources: ["iOS/Sources/**"],
+    resources: ["iOS/Resources/**"],
     entitlements: .file(path: .relativeToRoot("Projects/App/Toff/iOS/Resources/ToffIOS.entitlements")),
     dependencies: [
         .project(target: "ToffFeature", path: .relativeToRoot("Projects/Feature/Toff")),
@@ -37,9 +37,8 @@ let toffAppTarget = Target(
     )
 )
 
-
 let project = Project(
-    name: "TOff",
+    name: "Toff",
     organizationName: "",
     packages: [],
     settings: nil,
