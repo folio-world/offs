@@ -2,9 +2,9 @@
 //  Workspace.swift
 //  ProjectDescriptionHelpers
 //
-//  Created by 송영모 on 2023/03/06.
+//  Created by 송영모 on 11/2/23.
 //
 
 import ProjectDescription
 
-let workspace = Workspace(name: "Off", projects: ["Projects/Off/*"])
+let workspace = Workspace(name: "Off", projects: ["Projects/*"])

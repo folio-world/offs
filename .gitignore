@@ -120,6 +120,3 @@ Derived/
 *.xcodeproj
 *.p12
 master.key
-*.package.resolved
-*.storekit
-GoogleService-Info.plist
