@@ -13,8 +13,6 @@ public struct MyPageMainStore: Reducer {
     public init() {}
     
     public struct State: Equatable {
-        @PresentationState var removeAD: RemoveADStore.State?
-        
         public init() { }
     }
     
@@ -22,10 +20,7 @@ public struct MyPageMainStore: Reducer {
         case onAppear
         case delegate(Delegate)
         
-        case removeADTapped
         case whatIsNewTapped
-        
-        case removeAD(PresentationAction<RemoveADStore.Action>)
         
         public enum Delegate: Equatable {
             case navigateToWhatIsNew
@@ -38,20 +33,12 @@ public struct MyPageMainStore: Reducer {
             case .onAppear:
                 return .none
                 
-            case .removeADTapped:
-                state.removeAD = .init()
-                return .none
-                
             case .whatIsNewTapped:
                 return .send(.delegate(.navigateToWhatIsNew))
                 
             default:
                 return .none
             }
-        }
-        
-        .ifLet(\.$removeAD, action: /Action.removeAD) {
-            RemoveADStore()
         }
     }
 }

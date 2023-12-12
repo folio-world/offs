@@ -23,10 +23,6 @@ public struct MyPageMainView: View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
             List {
                 Section {
-                    removeADView(viewStore: viewStore)
-                }
-                
-                Section {
                     whatIsNewView(viewStore: viewStore)
                     
                     if let url = URL(string: "https://tally.so/r/mJpaR4") {
@@ -38,29 +34,7 @@ public struct MyPageMainView: View {
             .onAppear {
                 viewStore.send(.onAppear)
             }
-            .sheet(
-                store: self.store.scope(
-                    state: \.$removeAD,
-                    action: { .removeAD($0) }
-                )
-            ) {
-                RemoveADView(store: $0)
-            }
         }
-    }
-    
-    private func removeADView(viewStore: ViewStoreOf<MyPageMainStore>) -> some View {
-        Button(action: {
-            viewStore.send(.removeADTapped)
-        }, label: {
-            Label(
-                title: { Text("Remove AD") },
-                icon: {
-                    Image(systemName: "crown.fill")
-                        .foregroundStyle(.yellow)
-                }
-            )
-        })
     }
     
     private func whatIsNewView(viewStore: ViewStoreOf<MyPageMainStore>) -> some View {
