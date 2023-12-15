@@ -39,7 +39,7 @@ let toffAppTarget = Target(
 
 
 let project = Project(
-    name: "TOff",
+    name: "Offs",
     organizationName: "",
     packages: [],
     settings: nil,
