@@ -11,7 +11,6 @@ import ComposableArchitecture
 import ToffFeature
 
 struct RootStore: Reducer {
-    
     enum State: Equatable {
         case mainTab(MainTabStore.State = .init())
         

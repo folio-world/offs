@@ -8,9 +8,10 @@
 import SwiftUI
 import SwiftData
 import Combine
-
 import ComposableArchitecture
+
 import Domain
+import SharedDesignSystem
 
 public struct ToffCalendarMainView: View {
     let store: StoreOf<ToffCalendarMainStore>
@@ -23,10 +24,12 @@ public struct ToffCalendarMainView: View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
             GeometryReader { proxy in
                 TabView(selection: viewStore.binding(get: \.currentTab, send: ToffCalendarMainStore.Action.selectTab)) {
-                    ForEachStore(self.store.scope(state: \.offCalendars, action: ToffCalendarMainStore.Action.offCalendars(id:action:))) {
-                        calendarTabView(store: $0, viewStore: viewStore, proxy: proxy)
-                            .frame(width: proxy.size.width, height: proxy.size.height)
-                    }
+                    
+                    
+//                    ForEachStore(self.store.scope(state: \.offCalendars, action: ToffCalendarMainStore.Action.offCalendars(id:action:))) {
+//                        calendarTabView(store: $0, viewStore: viewStore, proxy: proxy)
+//                            .frame(width: proxy.size.width, height: proxy.size.height)
+//                    }
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
             }
@@ -62,8 +65,11 @@ public struct ToffCalendarMainView: View {
         ZStack {
             ScrollView {
                 VStack {
-                    OffCalendarView<Trade>(store: store, proxy: proxy)
-                        .padding(.top, 40)
+//                    OffCalendarView<Trade>(store: store, proxy: proxy)
+//                        .padding(.top, 40)
+                    OffCalendarView(items: viewStore.state.trades) { item in
+                        
+                    }
                     
                     tradeItemsView(viewStore: viewStore)
                     

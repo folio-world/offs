@@ -10,6 +10,7 @@ import Foundation
 import ComposableArchitecture
 
 import Domain
+import SharedDesignSystem
 
 public struct ToffCalendarMainStore: Reducer {
     public init() {}
@@ -17,6 +18,9 @@ public struct ToffCalendarMainStore: Reducer {
     public struct State: Equatable {
         public let id: UUID
         public var trades: [Trade]
+        
+        public var prevOffCalendarItems: []
+        public var offCalendarItems: [OffCalendarItem]
         public var currentTab: UUID
         
         public var headerDate: Date
@@ -26,7 +30,7 @@ public struct ToffCalendarMainStore: Reducer {
             }
         }
         
-        public var offCalendars: IdentifiedArrayOf<OffCalendarStore<Trade>.State> = []
+//        public var offCalendars: IdentifiedArrayOf<OffCalendarStore<Trade>.State> = []
         public var tradeItems: IdentifiedArrayOf<TradeItemCellStore.State> = []
         @PresentationState var selectTicker: SelectTickerStore.State?
         @PresentationState var editTrade: EditTradeStore.State?
