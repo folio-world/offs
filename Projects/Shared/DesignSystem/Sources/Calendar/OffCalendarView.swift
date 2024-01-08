@@ -7,47 +7,20 @@
 
 import SwiftUI
 
-public struct OffCalendarPreviewItem: Identifiable {
-    public var id: UUID
+public struct OffCalendarView<Cell: View, T>: View where T: Identifiable {
+    let items: [T]
+    let cell : (T) -> Cell
     
-    public var title: String
-    
-    public init(
-        id: UUID = .init(),
-        title: String = ""
-    ) {
-        self.id = id
-        self.title = title
-    }
-}
-
-public struct OffCalendarItem: Identifiable {
-    public var id: UUID
-    
-    public var title: String
-    public var previews: [OffCalendarPreviewItem] = []
+    var onTap: (T) -> ()
     
     public init(
-        id: UUID = .init(),
-        title: String = "",
-        previews: [OffCalendarPreviewItem] = []
-    ) {
-        self.id = id
-        self.title = title
-        self.previews = previews
-    }
-}
-
-public struct OffCalendarView<Cell: View>: View {
-    let items: [OffCalendarItem]
-    let cell : (OffCalendarItem) -> Cell
-    
-    public init(
-        items: [OffCalendarItem],
-        @ViewBuilder cell : @escaping (OffCalendarItem) -> Cell
+        items: [T],
+        onTap: @escaping (T) -> (),
+        @ViewBuilder cell : @escaping (T) -> Cell
     ) {
         self.items = items
         self.cell = cell
+        self.onTap = onTap
     }
     
     public var body: some View {
@@ -57,6 +30,9 @@ public struct OffCalendarView<Cell: View>: View {
         ) {
             ForEach(items) { item in
                 cell(item)
+                    .onTapGesture {
+                        onTap(item)
+                    }
             }
         }
     }

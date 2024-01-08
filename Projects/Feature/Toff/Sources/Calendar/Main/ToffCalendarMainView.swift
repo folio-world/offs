@@ -21,10 +21,17 @@ public struct ToffCalendarMainView: View {
     }
     
     public var body: some View {
-        WithViewStore(self.store, observe: { $0 }) { viewStore in
+        WithViewStore(self.store, observe: \.currentTab) { viewStore in
             GeometryReader { proxy in
-                TabView(selection: viewStore.binding(get: \.currentTab, send: ToffCalendarMainStore.Action.selectTab)) {
-                    
+                TabView(
+                    selection: viewStore.binding(
+                        get: { state in state },
+                        send: ToffCalendarMainStore.Action.selectTab
+                    )
+                ) {
+                    prevCalendarView
+                    currentCalendarView
+                    nextCalendarView
                     
 //                    ForEachStore(self.store.scope(state: \.offCalendars, action: ToffCalendarMainStore.Action.offCalendars(id:action:))) {
 //                        calendarTabView(store: $0, viewStore: viewStore, proxy: proxy)
@@ -57,30 +64,52 @@ public struct ToffCalendarMainView: View {
         }
     }
     
-    private func calendarTabView(
-        store: StoreOf<OffCalendarStore<Trade>>,
-        viewStore: ViewStoreOf<ToffCalendarMainStore>,
-        proxy: GeometryProxy
-    ) -> some View {
-        ZStack {
-            ScrollView {
-                VStack {
-//                    OffCalendarView<Trade>(store: store, proxy: proxy)
-//                        .padding(.top, 40)
-                    OffCalendarView(items: viewStore.state.trades) { item in
-                        
-                    }
-                    
-                    tradeItemsView(viewStore: viewStore)
-                    
-                    Spacer()
-                }
-                .padding(10)
-            }
-            
-            headerView(viewStore: viewStore)
+    private var prevCalendarView: some View {
+        WithViewStore(self.store, observe: \.prevCalendarItems) { viewStore in
+            Text("왼쪽")
         }
     }
+    
+    private var currentCalendarView: some View {
+        WithViewStore(self.store, observe: \.currentCalendarItems) { viewStore in
+            Text("가운데")
+        }
+    }
+    
+    private var nextCalendarView: some View {
+        WithViewStore(self.store, observe: \.nextCalendarItems) { viewStore in
+            Text("오른쪽")
+        }
+    }
+    
+//    private func calendarTabView(
+//        store: StoreOf<OffCalendarStore<Trade>>,
+//        viewStore: ViewStoreOf<ToffCalendarMainStore>,
+//        proxy: GeometryProxy
+//    ) -> some View {
+//        ZStack {
+//            ScrollView {
+//                VStack {
+////                    OffCalendarView(items: viewStore.state.trades) { item in
+////                        
+////                    }
+//                    
+//                    OffCalendarView(
+//                        items: viewStore,
+//                        onTap: <#T##(Identifiable) -> ()#>,
+//                        cell: { _ in VStack { "Text" } }
+//                    )
+//                    
+//                    tradeItemsView(viewStore: viewStore)
+//                    
+//                    Spacer()
+//                }
+//                .padding(10)
+//            }
+//            
+//            headerView(viewStore: viewStore)
+//        }
+//    }
     
     private func headerView(viewStore: ViewStoreOf<ToffCalendarMainStore>) -> some View {
         VStack(alignment: .leading) {

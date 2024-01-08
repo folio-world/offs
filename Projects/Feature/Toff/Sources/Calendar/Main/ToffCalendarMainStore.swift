@@ -19,8 +19,10 @@ public struct ToffCalendarMainStore: Reducer {
         public let id: UUID
         public var trades: [Trade]
         
-        public var prevOffCalendarItems: []
-        public var offCalendarItems: [OffCalendarItem]
+        public var prevCalendarItems: [TradeCalendarItem] = []
+        public var currentCalendarItems: [TradeCalendarItem] = []
+        public var nextCalendarItems: [TradeCalendarItem] = []
+        
         public var currentTab: UUID
         
         public var headerDate: Date
@@ -29,8 +31,7 @@ public struct ToffCalendarMainStore: Reducer {
                 self.tradeItems = self.makeTradeItems(from: trades.filter({ $0.date.isEqual(date: selectedDate) }))
             }
         }
-        
-//        public var offCalendars: IdentifiedArrayOf<OffCalendarStore<Trade>.State> = []
+
         public var tradeItems: IdentifiedArrayOf<TradeItemCellStore.State> = []
         @PresentationState var selectTicker: SelectTickerStore.State?
         @PresentationState var editTrade: EditTradeStore.State?
@@ -45,21 +46,21 @@ public struct ToffCalendarMainStore: Reducer {
             self.selectedDate = initialDate
             self.headerDate = initialDate
             self.currentTab = id
-            self.offCalendars = .init(uniqueElements: [
-                makeOffCalendarStoreState(
-                    date: .now.add(byAdding: .month, value: -1),
-                    trades: []
-                ),
-                makeOffCalendarStoreState(
-                    id: id,
-                    date: .now,
-                    trades: []
-                ),
-                makeOffCalendarStoreState(
-                    date: .now.add(byAdding: .month, value: 1),
-                    trades: []
-                ),
-            ])
+//            self.offCalendars = .init(uniqueElements: [
+//                makeOffCalendarStoreState(
+//                    date: .now.add(byAdding: .month, value: -1),
+//                    trades: []
+//                ),
+//                makeOffCalendarStoreState(
+//                    id: id,
+//                    date: .now,
+//                    trades: []
+//                ),
+//                makeOffCalendarStoreState(
+//                    date: .now.add(byAdding: .month, value: 1),
+//                    trades: []
+//                ),
+//            ])
         }
     }
     
@@ -72,7 +73,7 @@ public struct ToffCalendarMainStore: Reducer {
         case fetchTradesRequest
         case fetchTradesResponse([Trade])
         
-        case offCalendars(id: OffCalendarStore<Trade>.State.ID, action: OffCalendarStore<Trade>.Action)
+//        case offCalendars(id: OffCalendarStore<Trade>.State.ID, action: OffCalendarStore<Trade>.Action)
         case tradeItems(id: TradeItemCellStore.State.ID, action: TradeItemCellStore.Action)
         case selectTicker(PresentationAction<SelectTickerStore.Action>)
         case editTrade(PresentationAction<EditTradeStore.Action>)
@@ -95,8 +96,8 @@ public struct ToffCalendarMainStore: Reducer {
                 ])
                 
             case let .selectTab(tab):
-                let initialTabIndex = state.offCalendars.index(id: state.id) ?? 0
-                let currentTabIndex = state.offCalendars.index(id: tab) ?? 0
+                let initialTabIndex = 0
+                let currentTabIndex = 0
                 let offset = currentTabIndex - initialTabIndex
                 let addMonthValue = currentTabIndex > initialTabIndex ? offset + 1 : offset - 1
                 
@@ -104,22 +105,22 @@ public struct ToffCalendarMainStore: Reducer {
                     byAdding: .month,
                     value: addMonthValue
                 )
-                let calendarStoreState = state.makeOffCalendarStoreState(
-                    date: date,
-                    trades: state.trades
-                )
+//                let calendarStoreState = state.makeOffCalendarStoreState(
+//                    date: date,
+//                    trades: state.trades
+//                )
                 
-                switch tab {
-                case state.offCalendars.ids.first:
-                    state.offCalendars.insert(calendarStoreState, at: 0)
-                case state.offCalendars.ids.last:
-                    state.offCalendars.append(calendarStoreState)
-                default: break
-                }
+//                switch tab {
+//                case state.offCalendars.ids.first:
+//                    state.offCalendars.insert(calendarStoreState, at: 0)
+//                case state.offCalendars.ids.last:
+//                    state.offCalendars.append(calendarStoreState)
+//                default: break
+//                }
                 
                 state.currentTab = tab
-                state.selectedDate = state.offCalendars[id: tab]?.selectedDate ?? .now
-                state.headerDate = state.offCalendars[id: tab]?.initialDate ?? .now
+//                state.selectedDate = state.offCalendars[id: tab]?.selectedDate ?? .now
+//                state.headerDate = state.offCalendars[id: tab]?.initialDate ?? .now
                 return .none
                 
             case .newButtonTapped:
@@ -134,18 +135,18 @@ public struct ToffCalendarMainStore: Reducer {
                 
             case let .fetchTradesResponse(trades):
                 state.trades = trades
-                state.offCalendars = state.updateOffCalendars(
-                    offCalendars: state.offCalendars,
-                    trades: trades
-                )
+//                state.offCalendars = state.updateOffCalendars(
+//                    offCalendars: state.offCalendars,
+//                    trades: trades
+//                )
                 state.tradeItems = state.makeTradeItems(
                     from: trades.filter({ $0.date.isEqual(date: state.selectedDate) })
                 )
                 return .none
                 
-            case let .offCalendars(id: _, action: .delegate(.tapped(date))):
-                state.selectedDate = date
-                return .none
+//            case let .offCalendars(id: _, action: .delegate(.tapped(date))):
+//                state.selectedDate = date
+//                return .none
                 
             case let .tradeItems(id: id, action: .delegate(.tapped)):
                 if let trade = state.tradeItems[id: id]?.trade {
@@ -180,9 +181,9 @@ public struct ToffCalendarMainStore: Reducer {
                 return .none
             }
         }
-        .forEach(\.offCalendars, action: /Action.offCalendars(id:action:)) {
-            OffCalendarStore()
-        }
+//        .forEach(\.offCalendars, action: /Action.offCalendars(id:action:)) {
+//            OffCalendarStore()
+//        }
         .forEach(\.tradeItems, action: /Action.tradeItems(id:action:)) {
             TradeItemCellStore()
         }
@@ -196,44 +197,44 @@ public struct ToffCalendarMainStore: Reducer {
 }
 
 public extension ToffCalendarMainStore.State {
-    func makeOffCalendarStoreState(
-        id: UUID = .init(),
-        date: Date,
-        trades: [Trade]
-    ) -> OffCalendarStore<Trade>.State {
-        let makeOffCalendarPreviewCellStoreState: (Trade) -> OffCalendarPreviewCellStore.State = { trade in
-            return .init(
-                title: trade.ticker?.name ?? "",
-                color: trade.side == .buy ? .pink : .mint
-            )
-        }
-        let makeOffCalendarItemCellState: (Date, [Trade]) -> OffCalendarItemCellStore<Trade>.State = { date, trades in
-            return .init(
-                date: date,
-                isSelected: false,
-                data: trades.filter({ $0.date.isEqual(date: date) }),
-                makeOffCalendarPreviewCellStoreState: makeOffCalendarPreviewCellStoreState
-            )
-        }
-        
-        return .init(
-            id: id,
-            initialDate: date,
-            data: trades,
-            makeOffCalendarItemCellState: makeOffCalendarItemCellState
-        )
-    }
+//    func makeOffCalendarStoreState(
+//        id: UUID = .init(),
+//        date: Date,
+//        trades: [Trade]
+//    ) -> OffCalendarStore<Trade>.State {
+//        let makeOffCalendarPreviewCellStoreState: (Trade) -> OffCalendarPreviewCellStore.State = { trade in
+//            return .init(
+//                title: trade.ticker?.name ?? "",
+//                color: trade.side == .buy ? .pink : .mint
+//            )
+//        }
+//        let makeOffCalendarItemCellState: (Date, [Trade]) -> OffCalendarItemCellStore<Trade>.State = { date, trades in
+//            return .init(
+//                date: date,
+//                isSelected: false,
+//                data: trades.filter({ $0.date.isEqual(date: date) }),
+//                makeOffCalendarPreviewCellStoreState: makeOffCalendarPreviewCellStoreState
+//            )
+//        }
+//        
+//        return .init(
+//            id: id,
+//            initialDate: date,
+//            data: trades,
+//            makeOffCalendarItemCellState: makeOffCalendarItemCellState
+//        )
+//    }
     
-    func updateOffCalendars(
-        offCalendars: IdentifiedArrayOf<OffCalendarStore<Trade>.State>,
-        trades: [Trade]
-    ) -> IdentifiedArrayOf<OffCalendarStore<Trade>.State> {
-        var offCalendars = offCalendars
-        for id in offCalendars.ids {
-            offCalendars[id: id]?.data = trades
-        }
-        return offCalendars
-    }
+//    func updateOffCalendars(
+//        offCalendars: IdentifiedArrayOf<OffCalendarStore<Trade>.State>,
+//        trades: [Trade]
+//    ) -> IdentifiedArrayOf<OffCalendarStore<Trade>.State> {
+//        var offCalendars = offCalendars
+//        for id in offCalendars.ids {
+//            offCalendars[id: id]?.data = trades
+//        }
+//        return offCalendars
+//    }
     
     func makeTradeItems(from trades: [Trade]) -> IdentifiedArrayOf<TradeItemCellStore.State> {
         return .init(
