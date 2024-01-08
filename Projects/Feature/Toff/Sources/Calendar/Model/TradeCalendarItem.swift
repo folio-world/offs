@@ -8,7 +8,25 @@
 import Foundation
 
 public struct TradeCalendarItem: Identifiable, Equatable {
-    public var id: UUID = .init()
+    public var id: UUID
     
-    public init() {}
+    public var cells: [TradeCalendarCellItem]
+    
+    public init(
+        id: UUID = .init(),
+        cells: [TradeCalendarCellItem] = []
+    ) {
+        self.id = id
+        self.cells = cells
+    }
+}
+
+public struct TradeCalendarCellItem: Identifiable, Equatable {
+    public var id: UUID
+    
+    public init(
+        id: UUID = .init()
+    ) {
+        self.id = id
+    }
 }

@@ -19,9 +19,7 @@ public struct ToffCalendarMainStore: Reducer {
         public let id: UUID
         public var trades: [Trade]
         
-        public var prevCalendarItems: [TradeCalendarItem] = []
-        public var currentCalendarItems: [TradeCalendarItem] = []
-        public var nextCalendarItems: [TradeCalendarItem] = []
+        public var calendarItems: [TradeCalendarItem] = []
         
         public var currentTab: UUID
         
@@ -45,22 +43,13 @@ public struct ToffCalendarMainStore: Reducer {
             self.trades = trades
             self.selectedDate = initialDate
             self.headerDate = initialDate
-            self.currentTab = id
-//            self.offCalendars = .init(uniqueElements: [
-//                makeOffCalendarStoreState(
-//                    date: .now.add(byAdding: .month, value: -1),
-//                    trades: []
-//                ),
-//                makeOffCalendarStoreState(
-//                    id: id,
-//                    date: .now,
-//                    trades: []
-//                ),
-//                makeOffCalendarStoreState(
-//                    date: .now.add(byAdding: .month, value: 1),
-//                    trades: []
-//                ),
-//            ])
+            
+            self.currentTab = .init()
+            self.calendarItems = [
+                .init(id: .init(), cells: .init(repeating: .init(), count: 28)),
+                .init(id: self.currentTab, cells: [.init(), .init(),.init(),.init(),.init(),.init(),.init(),.init(),.init(),.init(),.init(),.init(),.init(),]),
+                .init(id: .init(), cells: .init(repeating: .init(), count: 31)),
+            ]
         }
     }
     
@@ -96,15 +85,17 @@ public struct ToffCalendarMainStore: Reducer {
                 ])
                 
             case let .selectTab(tab):
-                let initialTabIndex = 0
-                let currentTabIndex = 0
-                let offset = currentTabIndex - initialTabIndex
-                let addMonthValue = currentTabIndex > initialTabIndex ? offset + 1 : offset - 1
+                state.currentTab = tab
+//                let currentTabIndex =
+//                let initialTabIndex = 0
+//                let currentTabIndex = 0
+//                let offset = currentTabIndex - initialTabIndex
+//                let addMonthValue = currentTabIndex > initialTabIndex ? offset + 1 : offset - 1
                 
-                let date = Date.now.add(
-                    byAdding: .month,
-                    value: addMonthValue
-                )
+//                let date = Date.now.add(
+//                    byAdding: .month,
+//                    value: addMonthValue
+//                )
 //                let calendarStoreState = state.makeOffCalendarStoreState(
 //                    date: date,
 //                    trades: state.trades
@@ -118,7 +109,7 @@ public struct ToffCalendarMainStore: Reducer {
 //                default: break
 //                }
                 
-                state.currentTab = tab
+//                state.currentTabIndex = tabIndex
 //                state.selectedDate = state.offCalendars[id: tab]?.selectedDate ?? .now
 //                state.headerDate = state.offCalendars[id: tab]?.initialDate ?? .now
                 return .none

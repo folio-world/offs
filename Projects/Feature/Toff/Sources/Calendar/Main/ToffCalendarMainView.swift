@@ -29,9 +29,7 @@ public struct ToffCalendarMainView: View {
                         send: ToffCalendarMainStore.Action.selectTab
                     )
                 ) {
-                    prevCalendarView
-                    currentCalendarView
-                    nextCalendarView
+                    calendarTabView
                     
 //                    ForEachStore(self.store.scope(state: \.offCalendars, action: ToffCalendarMainStore.Action.offCalendars(id:action:))) {
 //                        calendarTabView(store: $0, viewStore: viewStore, proxy: proxy)
@@ -64,21 +62,15 @@ public struct ToffCalendarMainView: View {
         }
     }
     
-    private var prevCalendarView: some View {
-        WithViewStore(self.store, observe: \.prevCalendarItems) { viewStore in
-            Text("왼쪽")
-        }
-    }
-    
-    private var currentCalendarView: some View {
-        WithViewStore(self.store, observe: \.currentCalendarItems) { viewStore in
-            Text("가운데")
-        }
-    }
-    
-    private var nextCalendarView: some View {
-        WithViewStore(self.store, observe: \.nextCalendarItems) { viewStore in
-            Text("오른쪽")
+    private var calendarTabView: some View {
+        WithViewStore(self.store, observe: \.calendarItems) { viewStore in
+            ForEach(viewStore.state) { item in
+                OffCalendarView(
+                    items: item.cells,
+                    onTap: { _ in },
+                    cell: { _ in Text("hi")}
+                )
+            }
         }
     }
     
