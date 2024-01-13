@@ -83,10 +83,8 @@ public struct PortfolioMainStore: Reducer {
                 return .none
                 
             case .tradeRequest:
-                if let trades = try? tradeClient.fetchTrades().get() {
-                    return .send(.tradesResponse(trades))
-                }
-                return .none
+                let trades = tradeClient.fetchTrades()
+                return .send(.tradesResponse(trades))
                 
             case .tickerTypeChartDataEntityRequest:
                 return .send(.tickerTypeChartDataEntityResponse(state.trades.toTickerTypeChartDataEntity()))

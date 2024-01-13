@@ -15,8 +15,8 @@ public struct OffCalendarView<Cell: View, T>: View where T: Identifiable {
     
     public init(
         items: [T],
-        onTap: @escaping (T) -> (),
-        @ViewBuilder cell : @escaping (T) -> Cell
+        @ViewBuilder cell : @escaping (T) -> Cell,
+        onTap: @escaping (T) -> ()
     ) {
         self.items = items
         self.cell = cell

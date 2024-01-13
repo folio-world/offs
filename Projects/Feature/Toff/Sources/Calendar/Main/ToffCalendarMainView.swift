@@ -14,6 +14,9 @@ import Domain
 import SharedDesignSystem
 
 public struct ToffCalendarMainView: View {
+    typealias State = ToffCalendarMainStore.State
+    typealias Action = ToffCalendarMainStore.Action
+    
     let store: StoreOf<ToffCalendarMainStore>
     
     public init(store: StoreOf<ToffCalendarMainStore>) {
@@ -21,25 +24,10 @@ public struct ToffCalendarMainView: View {
     }
     
     public var body: some View {
-        WithViewStore(self.store, observe: \.currentTab) { viewStore in
-            GeometryReader { proxy in
-                TabView(
-                    selection: viewStore.binding(
-                        get: { state in state },
-                        send: ToffCalendarMainStore.Action.selectTab
-                    )
-                ) {
-                    calendarTabView
-                    
-//                    ForEachStore(self.store.scope(state: \.offCalendars, action: ToffCalendarMainStore.Action.offCalendars(id:action:))) {
-//                        calendarTabView(store: $0, viewStore: viewStore, proxy: proxy)
-//                            .frame(width: proxy.size.width, height: proxy.size.height)
-//                    }
-                }
-                .tabViewStyle(.page(indexDisplayMode: .never))
-            }
+        tabView
+            .tabViewStyle(.page(indexDisplayMode: .never))
             .onAppear {
-                viewStore.send(.onAppear, animation: .default)
+                store.send(.onAppear, animation: .default)
             }
             .sheet(
                 store: self.store.scope(
@@ -59,49 +47,69 @@ public struct ToffCalendarMainView: View {
                 EditTradeView(store: $0)
                     .presentationDetents([.medium])
             }
+    }
+    
+    private struct TabViewState: Equatable {
+        @BindingState var currentTab: UUID
+        let tabItems: [CalendarTabItem]
+        
+        init(_ state: State) {
+            self.currentTab = state.currentTab
+            self.tabItems = state.calendarTabItems
         }
     }
     
-    private var calendarTabView: some View {
-        WithViewStore(self.store, observe: \.calendarItems) { viewStore in
-            ForEach(viewStore.state) { item in
-                OffCalendarView(
-                    items: item.cells,
-                    onTap: { _ in },
-                    cell: { _ in Text("hi")}
-                )
+    private var tabView: some View {
+        WithViewStore(self.store, observe: TabViewState.init) { viewStore in
+            CalendarTabView(
+                tab: viewStore.binding(get: { $0.currentTab }, send: { _ in .onAppear }),
+                items: viewStore.tabItems
+            ) { item in
+                viewStore.send(.cellTapped(item))
             }
         }
     }
     
-//    private func calendarTabView(
-//        store: StoreOf<OffCalendarStore<Trade>>,
-//        viewStore: ViewStoreOf<ToffCalendarMainStore>,
-//        proxy: GeometryProxy
-//    ) -> some View {
-//        ZStack {
-//            ScrollView {
-//                VStack {
-////                    OffCalendarView(items: viewStore.state.trades) { item in
-////                        
-////                    }
-//                    
-//                    OffCalendarView(
-//                        items: viewStore,
-//                        onTap: <#T##(Identifiable) -> ()#>,
-//                        cell: { _ in VStack { "Text" } }
-//                    )
-//                    
-//                    tradeItemsView(viewStore: viewStore)
-//                    
-//                    Spacer()
-//                }
-//                .padding(10)
-//            }
-//            
-//            headerView(viewStore: viewStore)
-//        }
-//    }
+    //    private var calendarTabView: some View {
+    //        WithViewStore(self.store, observe: \.calendarItems) { viewStore in
+    //            ForEach(viewStore.state) { item in
+    //                OffCalendarView(
+    //                    items: item.cells,
+    //                    onTap: { _ in },
+    //                    cell: { item in CalendarCellView(item: item)}
+    //                )
+    //            }
+    //        }
+    //    }
+    
+    //    private func calendarTabView(
+    //        store: StoreOf<OffCalendarStore<Trade>>,
+    //        viewStore: ViewStoreOf<ToffCalendarMainStore>,
+    //        proxy: GeometryProxy
+    //    ) -> some View {
+    //        ZStack {
+    //            ScrollView {
+    //                VStack {
+    ////                    OffCalendarView(items: viewStore.state.trades) { item in
+    ////
+    ////                    }
+    //
+    //                    OffCalendarView(
+    //                        items: viewStore,
+    //                        onTap: <#T##(Identifiable) -> ()#>,
+    //                        cell: { _ in VStack { "Text" } }
+    //                    )
+    //
+    //                    tradeItemsView(viewStore: viewStore)
+    //
+    //                    Spacer()
+    //                }
+    //                .padding(10)
+    //            }
+    //
+    //            headerView(viewStore: viewStore)
+    //        }
+    //    }
     
     private func headerView(viewStore: ViewStoreOf<ToffCalendarMainStore>) -> some View {
         VStack(alignment: .leading) {
@@ -118,19 +126,19 @@ public struct ToffCalendarMainView: View {
         }
     }
     
-    private func tradeItemsView(viewStore: ViewStoreOf<ToffCalendarMainStore>) -> some View {
-        VStack(alignment: .leading) {
-            Text(viewStore.state.selectedDate.localizedString(dateStyle: .medium, timeStyle: .none))
-                .font(.title3)
-                .fontWeight(.bold)
-            
-            ForEachStore(self.store.scope(state: \.tradeItems, action: ToffCalendarMainStore.Action.tradeItems(id:action:))) {
-                TradeItemCellView(store: $0)
-            }
-            
-            TradeNewItem() {
-                viewStore.send(.newButtonTapped)
-            }
-        }
-    }
+//    private func tradeItemsView(viewStore: ViewStoreOf<ToffCalendarMainStore>) -> some View {
+//        VStack(alignment: .leading) {
+//            Text(viewStore.state.selectedDate.localizedString(dateStyle: .medium, timeStyle: .none))
+//                .font(.title3)
+//                .fontWeight(.bold)
+//            
+//            ForEachStore(self.store.scope(state: \.tradeItems, action: ToffCalendarMainStore.Action.tradeItems(id:action:))) {
+//                TradeItemCellView(store: $0)
+//            }
+//            
+//            TradeNewItem() {
+//                viewStore.send(.newButtonTapped)
+//            }
+//        }
+//    }
 }

@@ -19,18 +19,13 @@ public struct ToffCalendarMainStore: Reducer {
         public let id: UUID
         public var trades: [Trade]
         
-        public var calendarItems: [TradeCalendarItem] = []
-        
-        public var currentTab: UUID
+        public var calendarTabItems: [CalendarTabItem] = []
+        @BindingState public var currentTab: UUID
         
         public var headerDate: Date
-        public var selectedDate: Date {
-            didSet {
-                self.tradeItems = self.makeTradeItems(from: trades.filter({ $0.date.isEqual(date: selectedDate) }))
-            }
-        }
+        public var selectedDate: Date
 
-        public var tradeItems: IdentifiedArrayOf<TradeItemCellStore.State> = []
+//        public var tradeItems: IdentifiedArrayOf<TradeItemCellStore.State> = []
         @PresentationState var selectTicker: SelectTickerStore.State?
         @PresentationState var editTrade: EditTradeStore.State?
         
@@ -45,25 +40,20 @@ public struct ToffCalendarMainStore: Reducer {
             self.headerDate = initialDate
             
             self.currentTab = .init()
-            self.calendarItems = [
-                .init(id: .init(), cells: .init(repeating: .init(), count: 28)),
-                .init(id: self.currentTab, cells: [.init(), .init(),.init(),.init(),.init(),.init(),.init(),.init(),.init(),.init(),.init(),.init(),.init(),]),
-                .init(id: .init(), cells: .init(repeating: .init(), count: 31)),
-            ]
         }
     }
     
     public enum Action: Equatable {
         case onAppear
+        case refresh
         
         case selectTab(UUID)
+        case cellTapped(CalendarCellItem)
         case newButtonTapped
         
-        case fetchTradesRequest
         case fetchTradesResponse([Trade])
         
-//        case offCalendars(id: OffCalendarStore<Trade>.State.ID, action: OffCalendarStore<Trade>.Action)
-        case tradeItems(id: TradeItemCellStore.State.ID, action: TradeItemCellStore.Action)
+//        case tradeItems(id: TradeItemCellStore.State.ID, action: TradeItemCellStore.Action)
         case selectTicker(PresentationAction<SelectTickerStore.Action>)
         case editTrade(PresentationAction<EditTradeStore.Action>)
         
@@ -80,8 +70,10 @@ public struct ToffCalendarMainStore: Reducer {
         Reduce { state, action in
             switch action {
             case .onAppear:
+                let trades = tradeClient.fetchTrades()
+                
                 return .concatenate([
-                    .send(.fetchTradesRequest)
+                    .send(.fetchTradesResponse(trades))
                 ])
                 
             case let .selectTab(tab):
@@ -118,32 +110,20 @@ public struct ToffCalendarMainStore: Reducer {
                 state.selectTicker = .init()
                 return .none
                 
-            case .fetchTradesRequest:
-                if let trades = try? tradeClient.fetchTrades().get() {
-                    return .send(.fetchTradesResponse(trades))
-                }
-                return .none
-                
             case let .fetchTradesResponse(trades):
                 state.trades = trades
-//                state.offCalendars = state.updateOffCalendars(
-//                    offCalendars: state.offCalendars,
-//                    trades: trades
-//                )
-                state.tradeItems = state.makeTradeItems(
-                    from: trades.filter({ $0.date.isEqual(date: state.selectedDate) })
-                )
+                state.calendarTabItems = [
+                    CalendarObjectMapper.calendarTabItem(date: Date().add(byAdding: .month, value: -1), trades: trades),
+                    CalendarObjectMapper.calendarTabItem(date: Date(), trades: trades),
+                    CalendarObjectMapper.calendarTabItem(date: Date().add(byAdding: .month, value: 1), trades: trades)
+                ]
                 return .none
                 
-//            case let .offCalendars(id: _, action: .delegate(.tapped(date))):
-//                state.selectedDate = date
+//            case let .tradeItems(id: id, action: .delegate(.tapped)):
+//                if let trade = state.tradeItems[id: id]?.trade {
+//                    return .send(.delegate(.detail(trade)))
+//                }
 //                return .none
-                
-            case let .tradeItems(id: id, action: .delegate(.tapped)):
-                if let trade = state.tradeItems[id: id]?.trade {
-                    return .send(.delegate(.detail(trade)))
-                }
-                return .none
                 
             case let .selectTicker(.presented(.delegate(.select(ticker)))):
                 state.selectTicker = nil
@@ -162,7 +142,7 @@ public struct ToffCalendarMainStore: Reducer {
             case .editTrade(.presented(.delegate(.save))):
                 state.selectTicker = nil
                 state.editTrade = nil
-                return .send(.fetchTradesRequest)
+                return .send(.refresh)
                 
             case .editTrade(.dismiss):
                 state.editTrade = nil
@@ -175,9 +155,9 @@ public struct ToffCalendarMainStore: Reducer {
 //        .forEach(\.offCalendars, action: /Action.offCalendars(id:action:)) {
 //            OffCalendarStore()
 //        }
-        .forEach(\.tradeItems, action: /Action.tradeItems(id:action:)) {
-            TradeItemCellStore()
-        }
+//        .forEach(\.tradeItems, action: /Action.tradeItems(id:action:)) {
+//            TradeItemCellStore()
+//        }
         .ifLet(\.$selectTicker, action: /Action.selectTicker) {
             SelectTickerStore()
         }
@@ -227,11 +207,11 @@ public extension ToffCalendarMainStore.State {
 //        return offCalendars
 //    }
     
-    func makeTradeItems(from trades: [Trade]) -> IdentifiedArrayOf<TradeItemCellStore.State> {
-        return .init(
-            uniqueElements: trades.map { trade in
-                return .init(trade: trade, dateStyle: .short, timeStyle: .short)
-            }
-        )
-    }
+//    func makeTradeItems(from trades: [Trade]) -> IdentifiedArrayOf<TradeItemCellStore.State> {
+//        return .init(
+//            uniqueElements: trades.map { trade in
+//                return .init(trade: trade, dateStyle: .short, timeStyle: .short)
+//            }
+//        )
+//    }
 }

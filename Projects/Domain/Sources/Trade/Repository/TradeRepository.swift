@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 public protocol TradeRepositoryInterface {
-    func fetchTrades(descriptor: FetchDescriptor<Trade>) -> Result<[Trade], TradeError>
+    func fetchTrades(descriptor: FetchDescriptor<Trade>) -> [Trade]
     func saveTrade(_ trade: TradeDTO) -> Result<Trade, TradeError>
     func updateTrade(_ trade: Trade, new newTrade: TradeDTO) -> Result<Trade, TradeError>
     func deleteTrade(_ trade: Trade) -> Result<Trade, TradeError>
@@ -24,12 +24,9 @@ public class TradeRepository: TradeRepositoryInterface {
     
     public init() { }
     
-    public func fetchTrades(descriptor: FetchDescriptor<Trade>) -> Result<[Trade], TradeError> {
-        if let trades = try? context?.fetch(descriptor) {
-            return .success(trades)
-        } else {
-            return .failure(.unknown)
-        }
+    public func fetchTrades(descriptor: FetchDescriptor<Trade>) -> [Trade] {
+        let trades = try? context?.fetch(descriptor) ?? []
+        return trades
     }
     
     public func saveTrade(_ trade: TradeDTO) -> Result<Trade, TradeError> {
@@ -106,7 +103,7 @@ public class TradeRepository: TradeRepositoryInterface {
     public func isValidatedDeleteTrade(_ trade: Trade) -> Bool {
         if trade.side == .sell { return true }
         
-        guard let trades = try? fetchTrades(descriptor: .init(sortBy: [.init(\.date)])).get().filter({ $0.ticker == trade.ticker })
+        guard let trades = fetchTrades(descriptor: .init(sortBy: [.init(\.date)])).filter({ $0.ticker == trade.ticker })
         else { return false }
         
         var currentVolume = 0.0
