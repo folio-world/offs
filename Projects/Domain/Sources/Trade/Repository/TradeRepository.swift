@@ -25,7 +25,7 @@ public class TradeRepository: TradeRepositoryInterface {
     public init() { }
     
     public func fetchTrades(descriptor: FetchDescriptor<Trade>) -> [Trade] {
-        let trades = try? context?.fetch(descriptor) ?? []
+        let trades = (try? context?.fetch(descriptor) ?? []) ?? []
         return trades
     }
     
@@ -66,8 +66,7 @@ public class TradeRepository: TradeRepositoryInterface {
     
     public func isValidatedSaveTrade(_ trade: TradeDTO) -> Bool {
         if trade.side == .buy { return true }
-        guard let trades = try? fetchTrades(descriptor: .init()).get().filter({ $0.ticker == trade.ticker }).sorted(by: { $0.date < $1.date })
-        else { return false }
+        let trades = fetchTrades(descriptor: .init()).filter({ $0.ticker == trade.ticker }).sorted(by: { $0.date < $1.date })
         
         let currentVolume = trades.reduce(0) { (result, trade) in
             if trade.side == .buy {
@@ -82,8 +81,7 @@ public class TradeRepository: TradeRepositoryInterface {
     
     public func isValidatedUpdateTrade(_ trade: Trade, new newTrade: TradeDTO) -> Bool {
         if trade.side == .sell && newTrade.side == .buy { return true }
-        guard let trades = try? fetchTrades(descriptor: .init()).get().filter({ $0.ticker == trade.ticker }).sorted(by: { $0.date < $1.date })
-        else { return false }
+        let trades = fetchTrades(descriptor: .init()).filter({ $0.ticker == trade.ticker }).sorted(by: { $0.date < $1.date })
         
         var currentVolume = 0.0
         for tmpTrade in trades {
@@ -103,8 +101,7 @@ public class TradeRepository: TradeRepositoryInterface {
     public func isValidatedDeleteTrade(_ trade: Trade) -> Bool {
         if trade.side == .sell { return true }
         
-        guard let trades = fetchTrades(descriptor: .init(sortBy: [.init(\.date)])).filter({ $0.ticker == trade.ticker })
-        else { return false }
+        let trades = fetchTrades(descriptor: .init(sortBy: [.init(\.date)])).filter({ $0.ticker == trade.ticker })
         
         var currentVolume = 0.0
         for tmpTrade in trades {

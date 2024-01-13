@@ -9,8 +9,13 @@ import Foundation
 import Domain
 
 public struct CalendarObjectMapper {
-    public static func calendarTabItem(date: Date, trades: [Trade]) -> CalendarTabItem {
+    public static func calendarTabItem(
+        id: UUID = .init(),
+        date: Date,
+        trades: [Trade]
+    ) -> CalendarTabItem {
         return .init(
+            id: id,
             cells: calendarCellItems(date: date, trades: trades)
         )
     }

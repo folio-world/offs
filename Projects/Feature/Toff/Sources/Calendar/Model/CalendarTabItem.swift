@@ -10,7 +10,15 @@ import Foundation
 import Domain
 
 public struct CalendarTabItem: Identifiable, Equatable {
-    public let id: UUID = .init()
+    public let id: UUID
     
     let cells: [CalendarCellItem]
+    
+    public init(
+        id: UUID = .init(),
+        cells: [CalendarCellItem]
+    ) {
+        self.id = id
+        self.cells = cells
+    }
 }

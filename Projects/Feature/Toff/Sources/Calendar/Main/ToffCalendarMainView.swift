@@ -62,7 +62,7 @@ public struct ToffCalendarMainView: View {
     private var tabView: some View {
         WithViewStore(self.store, observe: TabViewState.init) { viewStore in
             CalendarTabView(
-                tab: viewStore.binding(get: { $0.currentTab }, send: { _ in .onAppear }),
+                tab: viewStore.binding(get: \.currentTab, send: Action.selectTab),
                 items: viewStore.tabItems
             ) { item in
                 viewStore.send(.cellTapped(item))

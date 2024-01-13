@@ -14,15 +14,40 @@ public struct CalendarCellView: View {
     let item: CalendarCellItem
     
     public var body: some View {
-        VStack {
+        VStack(spacing: 2) {
+            headerView
+                .padding(.top, 2)
+            
             ForEach(item.trades) { trade in
-                summarylineView(color: .red, title: "hi", isSelected: true)
+                summarylineView(color: .red, title: "dd", isSelected: true)
             }
+            
+            Spacer()
         }
+        .background(false ? Color.foreground : Color.background)
+        .clipShape(
+            RoundedRectangle(
+                cornerRadius: 8,
+                style: .continuous
+            )
+        )
     }
 }
 
 extension CalendarCellView {
+    private var headerView: some View {
+        HStack {
+            Spacer()
+            
+            Text("\(item.date.day)")
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .foregroundStyle(false ? Color.background : Color.foreground)
+            
+            Spacer()
+        }
+    }
+    
     private func summarylineView(color: Color, title: String, isSelected: Bool) -> some View {
         HStack(spacing: 2) {
             RoundedRectangle(cornerRadius: 3)

@@ -114,7 +114,7 @@ public struct ToffCalendarMainStore: Reducer {
                 state.trades = trades
                 state.calendarTabItems = [
                     CalendarObjectMapper.calendarTabItem(date: Date().add(byAdding: .month, value: -1), trades: trades),
-                    CalendarObjectMapper.calendarTabItem(date: Date(), trades: trades),
+                    CalendarObjectMapper.calendarTabItem(id: state.currentTab, date: Date(), trades: trades),
                     CalendarObjectMapper.calendarTabItem(date: Date().add(byAdding: .month, value: 1), trades: trades)
                 ]
                 return .none
