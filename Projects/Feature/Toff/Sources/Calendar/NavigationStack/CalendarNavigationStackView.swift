@@ -9,22 +9,22 @@ import SwiftUI
 
 import ComposableArchitecture
 
-public struct ToffCalendarNavigationStackView: View {
-    let store: StoreOf<ToffCalendarNavigationStackStore>
+public struct CalendarNavigationStackView: View {
+    let store: StoreOf<CalendarNavigationStackStore>
     
-    public init(store: StoreOf<ToffCalendarNavigationStackStore>) {
+    public init(store: StoreOf<CalendarNavigationStackStore>) {
         self.store = store
     }
     
     public var body: some View {
         NavigationStackStore(self.store.scope(
             state: \.path,
-            action: ToffCalendarNavigationStackStore.Action.path)
+            action: CalendarNavigationStackStore.Action.path)
         ) { WithViewStore(self.store, observe: { $0 }) { viewStore in
-            ToffCalendarMainView(
+            CalendarMainView(
                 store: self.store.scope(
                     state: \.main,
-                    action: ToffCalendarNavigationStackStore.Action.main)
+                    action: CalendarNavigationStackStore.Action.main)
             )
             .onAppear {
                 viewStore.send(.onAppear)
@@ -34,8 +34,8 @@ public struct ToffCalendarNavigationStackView: View {
             switch $0 {
             case .detail:
                 CaseLet(
-                    /ToffCalendarNavigationStackStore.Path.State.detail,
-                     action: ToffCalendarNavigationStackStore.Path.Action.detail,
+                    /CalendarNavigationStackStore.Path.State.detail,
+                     action: CalendarNavigationStackStore.Path.Action.detail,
                      then: TradeDetailView.init(store:)
                 )
             }

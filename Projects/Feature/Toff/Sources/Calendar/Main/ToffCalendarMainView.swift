@@ -13,13 +13,13 @@ import ComposableArchitecture
 import Domain
 import SharedDesignSystem
 
-public struct ToffCalendarMainView: View {
-    typealias State = ToffCalendarMainStore.State
-    typealias Action = ToffCalendarMainStore.Action
+public struct CalendarMainView: View {
+    typealias State = CalendarMainStore.State
+    typealias Action = CalendarMainStore.Action
     
-    let store: StoreOf<ToffCalendarMainStore>
+    let store: StoreOf<CalendarMainStore>
     
-    public init(store: StoreOf<ToffCalendarMainStore>) {
+    public init(store: StoreOf<CalendarMainStore>) {
         self.store = store
     }
     
@@ -111,7 +111,7 @@ public struct ToffCalendarMainView: View {
     //        }
     //    }
     
-    private func headerView(viewStore: ViewStoreOf<ToffCalendarMainStore>) -> some View {
+    private func headerView(viewStore: ViewStoreOf<CalendarMainStore>) -> some View {
         VStack(alignment: .leading) {
             HStack {
                 Text("\(Calendar.current.shortMonthSymbols[viewStore.state.headerDate.month - 1])".uppercased())

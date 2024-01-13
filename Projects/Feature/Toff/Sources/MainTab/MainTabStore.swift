@@ -21,7 +21,7 @@ public struct MainTabStore: Reducer {
     }
     
     public struct State: Equatable {
-        var calendar: ToffCalendarNavigationStackStore.State = .init()
+        var calendar: CalendarNavigationStackStore.State = .init()
         var portfolio: PortfolioNavigationStackStore.State = .init()
         var myPage: MyPageNavigationStackStore.State = .init()
         
@@ -41,7 +41,7 @@ public struct MainTabStore: Reducer {
         
         case selectTab(Tab)
         
-        case calendar(ToffCalendarNavigationStackStore.Action)
+        case calendar(CalendarNavigationStackStore.Action)
         case portfolio(PortfolioNavigationStackStore.Action)
         case myPage(MyPageNavigationStackStore.Action)
     }
@@ -72,7 +72,7 @@ public struct MainTabStore: Reducer {
         }
         
         Scope(state: \.calendar, action: /Action.calendar) {
-            ToffCalendarNavigationStackStore()._printChanges()
+            CalendarNavigationStackStore()._printChanges()
         }
         Scope(state: \.portfolio, action: /Action.portfolio) {
             PortfolioNavigationStackStore()._printChanges()

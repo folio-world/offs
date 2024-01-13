@@ -12,7 +12,7 @@ import ComposableArchitecture
 import Domain
 import SharedDesignSystem
 
-public struct ToffCalendarMainStore: Reducer {
+public struct CalendarMainStore: Reducer {
     public init() {}
     
     public struct State: Equatable {
@@ -165,53 +165,4 @@ public struct ToffCalendarMainStore: Reducer {
             EditTradeStore()
         }
     }
-}
-
-public extension ToffCalendarMainStore.State {
-//    func makeOffCalendarStoreState(
-//        id: UUID = .init(),
-//        date: Date,
-//        trades: [Trade]
-//    ) -> OffCalendarStore<Trade>.State {
-//        let makeOffCalendarPreviewCellStoreState: (Trade) -> OffCalendarPreviewCellStore.State = { trade in
-//            return .init(
-//                title: trade.ticker?.name ?? "",
-//                color: trade.side == .buy ? .pink : .mint
-//            )
-//        }
-//        let makeOffCalendarItemCellState: (Date, [Trade]) -> OffCalendarItemCellStore<Trade>.State = { date, trades in
-//            return .init(
-//                date: date,
-//                isSelected: false,
-//                data: trades.filter({ $0.date.isEqual(date: date) }),
-//                makeOffCalendarPreviewCellStoreState: makeOffCalendarPreviewCellStoreState
-//            )
-//        }
-//        
-//        return .init(
-//            id: id,
-//            initialDate: date,
-//            data: trades,
-//            makeOffCalendarItemCellState: makeOffCalendarItemCellState
-//        )
-//    }
-    
-//    func updateOffCalendars(
-//        offCalendars: IdentifiedArrayOf<OffCalendarStore<Trade>.State>,
-//        trades: [Trade]
-//    ) -> IdentifiedArrayOf<OffCalendarStore<Trade>.State> {
-//        var offCalendars = offCalendars
-//        for id in offCalendars.ids {
-//            offCalendars[id: id]?.data = trades
-//        }
-//        return offCalendars
-//    }
-    
-//    func makeTradeItems(from trades: [Trade]) -> IdentifiedArrayOf<TradeItemCellStore.State> {
-//        return .init(
-//            uniqueElements: trades.map { trade in
-//                return .init(trade: trade, dateStyle: .short, timeStyle: .short)
-//            }
-//        )
-//    }
 }
