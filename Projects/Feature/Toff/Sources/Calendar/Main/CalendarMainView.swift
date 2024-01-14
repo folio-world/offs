@@ -50,7 +50,7 @@ public struct CalendarMainView: View {
     }
     
     private struct TabViewState: Equatable {
-        @BindingState var currentTab: UUID
+        var currentTab: UUID
         let tabItems: [CalendarTabItem]
         
         init(_ state: State) {
@@ -61,11 +61,14 @@ public struct CalendarMainView: View {
     
     private var tabView: some View {
         WithViewStore(self.store, observe: TabViewState.init) { viewStore in
-            CalendarTabView(
-                tab: viewStore.binding(get: \.currentTab, send: Action.selectTab),
-                items: viewStore.tabItems
-            ) { item in
-                viewStore.send(.cellTapped(item))
+            GeometryReader { proxy in
+                CalendarTabView(
+                    proxy: proxy,
+                    tab: viewStore.binding(get: \.currentTab, send: Action.selectTab),
+                    items: viewStore.tabItems
+                ) { item in
+                    viewStore.send(.cellTapped(item))
+                }
             }
         }
     }

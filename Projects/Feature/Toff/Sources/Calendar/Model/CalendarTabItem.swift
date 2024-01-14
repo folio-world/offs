@@ -12,13 +12,16 @@ import Domain
 public struct CalendarTabItem: Identifiable, Equatable {
     public let id: UUID
     
-    let cells: [CalendarCellItem]
+    let date: Date
+    var cells: [CalendarCellItem]
     
     public init(
         id: UUID = .init(),
+        date: Date,
         cells: [CalendarCellItem]
     ) {
         self.id = id
+        self.date = date
         self.cells = cells
     }
 }

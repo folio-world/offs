@@ -20,7 +20,7 @@ public struct CalendarMainStore: Reducer {
         public var trades: [Trade]
         
         public var calendarTabItems: [CalendarTabItem] = []
-        @BindingState public var currentTab: UUID
+        public var currentTab: UUID
         
         public var headerDate: Date
         public var selectedDate: Date
@@ -40,6 +40,11 @@ public struct CalendarMainStore: Reducer {
             self.headerDate = initialDate
             
             self.currentTab = .init()
+            self.calendarTabItems = [
+                CalendarObjectMapper.calendarTabItem(date: Date().add(byAdding: .month, value: -1), trades: trades),
+                CalendarObjectMapper.calendarTabItem(id: currentTab, date: Date(), trades: trades),
+                CalendarObjectMapper.calendarTabItem(date: Date().add(byAdding: .month, value: 1), trades: trades)
+            ]
         }
     }
     
@@ -77,33 +82,34 @@ public struct CalendarMainStore: Reducer {
                 ])
                 
             case let .selectTab(tab):
+                let oldTabId = state.currentTab
+                let newTabId = tab
+                let calendarTabItems = state.calendarTabItems
+                let trades = state.trades
+                
                 state.currentTab = tab
-//                let currentTabIndex =
-//                let initialTabIndex = 0
-//                let currentTabIndex = 0
-//                let offset = currentTabIndex - initialTabIndex
-//                let addMonthValue = currentTabIndex > initialTabIndex ? offset + 1 : offset - 1
                 
-//                let date = Date.now.add(
-//                    byAdding: .month,
-//                    value: addMonthValue
-//                )
-//                let calendarStoreState = state.makeOffCalendarStoreState(
-//                    date: date,
-//                    trades: state.trades
-//                )
+                guard
+                    let firstTabId = calendarTabItems.first?.id,
+                    let lastTabId = calendarTabItems.last?.id,
+                    let oldTabIndex = calendarTabItems.firstIndex(where: { $0.id == oldTabId }),
+                    let newTabIndex = calendarTabItems.firstIndex(where: { $0.id == newTabId }),
+                    [firstTabId, lastTabId].contains(tab)
+                else { return .none }
                 
-//                switch tab {
-//                case state.offCalendars.ids.first:
-//                    state.offCalendars.insert(calendarStoreState, at: 0)
-//                case state.offCalendars.ids.last:
-//                    state.offCalendars.append(calendarStoreState)
-//                default: break
-//                }
+                let newTabDate = calendarTabItems[newTabIndex].date
+                let offset = newTabIndex - oldTabIndex
+                let newCalendarTabItem = CalendarObjectMapper.calendarTabItem(date: newTabDate.add(byAdding: .month, value: offset), trades: trades)
                 
-//                state.currentTabIndex = tabIndex
-//                state.selectedDate = state.offCalendars[id: tab]?.selectedDate ?? .now
-//                state.headerDate = state.offCalendars[id: tab]?.initialDate ?? .now
+                switch tab {
+                case firstTabId:
+                    state.calendarTabItems.insert(newCalendarTabItem, at: 0)
+                case lastTabId:
+                    state.calendarTabItems.append(newCalendarTabItem)
+                default:
+                    break
+                }
+                
                 return .none
                 
             case .newButtonTapped:

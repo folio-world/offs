@@ -16,11 +16,15 @@ public struct CalendarObjectMapper {
     ) -> CalendarTabItem {
         return .init(
             id: id,
+            date: date,
             cells: calendarCellItems(date: date, trades: trades)
         )
     }
     
-    private static func calendarCellItems(date: Date, trades: [Trade]) -> [CalendarCellItem] {
+    public static func calendarCellItems(
+        date: Date,
+        trades: [Trade]
+    ) -> [CalendarCellItem] {
         return date.allDatesInMonth().map { date in
             return .init(date: date, trades: trades.filter({ $0.date.isEqual(date: date) }))
         }
