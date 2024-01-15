@@ -25,7 +25,7 @@ public struct CalendarCellView: View {
             
             Spacer()
         }
-        .background(false ? Color.foreground : Color.background)
+        .background(item.isSelected ? Color.foreground : Color.background)
         .clipShape(
             RoundedRectangle(
                 cornerRadius: 8,

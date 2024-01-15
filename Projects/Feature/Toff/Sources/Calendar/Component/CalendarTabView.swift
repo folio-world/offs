@@ -31,15 +31,24 @@ public struct CalendarTabView: View {
     }
     
     public var body: some View {
+        tabView
+    }
+}
+
+extension CalendarTabView {
+    private var tabView: some View {
         TabView(selection: $tab) {
             ForEach(items) { item in
-                OffCalendarView(items: item.cells) { item in
-                    CalendarCellView(item: item)
-                        .frame(height: proxy.size.height * 0.12)
-                } onTap: { item in
-                    onTap(item)
+                ScrollView {
+                    OffCalendarView(items: item.cells) { item in
+                        CalendarCellView(item: item)
+                            .frame(height: proxy.size.height * 0.12)
+                    } onTap: { item in
+                        onTap(item)
+                    }
+                    .tag(item.id)
+                    .padding(.top, 40)
                 }
-                .tag(item.id)
             }
         }
     }

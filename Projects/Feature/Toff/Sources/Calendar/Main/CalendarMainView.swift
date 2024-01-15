@@ -24,7 +24,7 @@ public struct CalendarMainView: View {
     }
     
     public var body: some View {
-        tabView
+        containerView
             .tabViewStyle(.page(indexDisplayMode: .never))
             .onAppear {
                 store.send(.onAppear, animation: .default)
@@ -47,6 +47,29 @@ public struct CalendarMainView: View {
                 EditTradeView(store: $0)
                     .presentationDetents([.medium])
             }
+    }
+}
+
+extension CalendarMainView {
+    private var containerView: some View {
+        ZStack(alignment: .top) {
+            tabView
+            
+            headerView
+        }
+    }
+    
+    private var headerView: some View {
+        WithViewStore(store, observe: \.headerDate) { viewStore in
+            HStack {
+                Text("\(Calendar.current.shortMonthSymbols[1])".uppercased())
+                    .font(.largeTitle)
+                
+                Spacer()
+            }
+            .padding(.horizontal, 10)
+            .background(Color(uiColor: .systemBackground).opacity(0.7))
+        }
     }
     
     private struct TabViewState: Equatable {

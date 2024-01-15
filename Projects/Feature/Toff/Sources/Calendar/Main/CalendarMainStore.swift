@@ -58,7 +58,6 @@ public struct CalendarMainStore: Reducer {
         
         case fetchTradesResponse([Trade])
         
-//        case tradeItems(id: TradeItemCellStore.State.ID, action: TradeItemCellStore.Action)
         case selectTicker(PresentationAction<SelectTickerStore.Action>)
         case editTrade(PresentationAction<EditTradeStore.Action>)
         
