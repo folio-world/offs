@@ -88,54 +88,14 @@ extension CalendarMainView {
                 CalendarTabView(
                     proxy: proxy,
                     tab: viewStore.binding(get: \.currentTab, send: Action.selectTab),
-                    items: viewStore.tabItems
-                ) { item in
-                    viewStore.send(.cellTapped(item))
-                }
+                    items: viewStore.tabItems,
+                    calendarCellItemTapped: { viewStore.send(.calendarCellItemTapped($0)) },
+                    tradeItemTapped: { viewStore.send(.tradeItemTapped($0)) },
+                    newTradeItemTapped: { viewStore.send(.newTradeItemTapped) }
+                )
             }
         }
     }
-    
-    //    private var calendarTabView: some View {
-    //        WithViewStore(self.store, observe: \.calendarItems) { viewStore in
-    //            ForEach(viewStore.state) { item in
-    //                OffCalendarView(
-    //                    items: item.cells,
-    //                    onTap: { _ in },
-    //                    cell: { item in CalendarCellView(item: item)}
-    //                )
-    //            }
-    //        }
-    //    }
-    
-    //    private func calendarTabView(
-    //        store: StoreOf<OffCalendarStore<Trade>>,
-    //        viewStore: ViewStoreOf<ToffCalendarMainStore>,
-    //        proxy: GeometryProxy
-    //    ) -> some View {
-    //        ZStack {
-    //            ScrollView {
-    //                VStack {
-    ////                    OffCalendarView(items: viewStore.state.trades) { item in
-    ////
-    ////                    }
-    //
-    //                    OffCalendarView(
-    //                        items: viewStore,
-    //                        onTap: <#T##(Identifiable) -> ()#>,
-    //                        cell: { _ in VStack { "Text" } }
-    //                    )
-    //
-    //                    tradeItemsView(viewStore: viewStore)
-    //
-    //                    Spacer()
-    //                }
-    //                .padding(10)
-    //            }
-    //
-    //            headerView(viewStore: viewStore)
-    //        }
-    //    }
     
     private func headerView(viewStore: ViewStoreOf<CalendarMainStore>) -> some View {
         VStack(alignment: .leading) {
@@ -151,20 +111,4 @@ extension CalendarMainView {
             Spacer()
         }
     }
-    
-//    private func tradeItemsView(viewStore: ViewStoreOf<ToffCalendarMainStore>) -> some View {
-//        VStack(alignment: .leading) {
-//            Text(viewStore.state.selectedDate.localizedString(dateStyle: .medium, timeStyle: .none))
-//                .font(.title3)
-//                .fontWeight(.bold)
-//            
-//            ForEachStore(self.store.scope(state: \.tradeItems, action: ToffCalendarMainStore.Action.tradeItems(id:action:))) {
-//                TradeItemCellView(store: $0)
-//            }
-//            
-//            TradeNewItem() {
-//                viewStore.send(.newButtonTapped)
-//            }
-//        }
-//    }
 }

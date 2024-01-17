@@ -82,4 +82,11 @@ extension OffIcon {
         case .cube: return "cube.transparent"
         }
     }
+    
+    public var defaultColor: OffColor {
+        switch self {
+        case .stock: return .init(kind: .pink)
+        case .cube: return .init(kind: .pink)
+        }
+    }
 }

@@ -53,7 +53,9 @@ public struct CalendarMainStore: Reducer {
         case refresh
         
         case selectTab(UUID)
-        case cellTapped(CalendarCellItem)
+        case calendarCellItemTapped(CalendarCellItem)
+        case tradeItemTapped(Trade)
+        case newTradeItemTapped
         case newButtonTapped
         
         case fetchTradesResponse([Trade])
