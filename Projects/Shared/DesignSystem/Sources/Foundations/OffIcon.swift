@@ -57,6 +57,7 @@ public struct OffIconView: View {
 public enum OffIcon: String, CaseIterable, Identifiable {
     public var id: String { self.rawValue }
     
+    case plus
     case stock
     case cube
 }
@@ -78,6 +79,7 @@ extension OffIcon {
 
     public var systemImageName: String {
         switch self {
+        case .plus: return "plus"
         case .stock: return "chart.line.uptrend.xyaxis"
         case .cube: return "cube.transparent"
         }
@@ -85,6 +87,7 @@ extension OffIcon {
     
     public var defaultColor: OffColor {
         switch self {
+        case .plus: return .init(kind: .black)
         case .stock: return .init(kind: .pink)
         case .cube: return .init(kind: .pink)
         }

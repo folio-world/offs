@@ -61,16 +61,27 @@ extension CalendarTabView {
             .tag(item.id)
             .padding(.top, 40)
             
+            tradeItemsView(trades: item.cells.filter({ $0.isSelected }).flatMap { $0.trades })
+                .padding(.horizontal)
+        }
+    }
+    
+    private func tradeItemsView(trades: [Trade]) -> some View {
+        VStack {
             VStack {
-                ForEach(item.cells.filter({ $0.isSelected }).flatMap { $0.trades } ) { item in
+                ForEach(trades) { trade in
                     OffIconButtonView(
-                        appearance: .plain(icon: item.ticker?.type.icon ?? .cube, title: item.ticker?.name ?? "", typo: .body),
+                        appearance: .plain(icon: trade.ticker?.type.icon ?? .cube, title: trade.ticker?.name ?? "", typo: .body),
                         isPressed: false
                     ) {
-                        tradeItemTapped(item)
+                        tradeItemTapped(trade)
                     }
                 }
-                OffIconButtonView(appearance: .plain(icon: .cube, title: "새로운 거래 기록", typo: .body), isPressed: false) {
+                
+                OffIconButtonView(
+                    appearance: .plain(icon: .plus, title: "새로운 거래 기록", typo: .body),
+                    isPressed: false
+                ) {
                     newTradeItemTapped()
                 }
             }

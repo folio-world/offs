@@ -12,8 +12,8 @@ import Domain
 public struct CalendarTabItem: Identifiable, Equatable {
     public let id: UUID
     
-    let date: Date
-    var cells: [CalendarCellItem]
+    public let date: Date
+    public var cells: [CalendarCellItem]
     
     public init(
         id: UUID = .init(),

@@ -10,6 +10,7 @@ import SwiftUI
 
 public struct OffIconButtonView: View {
     public enum Appearance {
+        case rounded(icon: OffIcon, title: String, typo: OffTypo)
         case plain(icon: OffIcon, title: String, typo: OffTypo)
     }
     
@@ -26,6 +27,8 @@ public struct OffIconButtonView: View {
     
     public var body: some View {
         switch appearance {
+        case let .rounded(icon, title, typo):
+            rounded(icon: icon, title: title, typo: typo)
         case let .plain(icon, title, typo):
             plain(icon: icon, title: title, typo: typo)
         }
@@ -33,26 +36,62 @@ public struct OffIconButtonView: View {
 }
 
 extension OffIconButtonView {
+    private func rounded(icon: OffIcon, title: String, typo: OffTypo) -> some View {
+        Button(
+            action: {
+                onTap()
+            },
+            label: {
+                HStack {
+                    OffIconView(appearance: .circle(icon: icon, size: .medium, color: icon.defaultColor))
+
+                    Text(title)
+                        .font(typo.font)
+                    
+                    Spacer()
+                }
+                .contentShape(.rect)
+            }
+        )
+        .buttonStyle(
+            ScrollViewGestureButtonStyle(
+                pressAction: { withAnimation { isPressed = true } },
+                doubleTapTimeoutout: 1,
+                doubleTapAction: { },
+                longPressTime: 0,
+                longPressAction: { },
+                endAction: { withAnimation { isPressed = false } }))
+        .offRoundedRectangle()
+        .scaleEffect(isPressed ? 0.95 : 1)
+    }
+    
     private func plain(icon: OffIcon, title: String, typo: OffTypo) -> some View {
         Button(
             action: {
                 onTap()
             },
             label: {
-                OffIconView(appearance: .circle(icon: icon, size: .medium, color: icon.defaultColor))
-                Spacer()
-                Text(title)
-                    .font(typo.font)
-                    .offRoundedRectangle()
-                    .buttonStyle(
-                        ScrollViewGestureButtonStyle(
-                            pressAction: { withAnimation { isPressed = true } },
-                            doubleTapTimeoutout: 1,
-                            doubleTapAction: { },
-                            longPressTime: 0,
-                            longPressAction: { },
-                            endAction: { withAnimation { isPressed = false } }))
-            })
+                HStack {
+                    OffIconView(appearance: .plain(icon: icon, size: .small, color: icon.defaultColor))
+
+                    Text(title)
+                        .font(typo.font)
+                    
+                    Spacer()
+                }
+                .contentShape(.rect)
+            }
+        )
+        .buttonStyle(
+            ScrollViewGestureButtonStyle(
+                pressAction: { withAnimation { isPressed = true } },
+                doubleTapTimeoutout: 1,
+                doubleTapAction: { },
+                longPressTime: 0,
+                longPressAction: { },
+                endAction: { withAnimation { isPressed = false } }))
+        .offRoundedRectangle()
+        .scaleEffect(isPressed ? 0.95 : 1)
     }
 }
     

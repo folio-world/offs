@@ -27,6 +27,7 @@ public struct OffColor: Equatable, Hashable {
 
 extension OffColor {
     public enum Kind {
+        case black
         case mint
         case pink
     }
@@ -35,6 +36,7 @@ extension OffColor {
 extension OffColor.Kind {
     var color: Color {
         switch self {
+        case .black: return .black
         case .mint: return .mint
         case .pink: return .pink
         }

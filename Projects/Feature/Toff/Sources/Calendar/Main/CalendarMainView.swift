@@ -27,7 +27,7 @@ public struct CalendarMainView: View {
         containerView
             .tabViewStyle(.page(indexDisplayMode: .never))
             .onAppear {
-                store.send(.onAppear, animation: .default)
+                store.send(.onAppear)
             }
             .sheet(
                 store: self.store.scope(
@@ -62,7 +62,7 @@ extension CalendarMainView {
     private var headerView: some View {
         WithViewStore(store, observe: \.headerDate) { viewStore in
             HStack {
-                Text("\(Calendar.current.shortMonthSymbols[1])".uppercased())
+                Text("\(Calendar.current.shortMonthSymbols[viewStore.state.month - 1])".uppercased())
                     .font(.largeTitle)
                 
                 Spacer()
@@ -94,21 +94,6 @@ extension CalendarMainView {
                     newTradeItemTapped: { viewStore.send(.newTradeItemTapped) }
                 )
             }
-        }
-    }
-    
-    private func headerView(viewStore: ViewStoreOf<CalendarMainStore>) -> some View {
-        VStack(alignment: .leading) {
-            HStack {
-                Text("\(Calendar.current.shortMonthSymbols[viewStore.state.headerDate.month - 1])".uppercased())
-                    .font(.largeTitle)
-                
-                Spacer()
-            }
-            .padding(.horizontal, 10)
-            .background(Color(uiColor: .systemBackground).opacity(0.7))
-            
-            Spacer()
         }
     }
 }

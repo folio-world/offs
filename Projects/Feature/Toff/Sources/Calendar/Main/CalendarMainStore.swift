@@ -25,7 +25,6 @@ public struct CalendarMainStore: Reducer {
         public var headerDate: Date
         public var selectedDate: Date
 
-//        public var tradeItems: IdentifiedArrayOf<TradeItemCellStore.State> = []
         @PresentationState var selectTicker: SelectTickerStore.State?
         @PresentationState var editTrade: EditTradeStore.State?
         
@@ -40,10 +39,13 @@ public struct CalendarMainStore: Reducer {
             self.headerDate = initialDate
             
             self.currentTab = .init()
+            let prevMonthDate = Date().add(byAdding: .month, value: -1)
+            let currentMonthDate = Date()
+            let nextMonthDate = Date().add(byAdding: .month, value: 1)
             self.calendarTabItems = [
-                CalendarObjectMapper.calendarTabItem(date: Date().add(byAdding: .month, value: -1), trades: trades),
-                CalendarObjectMapper.calendarTabItem(id: currentTab, date: Date(), trades: trades),
-                CalendarObjectMapper.calendarTabItem(date: Date().add(byAdding: .month, value: 1), trades: trades)
+                CalendarObjectMapper.calendarTabItem(date: prevMonthDate, selectedDate: prevMonthDate, trades: trades),
+                CalendarObjectMapper.calendarTabItem(id: currentTab, date: currentMonthDate, selectedDate: currentMonthDate, trades: trades),
+                CalendarObjectMapper.calendarTabItem(date: nextMonthDate, selectedDate: nextMonthDate, trades: trades)
             ]
         }
     }
@@ -56,7 +58,6 @@ public struct CalendarMainStore: Reducer {
         case calendarCellItemTapped(CalendarCellItem)
         case tradeItemTapped(Trade)
         case newTradeItemTapped
-        case newButtonTapped
         
         case fetchTradesResponse([Trade])
         
@@ -94,14 +95,18 @@ public struct CalendarMainStore: Reducer {
                     let firstTabId = calendarTabItems.first?.id,
                     let lastTabId = calendarTabItems.last?.id,
                     let oldTabIndex = calendarTabItems.firstIndex(where: { $0.id == oldTabId }),
-                    let newTabIndex = calendarTabItems.firstIndex(where: { $0.id == newTabId }),
-                    [firstTabId, lastTabId].contains(tab)
+                    let newTabIndex = calendarTabItems.firstIndex(where: { $0.id == newTabId })
                 else { return .none }
                 
                 let newTabDate = calendarTabItems[newTabIndex].date
                 let offset = newTabIndex - oldTabIndex
-                let newCalendarTabItem = CalendarObjectMapper.calendarTabItem(date: newTabDate.add(byAdding: .month, value: offset), trades: trades)
+                let offsetTabDate = newTabDate.add(byAdding: .month, value: offset)
                 
+                state.headerDate = offsetTabDate
+                
+                guard [firstTabId, lastTabId].contains(tab) else { return .none }
+                
+                let newCalendarTabItem = CalendarObjectMapper.calendarTabItem(date: offsetTabDate, selectedDate: offsetTabDate, trades: trades)
                 switch tab {
                 case firstTabId:
                     state.calendarTabItems.insert(newCalendarTabItem, at: 0)
@@ -113,24 +118,36 @@ public struct CalendarMainStore: Reducer {
                 
                 return .none
                 
-            case .newButtonTapped:
+            case let .calendarCellItemTapped(item):
+                state.selectedDate = item.date
+                if let tabIndex = state.calendarTabItems.firstIndex(where: { $0.id == state.currentTab }) {
+                    for cellIndex in 0..<state.calendarTabItems[tabIndex].cells.count {
+                        state.calendarTabItems[tabIndex].cells[cellIndex].isSelected = false
+                    }
+                    if let cellIndex = state.calendarTabItems[tabIndex].cells.firstIndex(where: { $0.id == item.id }) {
+                        state.calendarTabItems[tabIndex].cells[cellIndex].isSelected = true
+                    }
+                }
+                return .none
+                
+            case let .tradeItemTapped(trade):
+                return .none
+                
+            case .newTradeItemTapped:
                 state.selectTicker = .init()
                 return .none
                 
             case let .fetchTradesResponse(trades):
                 state.trades = trades
+                let prevMonthDate = Date().add(byAdding: .month, value: -1)
+                let currentMonthDate = Date()
+                let nextMonthDate = Date().add(byAdding: .month, value: 1)
                 state.calendarTabItems = [
-                    CalendarObjectMapper.calendarTabItem(date: Date().add(byAdding: .month, value: -1), trades: trades),
-                    CalendarObjectMapper.calendarTabItem(id: state.currentTab, date: Date(), trades: trades),
-                    CalendarObjectMapper.calendarTabItem(date: Date().add(byAdding: .month, value: 1), trades: trades)
+                    CalendarObjectMapper.calendarTabItem(date: prevMonthDate, selectedDate: prevMonthDate, trades: trades),
+                    CalendarObjectMapper.calendarTabItem(id: state.currentTab, date: currentMonthDate, selectedDate: currentMonthDate, trades: trades),
+                    CalendarObjectMapper.calendarTabItem(date: nextMonthDate, selectedDate: nextMonthDate, trades: trades)
                 ]
                 return .none
-                
-//            case let .tradeItems(id: id, action: .delegate(.tapped)):
-//                if let trade = state.tradeItems[id: id]?.trade {
-//                    return .send(.delegate(.detail(trade)))
-//                }
-//                return .none
                 
             case let .selectTicker(.presented(.delegate(.select(ticker)))):
                 state.selectTicker = nil
@@ -155,16 +172,10 @@ public struct CalendarMainStore: Reducer {
                 state.editTrade = nil
                 return .none
                 
-            default:
+            case .editTrade, .selectTicker, .delegate, .refresh:
                 return .none
             }
         }
-//        .forEach(\.offCalendars, action: /Action.offCalendars(id:action:)) {
-//            OffCalendarStore()
-//        }
-//        .forEach(\.tradeItems, action: /Action.tradeItems(id:action:)) {
-//            TradeItemCellStore()
-//        }
         .ifLet(\.$selectTicker, action: /Action.selectTicker) {
             SelectTickerStore()
         }
