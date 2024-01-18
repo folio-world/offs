@@ -62,12 +62,22 @@ extension CalendarTabView {
             }
             .tag(item.id)
             .padding(.top, 40)
-            
+
+            headerView(date: item.selectedDate)
+
             tradeItemsView(trades: item.cells.filter({ $0.isSelected }).flatMap { $0.trades })
-                .padding(.horizontal)
         }
     }
-    
+
+    private func headerView(date: Date) -> some View {
+        HStack {
+            Text(date.localizedString(dateStyle: .medium, timeStyle: .none))
+                .font(OffTypo.title.font)
+
+            Spacer()
+        }
+    }
+
     private func tradeItemsView(trades: [Trade]) -> some View {
         VStack {
             VStack {

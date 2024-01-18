@@ -122,6 +122,7 @@ public struct CalendarMainStore: Reducer {
                 
             case let .calendarCellItemTapped(item):
                 state.selectedDate = item.date
+                state.calendarTabItems[id: state.currentTab]?.selectedDate = item.date
                 if let ids = state.calendarTabItems[id: state.currentTab]?.cells.ids {
                     for id in ids {
                         state.calendarTabItems[id: state.currentTab]?.cells[id: id]?.isSelected = false

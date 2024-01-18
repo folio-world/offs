@@ -30,6 +30,8 @@ extension OffColor {
         case black
         case mint
         case pink
+        case grey
+        case clear
     }
 }
 
@@ -39,6 +41,8 @@ extension OffColor.Kind {
         case .black: return .black
         case .mint: return .mint
         case .pink: return .pink
+        case .grey: return .init(uiColor: .systemGray6)
+        case .clear: return .clear
         }
     }
 }

@@ -11,8 +11,7 @@ import SwiftUI
 public struct OffRoundedRectangleViewModifier: ViewModifier {
     public func body(content: Content) -> some View {
         content
-            .padding(10)
-            .background(Color(uiColor: .systemGray6))
+            .padding(15)
             .clipShape(
                 RoundedRectangle(
                     cornerRadius: 8,

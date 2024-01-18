@@ -54,7 +54,8 @@ extension CalendarMainView {
     private var containerView: some View {
         ZStack(alignment: .top) {
             tabView
-            
+                .padding(.horizontal)
+
             headerView
         }
     }
@@ -67,7 +68,7 @@ extension CalendarMainView {
                 
                 Spacer()
             }
-            .padding(.horizontal, 10)
+            .padding(.horizontal)
             .background(Color(uiColor: .systemBackground).opacity(0.7))
         }
     }
