@@ -18,7 +18,7 @@ public struct CalendarObjectMapper {
         return .init(
             id: id,
             date: date,
-            cells: calendarCellItems(date: date, selectedDate: selectedDate, trades: trades)
+            cells: .init(uniqueElements: calendarCellItems(date: date, selectedDate: selectedDate, trades: trades))
         )
     }
     

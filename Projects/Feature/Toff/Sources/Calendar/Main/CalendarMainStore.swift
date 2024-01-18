@@ -18,8 +18,9 @@ public struct CalendarMainStore: Reducer {
     public struct State: Equatable {
         public let id: UUID
         public var trades: [Trade]
-        
-        public var calendarTabItems: [CalendarTabItem] = []
+
+        public var calendarTabItems: IdentifiedArrayOf<CalendarTabItem> = []
+
         public var currentTab: UUID
         
         public var headerDate: Date
@@ -42,6 +43,7 @@ public struct CalendarMainStore: Reducer {
             let prevMonthDate = Date().add(byAdding: .month, value: -1)
             let currentMonthDate = Date()
             let nextMonthDate = Date().add(byAdding: .month, value: 1)
+
             self.calendarTabItems = [
                 CalendarObjectMapper.calendarTabItem(date: prevMonthDate, selectedDate: prevMonthDate, trades: trades),
                 CalendarObjectMapper.calendarTabItem(id: currentTab, date: currentMonthDate, selectedDate: currentMonthDate, trades: trades),
@@ -120,14 +122,12 @@ public struct CalendarMainStore: Reducer {
                 
             case let .calendarCellItemTapped(item):
                 state.selectedDate = item.date
-                if let tabIndex = state.calendarTabItems.firstIndex(where: { $0.id == state.currentTab }) {
-                    for cellIndex in 0..<state.calendarTabItems[tabIndex].cells.count {
-                        state.calendarTabItems[tabIndex].cells[cellIndex].isSelected = false
-                    }
-                    if let cellIndex = state.calendarTabItems[tabIndex].cells.firstIndex(where: { $0.id == item.id }) {
-                        state.calendarTabItems[tabIndex].cells[cellIndex].isSelected = true
+                if let ids = state.calendarTabItems[id: state.currentTab]?.cells.ids {
+                    for id in ids {
+                        state.calendarTabItems[id: state.currentTab]?.cells[id: id]?.isSelected = false
                     }
                 }
+                state.calendarTabItems[id: state.currentTab]?.cells[id: item.id]?.isSelected = true
                 return .none
                 
             case let .tradeItemTapped(trade):

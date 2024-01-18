@@ -11,6 +11,8 @@ import SwiftUI
 import SharedDesignSystem
 import Domain
 
+import IdentifiedCollections
+
 public struct CalendarTabView: View {
     @Binding var tab: UUID
     
@@ -52,7 +54,7 @@ extension CalendarTabView {
     
     private func containerView(item: CalendarTabItem) -> some View {
         ScrollView {
-            OffCalendarView(items: item.cells) { item in
+            OffCalendarView(items: item.cells.elements) { item in
                 CalendarCellView(item: item)
                     .frame(height: proxy.size.height * 0.12)
             } onTap: { item in

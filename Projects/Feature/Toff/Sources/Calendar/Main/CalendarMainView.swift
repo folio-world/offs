@@ -74,8 +74,8 @@ extension CalendarMainView {
     
     private struct TabViewState: Equatable {
         var currentTab: UUID
-        let tabItems: [CalendarTabItem]
-        
+        let tabItems: IdentifiedArrayOf<CalendarTabItem>
+
         init(_ state: State) {
             self.currentTab = state.currentTab
             self.tabItems = state.calendarTabItems
@@ -88,7 +88,7 @@ extension CalendarMainView {
                 CalendarTabView(
                     proxy: proxy,
                     tab: viewStore.binding(get: \.currentTab, send: Action.selectTab),
-                    items: viewStore.tabItems,
+                    items: viewStore.tabItems.elements,
                     calendarCellItemTapped: { viewStore.send(.calendarCellItemTapped($0)) },
                     tradeItemTapped: { viewStore.send(.tradeItemTapped($0)) },
                     newTradeItemTapped: { viewStore.send(.newTradeItemTapped) }
