@@ -30,7 +30,3 @@ public struct OffStickerView: View {
         }
     }
 }
-
-#Preview {
-    OffStickerView(color: .init(kind: .mint), title: "안녕", typo: .caption)
-}

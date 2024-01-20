@@ -82,18 +82,35 @@ extension CalendarTabView {
         VStack {
             VStack {
                 ForEach(trades) { trade in
-                    OffIconButtonView(
-                        appearance: .plain(icon: trade.ticker?.type.icon ?? .cube, title: trade.ticker?.name ?? "", typo: .body),
-                        isPressed: false
-                    ) {
+                    HStack {
+                        OffIconView(appearance: .circle(icon: trade.ticker?.type.icon ?? .cube, size: .small, color: .init(kind: .grey00)))
+                        
+                        VStack(alignment: .leading) {
+                            Text(trade.ticker?.name ?? "")
+                                .offTypo(.body)
+                            
+                            Text(trade.date.localizedString(dateStyle: .none, timeStyle: .medium))
+                                .offTypo(.caption)
+                        }
+                        
+                        Spacer()
+                        
+                        Text()
+                    }
+                    .offAnimatedButton {
                         tradeItemTapped(trade)
                     }
                 }
                 
-                OffIconButtonView(
-                    appearance: .plain(icon: .plus, title: "새로운 거래 기록", typo: .body),
-                    isPressed: false
-                ) {
+                HStack {
+                    OffIconView(appearance: .plain(icon: .plus, size: .small, color: .init(kind: .grey00)))
+                    
+                    Text("새로운 거래 기록")
+                        .offTypo(.body)
+                    
+                    Spacer()
+                }
+                .offAnimatedButton {
                     newTradeItemTapped()
                 }
             }

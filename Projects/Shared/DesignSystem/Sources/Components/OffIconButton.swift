@@ -91,8 +91,8 @@ extension OffIconButtonView {
                 longPressAction: { },
                 endAction: { withAnimation { isPressed = false } }))
         .padding(20)
-        .background(isPressed ? OffColor.init(kind: .grey).color : .background)
-        .cornerRadius(20)
+        .background(isPressed ? OffColor.init(kind: .grey10).color : OffColor.init(kind: .grey100).color)
+        .cornerRadius(15)
         .clipped()
         .scaleEffect(isPressed ? 0.95 : 1)
     }

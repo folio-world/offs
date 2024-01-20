@@ -27,22 +27,24 @@ public struct OffColor: Equatable, Hashable {
 
 extension OffColor {
     public enum Kind {
-        case black
-        case mint
-        case pink
-        case grey
-        case clear
+        case grey00
+        case grey10
+        case grey25
+        case grey50
+        case grey75
+        case grey100
     }
 }
 
 extension OffColor.Kind {
     var color: Color {
         switch self {
-        case .black: return .black
-        case .mint: return .mint
-        case .pink: return .pink
-        case .grey: return .init(uiColor: .systemGray6)
-        case .clear: return .clear
+        case .grey00: return SharedDesignSystemAsset.grey00.swiftUIColor
+        case .grey10: return SharedDesignSystemAsset.grey10.swiftUIColor
+        case .grey25: return SharedDesignSystemAsset.grey25.swiftUIColor
+        case .grey50: return SharedDesignSystemAsset.grey50.swiftUIColor
+        case .grey75: return SharedDesignSystemAsset.grey75.swiftUIColor
+        case .grey100: return SharedDesignSystemAsset.grey100.swiftUIColor
         }
     }
 }

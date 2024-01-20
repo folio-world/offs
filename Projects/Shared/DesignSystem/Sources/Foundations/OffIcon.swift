@@ -87,9 +87,9 @@ extension OffIcon {
     
     public var defaultColor: OffColor {
         switch self {
-        case .plus: return .init(kind: .black)
-        case .stock: return .init(kind: .pink)
-        case .cube: return .init(kind: .pink)
+        case .plus: return .init(kind: .grey00)
+        case .stock: return .init(kind: .grey00)
+        case .cube: return .init(kind: .grey00)
         }
     }
 }

@@ -35,3 +35,18 @@ extension OffTypo {
         }
     }
 }
+
+public struct OffTypoViewModifier: ViewModifier {
+    let typo: OffTypo
+    
+    public func body(content: Content) -> some View {
+        content
+            .font(typo.font)
+    }
+}
+
+public extension View {
+    func offTypo(_ typo: OffTypo) -> some View {
+        self.modifier(OffTypoViewModifier(typo: typo))
+    }
+}
