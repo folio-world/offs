@@ -29,7 +29,7 @@ public struct OffAnimatedButtonViewModifier: ViewModifier {
                 longPressTime: 0,
                 longPressAction: { },
                 endAction: { withAnimation { isPressed = false } }))
-        .padding(20)
+        .padding(15)
         .background(isPressed ? OffColor.init(kind: .grey10).color : OffColor.init(kind: .grey100).color)
         .cornerRadius(15)
         .clipped()

@@ -95,7 +95,13 @@ extension CalendarTabView {
                         
                         Spacer()
                         
-                        Text()
+                        VStack(alignment: .trailing) {
+                            Text(priceString(trade: trade))
+                                .offTypo(.caption)
+                            
+                            Text(quantityString(trade: trade))
+                                .offTypo(.caption)
+                        }
                     }
                     .offAnimatedButton {
                         tradeItemTapped(trade)
@@ -115,6 +121,14 @@ extension CalendarTabView {
                 }
             }
         }
+    }
+    
+    private func priceString(trade: Trade) -> String {
+        return "\(Int(trade.price)) \(trade.ticker?.currency.rawValue ?? "")"
+    }
+    
+    private func quantityString(trade: Trade) -> String {
+        return "\(Int(trade.quantity))"
     }
 }
 
