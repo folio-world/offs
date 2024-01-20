@@ -33,6 +33,8 @@ extension OffColor {
         case grey50
         case grey75
         case grey100
+        case red
+        case blue
     }
 }
 
@@ -45,6 +47,8 @@ extension OffColor.Kind {
         case .grey50: return SharedDesignSystemAsset.grey50.swiftUIColor
         case .grey75: return SharedDesignSystemAsset.grey75.swiftUIColor
         case .grey100: return SharedDesignSystemAsset.grey100.swiftUIColor
+        case .red: return SharedDesignSystemAsset.red.swiftUIColor
+        case .blue: return SharedDesignSystemAsset.blue.swiftUIColor
         }
     }
 }

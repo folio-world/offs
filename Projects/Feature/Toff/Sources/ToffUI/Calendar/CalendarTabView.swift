@@ -63,13 +63,27 @@ extension CalendarTabView {
             .tag(item.id)
             .padding(.top, 40)
 
-            headerView(date: item.selectedDate)
-
-            tradeItemsView(trades: item.cells.filter({ $0.isSelected }).flatMap { $0.trades })
+            tradeSection(date: item.selectedDate, trades: item.cells.filter({ $0.isSelected }).flatMap { $0.trades })
         }
     }
 
-    private func headerView(date: Date) -> some View {
+    private func tradeSection(date: Date, trades: [Trade]) -> some View {
+        VStack {
+            tradeHeaderView(date: date)
+            
+            VStack {
+                ForEach(trades) { trade in
+                    tradeItemView(trade: trade)
+                        .offAnimatedButton { tradeItemTapped(trade) }
+                }
+                
+                newTradeItemView()
+                    .offAnimatedButton { newTradeItemTapped() }
+            }
+        }
+    }
+    
+    private func tradeHeaderView(date: Date) -> some View {
         HStack {
             Text(date.localizedString(dateStyle: .medium, timeStyle: .none))
                 .font(OffTypo.title.font)
@@ -77,49 +91,39 @@ extension CalendarTabView {
             Spacer()
         }
     }
-
-    private func tradeItemsView(trades: [Trade]) -> some View {
-        VStack {
-            VStack {
-                ForEach(trades) { trade in
-                    HStack {
-                        OffIconView(appearance: .circle(icon: trade.ticker?.type.icon ?? .cube, size: .small, color: .init(kind: .grey00)))
-                        
-                        VStack(alignment: .leading) {
-                            Text(trade.ticker?.name ?? "")
-                                .offTypo(.body)
-                            
-                            Text(trade.date.localizedString(dateStyle: .none, timeStyle: .medium))
-                                .offTypo(.caption)
-                        }
-                        
-                        Spacer()
-                        
-                        VStack(alignment: .trailing) {
-                            Text(priceString(trade: trade))
-                                .offTypo(.caption)
-                            
-                            Text(quantityString(trade: trade))
-                                .offTypo(.caption)
-                        }
-                    }
-                    .offAnimatedButton {
-                        tradeItemTapped(trade)
-                    }
-                }
+    
+    private func tradeItemView(trade: Trade) -> some View {
+        HStack {
+            OffIconView(appearance: .circle(icon: trade.ticker?.type.icon ?? .cube, size: .small, color: .init(kind: .grey00)))
+            
+            VStack(alignment: .leading) {
+                Text(trade.ticker?.name ?? "")
+                    .offTypo(.body)
                 
-                HStack {
-                    OffIconView(appearance: .plain(icon: .plus, size: .small, color: .init(kind: .grey00)))
-                    
-                    Text("새로운 거래 기록")
-                        .offTypo(.body)
-                    
-                    Spacer()
-                }
-                .offAnimatedButton {
-                    newTradeItemTapped()
-                }
+                Text(trade.date.localizedString(dateStyle: .none, timeStyle: .medium))
+                    .offTypo(.caption)
             }
+            
+            Spacer()
+            
+            VStack(alignment: .trailing) {
+                Text(priceString(trade: trade))
+                    .offTypo(.caption)
+                
+                Text(quantityString(trade: trade))
+                    .offTypo(.caption)
+            }
+        }
+    }
+    
+    private func newTradeItemView() -> some View {
+        HStack {
+            OffIconView(appearance: .plain(icon: .plus, size: .small, color: .init(kind: .grey00)))
+            
+            Text("새로운 거래 기록")
+                .offTypo(.body)
+            
+            Spacer()
         }
     }
     

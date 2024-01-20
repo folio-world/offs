@@ -15,50 +15,48 @@ public struct CalendarCellView: View {
     let item: CalendarCellItem
     
     public var body: some View {
-        VStack(spacing: 2) {
-            headerView
-                .padding(.top, 2)
-            
-            ForEach(item.trades) { trade in
-                summarylineView(color: .red, title: "dd", isSelected: true)
-            }
-            
-            Spacer()
-        }
-        .background(item.isSelected ? Color.foreground : Color.background)
-        .clipShape(
-            RoundedRectangle(
-                cornerRadius: 8,
-                style: .continuous
-            )
-        )
+        containerView(item: item)
+            .background(item.isSelected ? OffColor(kind: .grey00).color : OffColor(kind: .grey100).color)
+            .clipShape(RoundedRectangle(cornerRadius: 8,style: .continuous))
     }
 }
 
 extension CalendarCellView {
-    private var headerView: some View {
-        HStack {
-            Spacer()
+    private func containerView(item: CalendarCellItem) -> some View {
+        VStack(spacing: 2) {
+            headerView(date: item.date)
+                .padding(.top, 2)
             
-            Text("\(item.date.day)")
-                .font(.subheadline)
-                .fontWeight(.semibold)
-                .foregroundStyle(false ? Color.background : Color.foreground)
+            ForEach(item.trades.prefix(3)) { trade in
+                tradeItemView(trade: trade, isSelected: item.isSelected)
+            }
+            .padding(.horizontal, 1)
             
             Spacer()
         }
     }
     
-    private func summarylineView(color: Color, title: String, isSelected: Bool) -> some View {
+    private func headerView(date: Date) -> some View {
+        HStack {
+            Spacer()
+            
+            Text("\(date.day)")
+                .offTypo(.body)
+                .foregroundStyle(item.isSelected ? OffColor(kind: .grey100).color : OffColor(kind: .grey00).color)
+            
+            Spacer()
+        }
+    }
+    
+    private func tradeItemView(trade: Trade, isSelected: Bool) -> some View {
         HStack(spacing: 2) {
             RoundedRectangle(cornerRadius: 3)
-                .fill(color)
-                .frame(width: 2.5, height: 11)
+                .fill(trade.side == .buy ? OffColor(kind: .red).color : OffColor(kind: .blue).color)
+                .frame(width: 2, height: 10)
             
-            Text(title)
-                .font(.caption2)
-                .fontWeight(.light)
-                .foregroundStyle(isSelected ? Color.background : Color.foreground)
+            Text(trade.ticker?.name ?? "")
+                .offTypo(.caption2)
+                .foregroundStyle(isSelected ? OffColor(kind: .grey100).color : OffColor(kind: .grey00).color)
             
             Spacer()
         }

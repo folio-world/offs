@@ -12,6 +12,7 @@ public enum OffTypo {
     case title
     case body
     case caption
+    case caption2
 }
 
 extension OffTypo {
@@ -24,6 +25,7 @@ extension OffTypo {
         case .title: return 20
         case .body: return 16
         case .caption: return 10
+        case .caption2: return 9
         }
     }
     
@@ -32,6 +34,7 @@ extension OffTypo {
         case .title: return .bold
         case .body: return .regular
         case .caption: return .regular
+        case .caption2: return .regular
         }
     }
 }
