@@ -14,13 +14,15 @@ import Shared
 public struct MainTabStore: Reducer {
     public init() {}
     
-    public enum Tab: String {
-        case calendar = "Calendar"
-        case portfolio = "Portfolio"
-        case myPage = "MyPage"
+    public enum Tab {
+        case home
+        case calendar
+        case portfolio
+        case myPage
     }
     
     public struct State: Equatable {
+        var home: HomeNavigationStackStore.State = .init()
         var calendar: CalendarNavigationStackStore.State = .init()
         var portfolio: PortfolioNavigationStackStore.State = .init()
         var myPage: MyPageNavigationStackStore.State = .init()
@@ -41,6 +43,7 @@ public struct MainTabStore: Reducer {
         
         case selectTab(Tab)
         
+        case home(HomeNavigationStackStore.Action)
         case calendar(CalendarNavigationStackStore.Action)
         case portfolio(PortfolioNavigationStackStore.Action)
         case myPage(MyPageNavigationStackStore.Action)
@@ -70,7 +73,9 @@ public struct MainTabStore: Reducer {
                 return .none
             }
         }
-        
+        Scope(state: \.home, action: /Action.home) {
+            HomeNavigationStackStore()._printChanges()
+        }
         Scope(state: \.calendar, action: /Action.calendar) {
             CalendarNavigationStackStore()._printChanges()
         }

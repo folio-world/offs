@@ -10,6 +10,10 @@ import SwiftUI
 import ComposableArchitecture
 
 public struct MainTabView: View {
+    typealias State = MainTabStore.State
+    typealias Action = MainTabStore.Action
+    typealias Tab = MainTabStore.Tab
+    
     let store: StoreOf<MainTabStore>
     
     public init(store: StoreOf<MainTabStore>) {
@@ -17,25 +21,31 @@ public struct MainTabView: View {
     }
     
     public var body: some View {
-        WithViewStore(self.store, observe: { $0 }) { viewStore in
-            TabView(selection: viewStore.binding(get: \.currentTab, send: MainTabStore.Action.selectTab)) {
-                CalendarNavigationStackView(store: self.store.scope(state: \.calendar, action: MainTabStore.Action.calendar))
+        WithViewStore(self.store, observe: \.currentTab) { viewStore in
+            TabView(selection: viewStore.binding(get: { $0 }, send: Action.selectTab)) {
+                HomeNavigationStackView(store: self.store.scope(state: \.home, action: Action.home))
                     .tabItem {
-                        Label(MainTabStore.Tab.calendar.rawValue, systemImage: "calendar")
+                        Image(systemName: "sparkles")
                     }
-                    .tag(MainTabStore.Tab.calendar)
+                    .tag(Tab.home)
                 
-                PortfolioNavigationStackView(store: self.store.scope(state: \.portfolio, action: MainTabStore.Action.portfolio))
+                CalendarNavigationStackView(store: self.store.scope(state: \.calendar, action: Action.calendar))
                     .tabItem {
-                        Label(MainTabStore.Tab.portfolio.rawValue, systemImage: "chart.bar.doc.horizontal")
+                        Image(systemName: "calendar")
                     }
-                    .tag(MainTabStore.Tab.portfolio)
+                    .tag(Tab.calendar)
                 
-                MyPageNavigationStackView(store: self.store.scope(state: \.myPage, action: MainTabStore.Action.myPage))
+                PortfolioNavigationStackView(store: self.store.scope(state: \.portfolio, action: Action.portfolio))
                     .tabItem {
-                        Label(MainTabStore.Tab.myPage.rawValue, systemImage: "person.crop.circle")
+                        Image(systemName: "chart.bar.doc.horizontal")
                     }
-                    .tag(MainTabStore.Tab.myPage)
+                    .tag(Tab.portfolio)
+                
+                MyPageNavigationStackView(store: self.store.scope(state: \.myPage, action: Action.myPage))
+                    .tabItem {
+                        Image(systemName: "person.crop.circle")
+                    }
+                    .tag(Tab.myPage)
             }
             .onAppear {
                 viewStore.send(.onAppear)
