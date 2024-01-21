@@ -43,7 +43,7 @@ extension OffIconButtonView {
             },
             label: {
                 HStack {
-                    OffIconView(appearance: .circle(icon: icon, size: .medium, color: icon.defaultColor))
+                    OffIconView(appearance: .circle(icon: icon, size: .medium, color: .init(kind: .grey00)))
 
                     Text(title)
                         .font(typo.font)
@@ -72,7 +72,7 @@ extension OffIconButtonView {
             },
             label: {
                 HStack {
-                    OffIconView(appearance: .plain(icon: icon, size: .small, color: icon.defaultColor))
+                    OffIconView(appearance: .plain(icon: icon, size: .small, color: .init(kind: .grey00)))
 
                     Text(title)
                         .font(typo.font)

@@ -25,7 +25,7 @@ public struct HomeMainView: View {
     
     public var body: some View {
         VStack {
-            Text("hi im home")
+            Text("comming soon!")
         }
     }
 }

@@ -94,7 +94,7 @@ extension CalendarTabView {
     
     private func tradeItemView(trade: Trade) -> some View {
         HStack {
-            OffIconView(appearance: .circle(icon: trade.ticker?.type.icon ?? .cube, size: .small, color: .init(kind: .grey00)))
+            OffIconView(appearance: .circle(icon: trade.ticker?.type.icon ?? .cube, size: .small, color: trade.side == .buy ? .init(kind: .red) :  .init(kind: .blue)))
             
             VStack(alignment: .leading) {
                 Text(trade.ticker?.name ?? "")

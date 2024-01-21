@@ -132,7 +132,7 @@ public struct CalendarMainStore: Reducer {
                 return .none
                 
             case let .tradeItemTapped(trade):
-                return .none
+                return .send(.delegate(.detail(trade)))
                 
             case .newTradeItemTapped:
                 state.selectTicker = .init()
@@ -140,14 +140,7 @@ public struct CalendarMainStore: Reducer {
                 
             case let .fetchTradesResponse(trades):
                 state.trades = trades
-                let prevMonthDate = Date().add(byAdding: .month, value: -1)
-                let currentMonthDate = Date()
-                let nextMonthDate = Date().add(byAdding: .month, value: 1)
-                state.calendarTabItems = [
-                    CalendarObjectMapper.calendarTabItem(date: prevMonthDate, selectedDate: prevMonthDate, trades: trades),
-                    CalendarObjectMapper.calendarTabItem(id: state.currentTab, date: currentMonthDate, selectedDate: currentMonthDate, trades: trades),
-                    CalendarObjectMapper.calendarTabItem(date: nextMonthDate, selectedDate: nextMonthDate, trades: trades)
-                ]
+                state.calendarTabItems = makeCalendarTabItems(trades: trades, currentTab: state.currentTab)
                 return .none
                 
             case let .selectTicker(.presented(.delegate(.select(ticker)))):
@@ -183,5 +176,20 @@ public struct CalendarMainStore: Reducer {
         .ifLet(\.$editTrade, action: /Action.editTrade) {
             EditTradeStore()
         }
+    }
+    
+    private func makeCalendarTabItems(
+        trades: [Trade],
+        currentTab: UUID
+    ) -> IdentifiedArrayOf<CalendarTabItem> {
+        let prevMonthDate = Date().add(byAdding: .month, value: -1)
+        let currentMonthDate = Date()
+        let nextMonthDate = Date().add(byAdding: .month, value: 1)
+        
+        return [
+            CalendarObjectMapper.calendarTabItem(date: prevMonthDate, selectedDate: prevMonthDate, trades: trades),
+            CalendarObjectMapper.calendarTabItem(id: currentTab, date: currentMonthDate, selectedDate: currentMonthDate, trades: trades),
+            CalendarObjectMapper.calendarTabItem(date: nextMonthDate, selectedDate: nextMonthDate, trades: trades)
+        ]
     }
 }

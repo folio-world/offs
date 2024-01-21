@@ -44,7 +44,7 @@ public struct OffIconView: View {
         ZStack {
             Circle()
                 .foregroundStyle(color.withOpacity(0.1).color)
-                .frame(width: size.rawValue * 1.5, height: size.rawValue * 1.5)
+                .frame(width: size.rawValue * 2, height: size.rawValue * 2)
             
             Image(systemName: icon.systemImageName)
                 .resizable()
@@ -82,14 +82,6 @@ extension OffIcon {
         case .plus: return "plus"
         case .stock: return "chart.line.uptrend.xyaxis"
         case .cube: return "cube.transparent"
-        }
-    }
-    
-    public var defaultColor: OffColor {
-        switch self {
-        case .plus: return .init(kind: .grey00)
-        case .stock: return .init(kind: .grey00)
-        case .cube: return .init(kind: .grey00)
         }
     }
 }
