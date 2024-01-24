@@ -13,7 +13,7 @@ import SwiftUI
 public struct OffIconView: View {
     public enum Appearance {
         case plain(icon: OffIcon, size: OffIcon.Size, color: OffColor)
-        case circle(icon: OffIcon, size: OffIcon.Size, color: OffColor)
+        case circle(icon: OffIcon, size: OffIcon.Size, foregroundColor: OffColor, backgroundColor: OffColor)
     }
     
     let appearance: Appearance
@@ -27,8 +27,8 @@ public struct OffIconView: View {
             switch appearance {
             case let .plain(icon: icon, size: size, color: color):
                 plain(icon: icon, size: size, color: color)
-            case let .circle(icon: icon, size: size, color: color):
-                circle(icon: icon, size: size, color: color)
+            case let .circle(icon, size, foregroundColor, backgroundColor):
+                circle(icon: icon, size: size, foregroundColor: foregroundColor, backgroundColor: backgroundColor)
             }
         }
     }
@@ -40,16 +40,17 @@ public struct OffIconView: View {
             .frame(width: size.rawValue, height: size.rawValue)
     }
     
-    private func circle(icon: OffIcon, size: OffIcon.Size, color: OffColor) -> some View {
+    private func circle(icon: OffIcon, size: OffIcon.Size, foregroundColor: OffColor, backgroundColor: OffColor) -> some View {
         ZStack {
             Circle()
-                .foregroundStyle(color.withOpacity(0.1).color)
-                .frame(width: size.rawValue * 2, height: size.rawValue * 2)
+                .foregroundStyle(backgroundColor.color)
+                .frame(width: size.rawValue * 1.5, height: size.rawValue * 1.5)
             
             Image(systemName: icon.systemImageName)
-                .imageScale(.large)
-                .foregroundStyle(color.color)
-                .aspectRatio(contentMode: .fit)
+                .resizable()
+                .scaledToFit()
+                .foregroundStyle(foregroundColor.color)
+                .frame(width: size.rawValue, height: size.rawValue)
         }
     }
 }
@@ -57,9 +58,11 @@ public struct OffIconView: View {
 public enum OffIcon: String, CaseIterable, Identifiable {
     public var id: String { self.rawValue }
     
+    case gearshape
     case plus
     case stock
     case cube
+    case globe
 }
 
 extension OffIcon {
@@ -80,8 +83,10 @@ extension OffIcon {
     public var systemImageName: String {
         switch self {
         case .plus: return "plus"
-        case .stock: return "banknote"
+        case .stock: return "sun.max.fill"
         case .cube: return "cube.transparent"
+        case .globe: return "globe.asia.australia.fill"
+        case .gearshape: return "gearshape.fill"
         }
     }
 }

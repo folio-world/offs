@@ -43,7 +43,14 @@ extension OffIconButtonView {
             },
             label: {
                 HStack {
-                    OffIconView(appearance: .circle(icon: icon, size: .medium, color: .init(kind: .grey00)))
+                    OffIconView(
+                        appearance: .circle(
+                            icon: icon,
+                            size: .medium,
+                            foregroundColor: .init(kind: .grey100),
+                            backgroundColor: .init(kind: .grey00)
+                        )
+                    )
 
                     Text(title)
                         .font(typo.font)
