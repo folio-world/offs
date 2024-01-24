@@ -70,17 +70,9 @@ public struct PortfolioMainStore: Reducer {
                 return .none
                 
             case .tickerItemRequest:
-                if let tickers = try? tickerClient.fetchTickers().get() {
-                    return .send(
-                        .tickerItemResponse(
-                            .init(
-                                uniqueElements: tickers.map { .init(ticker: $0) }
-                            )
-                        )
-                    )
-                }
+                let tickers = tickerClient.fetchTickers()
+                return .send(.tickerItemResponse(.init(uniqueElements: tickers.map { .init(ticker: $0) })))
                 
-                return .none
                 
             case .tradeRequest:
                 let trades = tradeClient.fetchTrades()

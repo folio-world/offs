@@ -27,7 +27,7 @@ public struct MainTabStore: Reducer {
         var portfolio: PortfolioNavigationStackStore.State = .init()
         var myPage: MyPageNavigationStackStore.State = .init()
         
-        var currentTab: Tab = .calendar
+        var currentTab: Tab = .home
         
         var isPurchasedRemoveAD: Bool = false
         var appOpenAds: AppOpenAds = .init(id: Environment.appOpenAdsId)

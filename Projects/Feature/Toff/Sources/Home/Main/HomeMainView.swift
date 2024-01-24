@@ -24,8 +24,50 @@ public struct HomeMainView: View {
     }
     
     public var body: some View {
-        VStack {
-            Text("comming soon!")
+        ScrollView {
+            VStack {
+                HStack {
+                    Text("581,515,244 WON")
+                        .offTypo(.largeTitle)
+                    
+                    Spacer()
+                }
+                
+                tickerSectionView()
+            }
+        }
+        .onAppear { store.send(.onAppear) }
+    }
+    
+    private func tickerSectionView() -> some View {
+        WithViewStore(store, observe: \.tickers) { viewStore in
+            HStack {
+                Text("거래")
+                    .offTypo(.title)
+                
+                Spacer()
+            }
+            
+            ForEach(viewStore.state) { ticker in
+                tickerItemView(ticker: ticker)
+            }
+        }
+    }
+    
+    private func tickerItemView(ticker: Ticker) -> some View {
+        HStack {
+            OffIconView(
+                appearance: .circle(
+                    icon: ticker.type.icon,
+                    size: .medium,
+                    color: .init(kind: .red)))
+            
+            VStack(alignment: .leading) {
+                Text(ticker.name)
+                    .offTypo(.body)
+            }
+            
+            Spacer()
         }
     }
 }

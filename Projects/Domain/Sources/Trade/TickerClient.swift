@@ -17,13 +17,13 @@ public enum TickerError: Error {
 public struct TickerClient {
     public static let tickerRepository: TickerRepositoryInterface = TickerRepository()
     
-    public var fetchTickers: () -> Result<[Ticker], TickerError>
+    public var fetchTickers: () -> [Ticker]
     public var saveTicker: (Ticker) -> Result<Ticker, TickerError>
     public var updateTicker: (Ticker, TickerDTO) -> Result<Ticker, TickerError>
     public var deleteTicker: (Ticker) -> Result<Ticker, TickerError>
     
     public init(
-        fetchTickers: @escaping () -> Result<[Ticker], TickerError>,
+        fetchTickers: @escaping () -> [Ticker],
         saveTicker: @escaping (Ticker) -> Result<Ticker, TickerError>,
         updateTicker: @escaping (Ticker, TickerDTO) -> Result<Ticker, TickerError>,
         deleteTicker: @escaping (Ticker) -> Result<Ticker, TickerError>
@@ -37,7 +37,7 @@ public struct TickerClient {
 
 extension TickerClient: TestDependencyKey {
     public static var previewValue: TickerClient = Self(
-        fetchTickers: { return .failure(.unknown) },
+        fetchTickers: { return [] },
         saveTicker: { _ in return .failure(.unknown) },
         updateTicker: { _, _ in return .failure(.unknown) },
         deleteTicker: { _ in return .failure(.unknown) }

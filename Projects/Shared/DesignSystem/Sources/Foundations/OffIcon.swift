@@ -47,9 +47,9 @@ public struct OffIconView: View {
                 .frame(width: size.rawValue * 2, height: size.rawValue * 2)
             
             Image(systemName: icon.systemImageName)
-                .resizable()
+                .imageScale(.large)
                 .foregroundStyle(color.color)
-                .frame(width: size.rawValue, height: size.rawValue)
+                .aspectRatio(contentMode: .fit)
         }
     }
 }
@@ -80,7 +80,7 @@ extension OffIcon {
     public var systemImageName: String {
         switch self {
         case .plus: return "plus"
-        case .stock: return "chart.line.uptrend.xyaxis"
+        case .stock: return "banknote"
         case .cube: return "cube.transparent"
         }
     }

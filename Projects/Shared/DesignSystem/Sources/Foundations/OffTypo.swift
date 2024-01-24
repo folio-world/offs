@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 public enum OffTypo {
+    case largeTitle
     case title
     case body
     case caption
@@ -22,6 +23,7 @@ extension OffTypo {
     
     private var size: CGFloat {
         switch self {
+        case .largeTitle: return 25
         case .title: return 20
         case .body: return 16
         case .caption: return 10
@@ -31,7 +33,8 @@ extension OffTypo {
     
     private var weight: SwiftUI.Font.Weight {
         switch self {
-        case .title: return .bold
+        case .largeTitle: return .semibold
+        case .title: return .semibold
         case .body: return .regular
         case .caption: return .regular
         case .caption2: return .regular

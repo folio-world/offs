@@ -18,25 +18,37 @@ public struct HomeMainStore: Reducer {
     public struct State: Equatable {
         public let id: UUID
         
+        public var tickers: [Ticker]
+        
         public init(
-            id: UUID = .init()
+            id: UUID = .init(),
+            tickers: [Ticker] = []
         ) {
             self.id = id
+            self.tickers = tickers
         }
     }
     
     public enum Action: Equatable {
         case onAppear
         
+        case fetchTickerResponse([Ticker])
+        
         public enum Delegate: Equatable {
             
         }
     }
     
+    @Dependency(\.tickerClient) var tickerClient
+    
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .onAppear:
+                return .send(.fetchTickerResponse(tickerClient.fetchTickers()))
+                
+            case let .fetchTickerResponse(tickers):
+                state.tickers = tickers
                 return .none
             }
         }

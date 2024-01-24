@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 public protocol TickerRepositoryInterface {
-    func fetchTickers(descriptor: FetchDescriptor<Ticker>) -> Result<[Ticker], TickerError>
+    func fetchTickers(descriptor: FetchDescriptor<Ticker>) -> [Ticker]
     func saveTicker(_ ticker: Ticker) -> Result<Ticker, TickerError>
     func updateTicker(_ ticker: Ticker, new newTicker: TickerDTO) -> Result<Ticker, TickerError>
     func deleteTicker(_ ticker: Ticker) -> Result<Ticker, TickerError>
@@ -24,12 +24,8 @@ public class TickerRepository: TickerRepositoryInterface {
     
     public init() { }
     
-    public func fetchTickers(descriptor: FetchDescriptor<Ticker>) -> Result<[Ticker], TickerError> {
-        if let tickers = try? context?.fetch(descriptor) {
-            return .success(tickers)
-        } else {
-            return .failure(.unknown)
-        }
+    public func fetchTickers(descriptor: FetchDescriptor<Ticker>) -> [Ticker] {
+        return (try? context?.fetch(descriptor)) ?? []
     }
     
     public func saveTicker(_ ticker: Ticker) -> Result<Ticker, TickerError> {

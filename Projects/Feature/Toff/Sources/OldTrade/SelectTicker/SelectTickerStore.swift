@@ -58,7 +58,7 @@ public struct SelectTickerStore: Reducer {
                 return .none
                 
             case .fetchTickersRequest:
-                let tags = (try? tickerClient.fetchTickers().get()) ?? []
+                let tags = tickerClient.fetchTickers()
                 return .send(.fetchTickersResponse(tags))
                 
             case let .fetchTickersResponse(tickers):
