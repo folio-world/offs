@@ -9,10 +9,13 @@ import Foundation
 import SwiftUI
 
 public struct OffAnimatedButtonViewModifier: ViewModifier {
-    
     @State var isPressed: Bool = false
     var onTap: () -> ()
     
+    init(onTap: @escaping () -> Void) {
+        self.onTap = onTap
+    }
+
     public func body(content: Content) -> some View {
         Button(
             action: { onTap() },

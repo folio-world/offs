@@ -78,6 +78,7 @@ public struct HomeMainView: View {
                 
                 HStack {
                     Text("전체")
+
                     Text("현금")
                     Text("주식")
                     Text("코인")
@@ -88,9 +89,9 @@ public struct HomeMainView: View {
                 VStack(spacing: 15) {
                     ForEach(viewStore.state) { ticker in
                         tickerItemView(ticker: ticker)
-                        tickerItemView(ticker: ticker)
-                        tickerItemView(ticker: ticker)
-                        tickerItemView(ticker: ticker)
+                            .offAnimatedButton {
+                                print("hi")
+                            }
                     }
                 }
                 .padding(.bottom, 20)
@@ -104,6 +105,9 @@ public struct HomeMainView: View {
                         
                         Spacer()
                     }
+                    .offAnimatedButton {
+                        
+                    }
                     
                     HStack {
                         OffIconView(appearance: .plain(icon: .plus, size: .small, color: .init(kind: .grey00)))
@@ -113,8 +117,10 @@ public struct HomeMainView: View {
                         
                         Spacer()
                     }
+                    .offAnimatedButton {
+                        
+                    }
                 }
-                .padding(.horizontal, 20)
             }
         }
     }

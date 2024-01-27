@@ -44,7 +44,7 @@ public struct OffIconView: View {
         ZStack {
             Circle()
                 .foregroundStyle(backgroundColor.color)
-                .frame(width: size.rawValue * 1.5, height: size.rawValue * 1.5)
+                .frame(width: size.rawValue * 1.6, height: size.rawValue * 1.6)
             
             Image(systemName: icon.systemImageName)
                 .resizable()
