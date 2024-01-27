@@ -8,11 +8,15 @@
 import Foundation
 
 public struct Environment {
-    public static var apiKey: String {
-        return Bundle.main.infoDictionary?["API_KEY"] as? String ?? ""
+    public static var supabaseProjectURL: String {
+       return Bundle.main.infoDictionary?["SUPABASE_PROJECT_URL"] as? String ?? ""
     }
     
-    public static var appOpenAdsId: String {
-        return Bundle.main.infoDictionary?["APP_OPEN_ADS_ID"] as? String ?? ""
+    public static var supabaseAPIpublicKey: String {
+        return Bundle.main.infoDictionary?["SUPABASE_API_PUBLIC_KEY"] as? String ?? ""
+    }
+    
+    public static var supabaseAPIsecretKey: String {
+        return Bundle.main.infoDictionary?["SUPABASE_API_SECRET_KEY"] as? String ?? ""
     }
 }
