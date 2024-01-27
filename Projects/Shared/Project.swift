@@ -35,7 +35,8 @@ let thirdPartyLibTarget = Target(
     dependencies: [
         .external(name: "ComposableArchitecture"),
         .external(name: "GoogleMobileAds"),
-        .external(name: "FirebaseAnalytics")
+        .external(name: "FirebaseAnalytics"),
+        .external(name: "Supabase")
     ],
     settings: .settings(
         base: SettingsDictionary().otherLinkerFlags(["-ObjC"])
