@@ -11,15 +11,17 @@ import ComposableArchitecture
 import ToffFeature
 
 struct RootStore: Reducer {
-    enum State: Equatable {
+    enum State {
+        case onboarding(OnboardingNavigationStackStore.State = .init())
         case mainTab(MainTabStore.State = .init())
-        
+
         init() {
             self = .mainTab(.init())
         }
     }
     
-    enum Action: Equatable {
+    enum Action {
+        case onboarding(OnboardingNavigationStackStore.Action)
         case mainTab(MainTabStore.Action)
     }
     
@@ -29,7 +31,9 @@ struct RootStore: Reducer {
             default: return .none
             }
         }
-        
+        .ifCaseLet(/State.onboarding, action: /Action.onboarding) {
+            OnboardingNavigationStackStore()
+        }
         .ifCaseLet(/State.mainTab, action: /Action.mainTab) {
             MainTabStore()
         }

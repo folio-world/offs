@@ -10,21 +10,21 @@ import SwiftUI
 import ComposableArchitecture
 
 public struct OnboardingNavigationStackView: View {
-    let store: StoreOf<CalendarNavigationStackStore>
+    let store: StoreOf<OnboardingNavigationStackStore>
     
-    public init(store: StoreOf<CalendarNavigationStackStore>) {
+    public init(store: StoreOf<OnboardingNavigationStackStore>) {
         self.store = store
     }
     
     public var body: some View {
         NavigationStackStore(self.store.scope(
             state: \.path,
-            action: CalendarNavigationStackStore.Action.path)
+            action: OnboardingNavigationStackStore.Action.path)
         ) { WithViewStore(self.store, observe: { $0 }) { viewStore in
-            CalendarMainView(
+            OnboardingMainView(
                 store: self.store.scope(
                     state: \.main,
-                    action: CalendarNavigationStackStore.Action.main)
+                    action: OnboardingNavigationStackStore.Action.main)
             )
             .onAppear {
                 viewStore.send(.onAppear)
@@ -32,11 +32,11 @@ public struct OnboardingNavigationStackView: View {
         }
         } destination: {
             switch $0 {
-            case .detail:
+            case .wip:
                 CaseLet(
-                    /CalendarNavigationStackStore.Path.State.detail,
-                     action: CalendarNavigationStackStore.Path.Action.detail,
-                     then: TradeDetailView.init(store:)
+                    /OnboardingNavigationStackStore.Path.State.wip,
+                     action: OnboardingNavigationStackStore.Path.Action.wip,
+                     then: WIPView.init(store:)
                 )
             }
         }

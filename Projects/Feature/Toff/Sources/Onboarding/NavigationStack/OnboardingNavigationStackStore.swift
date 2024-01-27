@@ -12,7 +12,7 @@ import ComposableArchitecture
 public struct OnboardingNavigationStackStore: Reducer {
     public init() {}
     
-    public struct State {
+    public struct State: Equatable {
         var path: StackState<Path.State> = .init()
         
         var main: OnboardingMainStore.State = .init()
