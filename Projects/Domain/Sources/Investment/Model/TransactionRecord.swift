@@ -8,20 +8,29 @@
 import Foundation
 
 public struct TransactionRecord {
-    let id: UUID
-    let type: InvestmentType
-    let currency: CurrencyType
-    let name: String
+    public let id: UUID
+    public var type: TransactionType
+    public var date: Date
+    public var price: Double
+    public var quantity: Double
+    public var fee: Double
+    public var memo: String
     
     public init(
-        id: UUID = .init(),
-        type: InvestmentType,
-        currency: CurrencyType,
-        name: String
+        id: UUID,
+        type: TransactionType,
+        price: Double,
+        quantity: Double,
+        fee: Double,
+        memo: String,
+        date: Date
     ) {
         self.id = id
         self.type = type
-        self.currency = currency
-        self.name = name
+        self.price = price
+        self.quantity = quantity
+        self.fee = fee
+        self.memo = memo
+        self.date = date
     }
 }
