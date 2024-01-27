@@ -20,16 +20,17 @@ public struct OnboardingNavigationStackView: View {
         NavigationStackStore(self.store.scope(
             state: \.path,
             action: OnboardingNavigationStackStore.Action.path)
-        ) { WithViewStore(self.store, observe: { $0 }) { viewStore in
-            OnboardingMainView(
-                store: self.store.scope(
-                    state: \.main,
-                    action: OnboardingNavigationStackStore.Action.main)
-            )
-            .onAppear {
-                viewStore.send(.onAppear)
+        ) {
+            WithViewStore(self.store, observe: { $0 }) { viewStore in
+                OnboardingMainView(
+                    store: self.store.scope(
+                        state: \.main,
+                        action: OnboardingNavigationStackStore.Action.main)
+                )
+                .onAppear {
+                    viewStore.send(.onAppear)
+                }
             }
-        }
         } destination: {
             switch $0 {
             case .wip:
