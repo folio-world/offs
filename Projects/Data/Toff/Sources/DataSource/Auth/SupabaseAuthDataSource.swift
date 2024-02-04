@@ -81,6 +81,6 @@ public extension DependencyValues {
 
 public extension User {
     func toDomain() -> UserEntity {
-        return .init(id: self.id, provider: self.factors)
+        return .init(id: self.id, provider: .apple)
     }
 }

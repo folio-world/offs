@@ -9,27 +9,54 @@
 import ComposableArchitecture
 
 import ToffFeature
+import ToffDomain
 
 struct RootStore: Reducer {
     enum State {
         case onboarding(OnboardingNavigationStackStore.State = .init())
         case mainTab(MainTabStore.State = .init())
+        case dimmed
 
         init() {
-//            self = .mainTab(.init())
-            self = .onboarding(.init())
+            self = .dimmed
         }
     }
     
     enum Action {
+        case onAppear
+        
+        case userResponse(Result<UserEntity, any Error>)
+        
         case onboarding(OnboardingNavigationStackStore.Action)
         case mainTab(MainTabStore.Action)
     }
     
-    public var body: some Reducer<State, Action> {
+    @Dependency(\.authUseCase) var authUseCase
+    
+    public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            default: return .none
+            case .onAppear:
+                return .run { send in
+                    await send(.userResponse(Result { try await authUseCase.user() }))
+                }
+                
+            case let .userResponse(result):
+                switch result {
+                case .success:
+                    state = .mainTab(.init())
+                    return .none
+                case .failure(let error):
+                    print(error)
+                    state = .onboarding(.init())
+                    return .none
+                }
+                
+            case .onboarding(_):
+                return .none
+                
+            case .mainTab(_):
+                return .none
             }
         }
         .ifCaseLet(/State.onboarding, action: /Action.onboarding) {

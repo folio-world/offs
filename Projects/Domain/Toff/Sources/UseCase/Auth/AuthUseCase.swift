@@ -10,6 +10,8 @@ import Auth
 
 public protocol AuthUseCaseInterface {
     func signIn(idToken: String) async throws -> Session
+    func refresh() async throws -> Void
+    func user() async throws -> UserEntity
 }
 
 public class AuthUseCase: AuthUseCaseInterface {
@@ -21,5 +23,13 @@ public class AuthUseCase: AuthUseCaseInterface {
     
     public func signIn(idToken: String) async throws -> Session {
         return try await authRepository.signIn(idToken: idToken)
+    }
+    
+    public func refresh() async throws {
+        return try await authRepository.refresh()
+    }
+    
+    public func user() async throws -> UserEntity {
+        return try await authRepository.user()
     }
 }
