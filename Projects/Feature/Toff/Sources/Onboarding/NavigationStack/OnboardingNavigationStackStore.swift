@@ -15,7 +15,7 @@ public struct OnboardingNavigationStackStore: Reducer {
     public struct State: Equatable {
         var path: StackState<Path.State> = .init()
         
-        var main: OnboardingMainStore.State = .init()
+        var signIn: OnboardingSignInStore.State = .init()
         
         public init() {}
     }
@@ -23,7 +23,7 @@ public struct OnboardingNavigationStackStore: Reducer {
     public enum Action {
         case onAppear
         
-        case main(OnboardingMainStore.Action)
+        case signIn(OnboardingSignInStore.Action)
         case path(StackAction<Path.State, Path.Action>)
     }
     
@@ -54,10 +54,9 @@ public struct OnboardingNavigationStackStore: Reducer {
             }
         }
         
-        Scope(state: \.main, action: /Action.main) {
-            OnboardingMainStore()
+        Scope(state: \.signIn, action: /Action.signIn) {
+            OnboardingSignInStore()
         }
-        
         .forEach(\.path, action: /Action.path) {
             Path()
         }

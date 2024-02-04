@@ -22,10 +22,10 @@ public struct OnboardingNavigationStackView: View {
             action: OnboardingNavigationStackStore.Action.path)
         ) {
             WithViewStore(self.store, observe: { $0 }) { viewStore in
-                OnboardingMainView(
+                OnboardingSignInView(
                     store: self.store.scope(
-                        state: \.main,
-                        action: OnboardingNavigationStackStore.Action.main)
+                        state: \.signIn,
+                        action: OnboardingNavigationStackStore.Action.signIn)
                 )
                 .onAppear {
                     viewStore.send(.onAppear)

@@ -11,4 +11,6 @@ import Auth
 
 public protocol AuthRepositoryInterface {
     func signIn(idToken: String) async throws -> Session
+    func refresh() async throws -> Void
+    func user() async throws -> UserEntity
 }

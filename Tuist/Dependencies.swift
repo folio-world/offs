@@ -26,7 +26,7 @@ let dependencies = Dependencies(
             ),
             .remote(
                 url: "https://github.com/supabase-community/supabase-swift.git",
-                requirement: .upToNextMajor(from: "2.0.0")
+                requirement: .upToNextMajor(from: "2.1.0")
             )
         ]
     ),

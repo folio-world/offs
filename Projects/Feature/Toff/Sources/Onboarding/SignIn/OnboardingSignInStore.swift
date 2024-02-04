@@ -8,19 +8,18 @@
 import Foundation
 
 import ComposableArchitecture
+import Auth
 
-public struct OnboardingSignUpStore: Reducer {
+public struct OnboardingSignInStore: Reducer {
     public struct State: Equatable {
         public init() { }
     }
     
-    public enum Action: Equatable {
+    public enum Action {
         case onAppear
         
-        case signIn(code: String, idToken: String)
-        
-        case appleLoginRequest(code: String, idToken: String)
-        case appleLoginResponse
+        case signIn(idToken: String)
+        case signInResponse(Result<Void, any Error>)
 
         case delegate(Delegate)
         
@@ -37,13 +36,21 @@ public struct OnboardingSignUpStore: Reducer {
             case .onAppear:
                 return .none
                 
-            case let .signIn(code: code, idToken: idToken):
-                return .send(.appleLoginRequest(code: code, idToken: idToken))
+            case let .signIn(idToken: idToken):
+                return .run { send in
+                    await send(.signInResponse(Result { try await authUseCase.signIn(idToken: idToken) }))
+                }
                 
-            case let .appleLoginRequest(code: code, idToken: idToken):
+            case let .signInResponse(result):
+                switch result {
+                case let .success(session):
+                    print(session)
+                case let .failure(error):
+                    print(error)
+                }
                 return .none
                 
-            default:
+            case .delegate:
                 return .none
             }
         }

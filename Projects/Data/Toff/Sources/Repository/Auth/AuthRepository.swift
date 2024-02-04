@@ -22,6 +22,14 @@ public class AuthRepository: AuthRepositoryInterface {
     public func signIn(idToken: String) async throws -> Session {
         return try await supabaseAuthDataSource.signInWithAppleIdToken(idToken: idToken)
     }
+    
+    public func refresh() async throws {
+        return try await supabaseAuthDataSource.refreshSession()
+    }
+    
+    public func user() async throws -> UserEntity {
+        return try await supabaseAuthDataSource.user().toDomain()
+    }
 }
 
 extension AuthRepository: TestDependencyKey, DependencyKey {
