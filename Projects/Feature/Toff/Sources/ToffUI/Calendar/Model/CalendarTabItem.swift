@@ -8,7 +8,7 @@
 import Foundation
 import IdentifiedCollections
 
-import Domain
+import ToffDomain
 
 public struct CalendarTabItem: Identifiable, Equatable {
     public let id: UUID

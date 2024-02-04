@@ -9,8 +9,8 @@ import Foundation
 
 import ComposableArchitecture
 
-import Domain
 import SharedDesignSystem
+import ToffDomain
 
 public struct CalendarMainStore: Reducer {
     public init() {}

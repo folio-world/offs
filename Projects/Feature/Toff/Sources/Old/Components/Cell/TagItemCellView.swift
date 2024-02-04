@@ -9,7 +9,7 @@ import SwiftUI
 
 import ComposableArchitecture
 
-import Domain
+import ToffDomain
 import Shared
 
 public struct TagItemCellView: View {

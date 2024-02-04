@@ -29,6 +29,8 @@ public struct OnboardingSignUpStore: Reducer {
         }
     }
     
+    @Dependency(\.authUseCase) var authUseCase
+    
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {

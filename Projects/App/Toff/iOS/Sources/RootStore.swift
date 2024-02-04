@@ -16,7 +16,8 @@ struct RootStore: Reducer {
         case mainTab(MainTabStore.State = .init())
 
         init() {
-            self = .mainTab(.init())
+//            self = .mainTab(.init())
+            self = .onboarding(.init())
         }
     }
     

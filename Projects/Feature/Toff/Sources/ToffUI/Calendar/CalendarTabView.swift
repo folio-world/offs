@@ -9,9 +9,9 @@ import Foundation
 import SwiftUI
 
 import SharedDesignSystem
-import Domain
 
 import IdentifiedCollections
+import ToffDomain
 
 public struct CalendarTabView: View {
     @Binding var tab: UUID

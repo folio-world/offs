@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Domain
+import ToffDomain
 
 public struct CalendarObjectMapper {
     public static func calendarTabItem(

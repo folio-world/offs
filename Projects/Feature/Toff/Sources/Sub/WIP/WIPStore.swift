@@ -9,7 +9,7 @@ import Foundation
 
 import ComposableArchitecture
 
-import Domain
+import ToffDomain
 import SharedDesignSystem
 
 public struct WIPStore: Reducer {

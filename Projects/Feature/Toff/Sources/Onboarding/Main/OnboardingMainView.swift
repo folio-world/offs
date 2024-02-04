@@ -9,7 +9,7 @@ import SwiftUI
 
 import ComposableArchitecture
 
-import Domain
+import ToffDomain
 import SharedDesignSystem
 
 public struct OnboardingMainView: View {

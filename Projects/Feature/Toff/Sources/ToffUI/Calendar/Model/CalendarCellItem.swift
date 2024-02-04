@@ -7,7 +7,7 @@
 
 import Foundation
 
-import Domain
+import ToffDomain
 
 public struct CalendarCellItem: Identifiable, Equatable {
     public let id: UUID = .init()

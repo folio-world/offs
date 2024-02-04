@@ -10,7 +10,7 @@ import SwiftUI
 
 import ComposableArchitecture
 
-import Domain
+import ToffDomain
 
 public struct SelectTickerStore: Reducer {
     public init() {}

@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import SharedDesignSystem
 
-import Domain
+import ToffDomain
 
 public struct CalendarCellView: View {
     let item: CalendarCellItem

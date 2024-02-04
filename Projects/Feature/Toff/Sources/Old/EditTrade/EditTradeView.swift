@@ -11,7 +11,7 @@ import PhotosUI
 
 import ComposableArchitecture
 
-import Domain
+import ToffDomain
 import Shared
 import SharedDesignSystem
 

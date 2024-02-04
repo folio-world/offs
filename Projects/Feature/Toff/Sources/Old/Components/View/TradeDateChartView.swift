@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-import Domain
+import ToffDomain
 import Charts
 
 public struct TradeDateChartView: View {

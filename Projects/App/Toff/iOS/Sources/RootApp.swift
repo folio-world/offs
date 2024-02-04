@@ -11,7 +11,7 @@ import SwiftData
 
 import ComposableArchitecture
 
-import Domain
+import ToffDomain
 import AppTrackingTransparency
 
 @main

@@ -8,7 +8,7 @@
 import ComposableArchitecture
 
 import Core
-import Domain
+import ToffDomain
 import Shared
 
 public struct MainTabStore: Reducer {
@@ -28,9 +28,6 @@ public struct MainTabStore: Reducer {
         var myPage: MyPageNavigationStackStore.State = .init()
         
         var currentTab: Tab = .home
-        
-        var isPurchasedRemoveAD: Bool = false
-        var appOpenAds: AppOpenAds = .init(id: Environment.appOpenAdsId)
         
         public init() { }
     }

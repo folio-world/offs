@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-import Domain
+import ToffDomain
 
 public extension Currency {
     var systemImageName: String {
