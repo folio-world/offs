@@ -19,7 +19,7 @@ public struct OnboardingSignInStore: Reducer {
         case onAppear
         
         case signIn(idToken: String)
-        case signInResponse(Result<Void, any Error>)
+        case signInResponse(Result<Session, any Error>)
 
         case delegate(Delegate)
         

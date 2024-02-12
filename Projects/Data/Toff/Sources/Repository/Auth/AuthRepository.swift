@@ -19,8 +19,8 @@ public class AuthRepository: AuthRepositoryInterface {
         self.supabaseAuthDataSource = supabaseAuthDataSource
     }
     
-    public func signIn(idToken: String) async throws -> Session {
-        return try await supabaseAuthDataSource.signInWithAppleIdToken(idToken: idToken)
+    public func signIn(from idToken: String) async throws -> Session {
+        return try await supabaseAuthDataSource.signIn(from: idToken)
     }
     
     public func refresh() async throws {
