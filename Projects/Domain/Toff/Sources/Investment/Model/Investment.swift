@@ -8,20 +8,23 @@
 import Foundation
 
 public struct Investment {
-    let id: UUID
-    let type: InvestmentType
-    let currency: CurrencyType
-    let name: String
+    public let id: Int
+    public let type: InvestmentType
+    public let currency: CurrencyType
+    public let symbol: String
+    public let memo: String
     
     public init(
-        id: UUID = .init(),
+        id: Int,
         type: InvestmentType,
         currency: CurrencyType,
-        name: String
+        symbol: String,
+        memo: String
     ) {
         self.id = id
         self.type = type
         self.currency = currency
-        self.name = name
+        self.symbol = symbol
+        self.memo = memo
     }
 }

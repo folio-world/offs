@@ -15,8 +15,6 @@ import AuthenticationServices
 import ToffDomain
 
 public protocol SupabaseAuthDataSourceInterface {
-    var client: SupabaseClient { get set }
-    
     func signIn(from appleIdToken: String) async throws -> Session
     func session() async throws -> Session
     func refreshSession() async throws -> Void
@@ -24,10 +22,7 @@ public protocol SupabaseAuthDataSourceInterface {
 }
 
 public class SupabaseAuthDataSource: SupabaseAuthDataSourceInterface {
-    public var client = SupabaseClient(
-        supabaseURL: URL(string: Environment.supabaseProjectURL)!,
-        supabaseKey: Environment.supabaseAPIpublicKey
-    )
+    public let client = SupabaseClientProvider.client
     
     public func signIn(from appleIdToken: String) async throws -> Session {
         return try await client.auth.signInWithIdToken(
