@@ -15,16 +15,16 @@ struct RootStore: Reducer {
     enum State {
         case onboarding(OnboardingNavigationStackStore.State = .init())
         case mainTab(MainTabStore.State = .init())
-        case dimmed
 
         init() {
-            self = .dimmed
+            self = .mainTab()
         }
     }
     
     enum Action {
         case onAppear
         
+        case refreshResponse(Result<Void, any Error>)
         case userResponse(Result<UserEntity, any Error>)
         
         case onboarding(OnboardingNavigationStackStore.Action)
@@ -38,7 +38,17 @@ struct RootStore: Reducer {
             switch action {
             case .onAppear:
                 return .run { send in
-                    await send(.userResponse(Result { try await authUseCase.user() }))
+                    await send(.refreshResponse(Result { try await authUseCase.refresh() }))
+                }
+                
+            case let .refreshResponse(result):
+                switch result {
+                case .success:
+                    return .run { send in
+                        await send(.userResponse(Result { try await authUseCase.user() }))
+                    }
+                case .failure:
+                    return .none
                 }
                 
             case let .userResponse(result):
@@ -46,8 +56,7 @@ struct RootStore: Reducer {
                 case .success:
                     state = .mainTab(.init())
                     return .none
-                case .failure(let error):
-                    print(error)
+                case .failure:
                     state = .onboarding(.init())
                     return .none
                 }

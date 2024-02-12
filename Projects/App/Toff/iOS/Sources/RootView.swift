@@ -30,8 +30,6 @@ struct RootView: View {
                 CaseLet(/RootStore.State.mainTab, action: RootStore.Action.mainTab) {
                     MainTabView(store: $0)
                 }
-            case .dimmed:
-                EmptyView()
             }
         }
         .onAppear {

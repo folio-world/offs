@@ -9,7 +9,7 @@ import Foundation
 import Auth
 
 public protocol AuthUseCaseInterface {
-    func signIn(idToken: String) async throws -> Session
+    func signIn(from idToken: String) async throws -> Session
     func refresh() async throws -> Void
     func user() async throws -> UserEntity
 }
@@ -21,8 +21,8 @@ public class AuthUseCase: AuthUseCaseInterface {
         self.authRepository = authRepository
     }
     
-    public func signIn(idToken: String) async throws -> Session {
-        return try await authRepository.signIn(idToken: idToken)
+    public func signIn(from idToken: String) async throws -> Session {
+        return try await authRepository.signIn(from: idToken)
     }
     
     public func refresh() async throws {

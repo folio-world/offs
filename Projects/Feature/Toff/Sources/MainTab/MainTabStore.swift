@@ -44,6 +44,12 @@ public struct MainTabStore: Reducer {
         case calendar(CalendarNavigationStackStore.Action)
         case portfolio(PortfolioNavigationStackStore.Action)
         case myPage(MyPageNavigationStackStore.Action)
+        
+        case delegate
+        
+        enum Delegate {
+            case onboardingRequired
+        }
     }
     
     public var body: some ReducerOf<Self> {

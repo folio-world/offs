@@ -17,14 +17,12 @@ import AppTrackingTransparency
 @main
 struct RootApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @Dependency(\.authUseCase) var authUseCase
     
     var body: some Scene {
         WindowGroup {
             RootView(
                 store: Store(initialState: RootStore.State()) {
                     RootStore()
-                        ._printChanges()
                 }
             )
             .modelContainer(for: [

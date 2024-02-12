@@ -38,7 +38,7 @@ public struct OnboardingSignInStore: Reducer {
                 
             case let .signIn(idToken: idToken):
                 return .run { send in
-                    await send(.signInResponse(Result { try await authUseCase.signIn(idToken: idToken) }))
+                    await send(.signInResponse(Result { try await authUseCase.signIn(from: idToken) }))
                 }
                 
             case let .signInResponse(result):
