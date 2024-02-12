@@ -29,10 +29,11 @@ public struct HomeMainStore: Reducer {
         }
     }
     
-    public enum Action: Equatable {
+    public enum Action {
         case onAppear
         
         case fetchTickerResponse([Ticker])
+        case insertInvestmentResponse(Result<Void, any Error>)
         
         public enum Delegate: Equatable {
             
@@ -40,16 +41,31 @@ public struct HomeMainStore: Reducer {
     }
     
     @Dependency(\.tickerClient) var tickerClient
+    @Dependency(\.investmentUseCase) private var investmentUseCase
     
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .onAppear:
-                return .send(.fetchTickerResponse(tickerClient.fetchTickers()))
+                return .merge([
+                    .send(.fetchTickerResponse(tickerClient.fetchTickers())),
+                    .run { send in
+                        await send(.insertInvestmentResponse(Result { try await investmentUseCase.insert(invesetment: .init(id: 0, type: .crypto, currency: .aud, symbol: "test", memo: "test memo")) }))
+                    }
+                ])
                 
             case let .fetchTickerResponse(tickers):
                 state.tickers = tickers
                 return .none
+                
+            case let .insertInvestmentResponse(result):
+                switch result {
+                case .success:
+                    return .none
+                case let .failure(error):
+                    print("#@# \(error)")
+                    return .none
+                }
             }
         }
     }

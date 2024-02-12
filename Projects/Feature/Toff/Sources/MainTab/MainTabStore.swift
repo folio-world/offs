@@ -32,7 +32,7 @@ public struct MainTabStore: Reducer {
         public init() { }
     }
     
-    public enum Action: BindableAction, Equatable {
+    public enum Action: BindableAction {
         case binding(BindingAction<State>)
         
         case onAppear
