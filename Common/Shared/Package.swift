@@ -12,20 +12,32 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", exact: "1.8.2"),
+        .sharedThirdPartyLib,
+        .sharedDesignSystem,
+        .sharedFoundation,
     ],
     targets: [
         .target(
             name: "Shared",
             dependencies: [
-                .composableArchitecture
+                .sharedThirdPartyLib,
+                .sharedDesignSystem,
+                .sharedFoundation,
             ]
         ),
     ]
 )
 
+//MARK: Package.Dependency
+extension Package.Dependency {
+    static let sharedThirdPartyLib: Package.Dependency = .package(path: "SharedThirdPartyLib")
+    static let sharedDesignSystem: Package.Dependency = .package(path: "SharedDesignSystem")
+    static let sharedFoundation: Package.Dependency = .package(path: "SharedFoundation")
+}
+
+//MARK: Target.Dependency
 extension Target.Dependency {
-    static let composableArchitecture: Self = .product(
-        name: "ComposableArchitecture", package: "swift-composable-architecture"
-    )
+    static let sharedThirdPartyLib: Self = .product(name: "SharedThirdPartyLib", package: "SharedThirdPartyLib")
+    static let sharedDesignSystem: Self = .product(name: "SharedDesignSystem", package: "SharedDesignSystem")
+    static let sharedFoundation: Self = .product(name: "SharedFoundation", package: "SharedFoundation")
 }
