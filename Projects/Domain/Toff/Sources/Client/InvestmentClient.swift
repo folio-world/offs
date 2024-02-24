@@ -10,13 +10,13 @@ import Foundation
 import ComposableArchitecture
 
 public struct InvestmentClient {
-    public var fetch: () -> [Investment]
+    public var fetch: () async throws -> [Investment]
     public var create: () -> Bool
     public var update: () -> Bool
     public var delete: () -> Bool
         
     public init(
-        fetch: @escaping () -> [Investment],
+        fetch: @escaping () async throws -> [Investment],
         create: @escaping () -> Bool,
         update: @escaping () -> Bool,
         delete: @escaping () -> Bool
@@ -51,11 +51,15 @@ public extension DependencyValues {
     }
 }
 
-extension InvestmentClient: DependencyKey {
-    public static var liveValue = InvestmentClient(
-        fetch: { [] },
-        create: { true },
-        update: { true },
-        delete: { true }
-    )
+extension InvestmentClient {
+    public static func live(investmentRepository: InvestmentRepositoryInterface) -> Self {
+        return .init(
+            fetch: {
+                try await investmentRepository.fetches().map { $0.toDomain() }
+            },
+            create: { true },
+            update: { true },
+            delete: { true }
+        )
+    }
 }

@@ -18,8 +18,7 @@ let toffFeatureTarget = Target(
     sources: ["Sources/**"],
     resources: ["Resources/**"],
     dependencies: [
-        .project(target: "ToffPresentation", path: .relativeToRoot("Projects/Presentation/Toff")),
-        .project(target: "ToffData", path: .relativeToRoot("Projects/Data/Toff")),
+        .project(target: "ToffDomain", path: .relativeToRoot("Projects/Domain/Toff"))
     ],
     settings: nil
 )

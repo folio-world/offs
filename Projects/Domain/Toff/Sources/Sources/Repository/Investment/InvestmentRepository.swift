@@ -1,26 +1,25 @@
 //
-//  SupabaseInvestmentDataSource.swift
+//  InvestmentRepository.swift
 //  ToffData
 //
 //  Created by 송영모 on 2/12/24.
 //
-
-import Foundation
 
 import Supabase
 import Dependencies
 
 import Shared
 import AuthenticationServices
-import ToffDomain
 
-public protocol SupabaseInvestmentDataSourceInterface {
+public protocol InvestmentRepositoryInterface {
     func fetches() async throws -> [InvestmentDTO]
     func insert(investment: InvestmentDTO) async throws -> Void
 }
 
-public class SupabaseInvestmentDataSource: SupabaseInvestmentDataSourceInterface {
+public class InvestmentRepository: InvestmentRepositoryInterface {
     public let client = SupabaseClientProvider.client
+    
+    public init() {}
     
     public func fetches() async throws -> [InvestmentDTO] {
         return try await client.database
@@ -40,14 +39,14 @@ public class SupabaseInvestmentDataSource: SupabaseInvestmentDataSourceInterface
     }
 }
 
-extension SupabaseInvestmentDataSource: TestDependencyKey, DependencyKey {
-    public static var testValue: SupabaseInvestmentDataSource = unimplemented()
-    public static var liveValue: SupabaseInvestmentDataSource = .init()
+extension InvestmentRepository: TestDependencyKey, DependencyKey {
+    public static var testValue: InvestmentRepository = unimplemented()
+    public static var liveValue: InvestmentRepository = .init()
 }
 
 public extension DependencyValues {
-    var supabaseInvestmentDataSource: SupabaseInvestmentDataSource {
-        get { self[SupabaseInvestmentDataSource.self] }
-        set { self[SupabaseInvestmentDataSource.self] = newValue }
+    var supabaseInvestmentDataSource: InvestmentRepository {
+        get { self[InvestmentRepository.self] }
+        set { self[InvestmentRepository.self] = newValue }
     }
 }

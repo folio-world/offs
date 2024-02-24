@@ -1,5 +1,5 @@
 //
-//  SupabaseRepository.swift
+//  AuthRepository.swift
 //  ToffData
 //
 //  Created by 송영모 on 2/4/24.
@@ -7,22 +7,21 @@
 
 import Foundation
 
+import Auth
 import Supabase
 import Dependencies
 
-import Shared
-import AuthenticationServices
-import ToffDomain
-
-public protocol SupabaseAuthDataSourceInterface {
+public protocol AuthRepositoryInterface {
     func signIn(from appleIdToken: String) async throws -> Session
     func session() async throws -> Session
     func refreshSession() async throws -> Void
     func user() async throws -> User
 }
 
-public class SupabaseAuthDataSource: SupabaseAuthDataSourceInterface {
+public class AuthRepository: AuthRepositoryInterface {
     public let client = SupabaseClientProvider.client
+    
+    public init() { }
     
     public func signIn(from appleIdToken: String) async throws -> Session {
         return try await client.auth.signInWithIdToken(
@@ -67,20 +66,9 @@ public class SupabaseAuthDataSource: SupabaseAuthDataSourceInterface {
     }
 }
 
-extension SupabaseAuthDataSource: TestDependencyKey, DependencyKey {
-    public static var testValue: SupabaseAuthDataSource = unimplemented()
-    public static var liveValue: SupabaseAuthDataSource = .init()
-}
-
-public extension DependencyValues {
-    var supabaseAuthDataSource: SupabaseAuthDataSource {
-        get { self[SupabaseAuthDataSource.self] }
-        set { self[SupabaseAuthDataSource.self] = newValue }
-    }
-}
-
-public extension User {
+extension User {
     func toDomain() -> UserEntity {
         return .init(id: self.id, provider: .apple)
     }
 }
+

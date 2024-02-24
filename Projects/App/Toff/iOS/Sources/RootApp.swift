@@ -23,6 +23,8 @@ struct RootApp: App {
             RootView(
                 store: Store(initialState: RootStore.State()) {
                     RootStore()
+                } withDependencies: {
+                    $0.prepareLive()
                 }
             )
             .modelContainer(for: [
