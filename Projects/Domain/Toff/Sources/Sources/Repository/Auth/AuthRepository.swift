@@ -27,8 +27,7 @@ public class AuthRepository: AuthRepositoryInterface {
         return try await client.auth.signInWithIdToken(
             credentials: .init(
                 provider: .apple,
-                idToken: appleIdToken,
-                nonce: nonce()
+                idToken: appleIdToken
             )
         )
     }

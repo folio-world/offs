@@ -11,13 +11,13 @@ import Dependencies
 
 public struct InvestmentClient {
     public var fetch: () async throws -> [Investment]
-    public var create: () -> Bool
+    public var create: (Investment) async throws -> Void
     public var update: () -> Bool
     public var delete: () -> Bool
         
     public init(
         fetch: @escaping () async throws -> [Investment],
-        create: @escaping () -> Bool,
+        create: @Sendable @escaping (Investment) async throws -> Void,
         update: @escaping () -> Bool,
         delete: @escaping () -> Bool
     ) {
@@ -31,7 +31,7 @@ public struct InvestmentClient {
 extension InvestmentClient: TestDependencyKey {
     public static var previewValue: InvestmentClient = Self(
         fetch: { return [] },
-        create: { return false },
+        create: { _ in },
         update: { return false },
         delete: { return false }
     )
@@ -57,7 +57,9 @@ extension InvestmentClient {
             fetch: {
                 try await investmentRepository.fetches().map { $0.toDomain() }
             },
-            create: { true },
+            create: { investment in
+                return try await investmentRepository.insert(investment: investment.toDTO())
+            },
             update: { true },
             delete: { true }
         )

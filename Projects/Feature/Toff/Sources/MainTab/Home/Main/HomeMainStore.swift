@@ -41,7 +41,7 @@ public struct HomeMainStore: Reducer {
     }
     
     @Dependency(\.tickerClient) var tickerClient
-    @Dependency(\.investmentUseCase) private var investmentUseCase
+    @Dependency(\.investmentClient) private var investmentClient
     
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
@@ -50,7 +50,7 @@ public struct HomeMainStore: Reducer {
                 return .merge([
                     .send(.fetchTickerResponse(tickerClient.fetchTickers())),
                     .run { send in
-                        await send(.insertInvestmentResponse(Result { try await investmentUseCase.insert(invesetment: .init(id: 0, type: .crypto, currency: .aud, symbol: "test", memo: "test memo")) }))
+                        await send(.insertInvestmentResponse(Result { try await investmentClient.create(.init(id: 0, type: .crypto, currency: .aud, symbol: "test", memo: "test memo")) }))
                     }
                 ])
                 

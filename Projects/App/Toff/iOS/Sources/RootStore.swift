@@ -31,23 +31,24 @@ struct RootStore: Reducer {
         case mainTab(MainTabStore.Action)
     }
     
-    @Dependency(\.authUseCase) var authUseCase
+    @Dependency(\.authClient) var authClient
     
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .onAppear:
                 return .run { send in
-                    await send(.refreshResponse(Result { try await authUseCase.refresh() }))
+                    await send(.refreshResponse(Result { try await authClient.refresh() }))
                 }
                 
             case let .refreshResponse(result):
                 switch result {
                 case .success:
                     return .run { send in
-                        await send(.userResponse(Result { try await authUseCase.user() }))
+                        await send(.userResponse(Result { try await authClient.user() }))
                     }
                 case .failure:
+                    state = .onboarding(.init())
                     return .none
                 }
                 
@@ -61,10 +62,14 @@ struct RootStore: Reducer {
                     return .none
                 }
                 
-            case .onboarding(_):
+            case .onboarding(.signIn(.delegate(.signIn))):
+                state = .mainTab(.init())
                 return .none
                 
-            case .mainTab(_):
+            case .onboarding:
+                return .none
+                
+            case .mainTab:
                 return .none
             }
         }

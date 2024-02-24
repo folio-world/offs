@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import OSLog
 
 import ComposableArchitecture
 import Auth
@@ -19,7 +20,7 @@ public struct OnboardingSignInStore: Reducer {
         case onAppear
         
         case signIn(idToken: String)
-        case signInResponse(Result<Session, any Error>)
+        case signInResponse(Result<Void, any Error>)
 
         case delegate(Delegate)
         
@@ -28,7 +29,7 @@ public struct OnboardingSignInStore: Reducer {
         }
     }
     
-    @Dependency(\.authUseCase) var authUseCase
+    @Dependency(\.authClient) var authClient
     
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
@@ -38,14 +39,17 @@ public struct OnboardingSignInStore: Reducer {
                 
             case let .signIn(idToken: idToken):
                 return .run { send in
-                    await send(.signInResponse(Result { try await authUseCase.signIn(from: idToken) }))
+                    await send(.signInResponse(Result { try await authClient.signIn(idToken) }))
                 }
                 
             case let .signInResponse(result):
                 switch result {
                 case let .success(session):
-                    print(session)
+                    let logger = Logger()
+                    logger.info("sigIn")
                 case let .failure(error):
+                    let logger = Logger()
+                    logger.info("sigIn failure \(error)")
                     print(error)
                 }
                 return .none
