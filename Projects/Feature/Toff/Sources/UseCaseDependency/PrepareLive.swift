@@ -17,7 +17,7 @@ extension DependencyValues {
         let investmentRepository = InvestmentRepository()
         let authRepository = AuthRepository()
         
-        self.authRepository = 
+        self.authClient = .live(authRepository: authRepository)
         self.investmentClient = .live(investmentRepository: investmentRepository)
     }
 }

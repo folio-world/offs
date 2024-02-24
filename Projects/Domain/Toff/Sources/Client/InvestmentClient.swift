@@ -7,7 +7,7 @@
 
 import Foundation
 
-import ComposableArchitecture
+import Dependencies
 
 public struct InvestmentClient {
     public var fetch: () async throws -> [Investment]

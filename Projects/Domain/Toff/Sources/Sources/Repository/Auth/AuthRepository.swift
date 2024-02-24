@@ -12,8 +12,8 @@ import Supabase
 import Dependencies
 
 public protocol AuthRepositoryInterface {
-    func signIn(from appleIdToken: String) async throws -> Session
-    func session() async throws -> Session
+    @discardableResult func signIn(from appleIdToken: String) async throws -> Session
+    @discardableResult func session() async throws -> Session
     func refreshSession() async throws -> Void
     func user() async throws -> User
 }
