@@ -15,7 +15,7 @@ let package = Package(
         .target(
             name: "OffSharedDesignSystem",
             resources: [
-                .embedInCode("Resources/")
+                .process("Resources")
             ]
         )
     ]

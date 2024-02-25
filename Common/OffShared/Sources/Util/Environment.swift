@@ -9,7 +9,8 @@ import Foundation
 
 public struct Environment {
     public static var supabaseProjectURL: String {
-       return Bundle.main.infoDictionary?["SUPABASE_PROJECT_URL"] as? String ?? ""
+        print(Bundle.main.infoDictionary?["SUPABASE_PROJECT_URL"] as? String ?? "")
+        return Bundle.main.infoDictionary?["SUPABASE_PROJECT_URL"] as? String ?? ""
     }
     
     public static var supabaseAPIpublicKey: String {

@@ -19,7 +19,8 @@ let package = Package(
             name: "ToffApp",
             dependencies: [
                 .product(name: "ToffFeature", package: "ToffFeature")
-            ]
+            ],
+            resources: [.process("Resources")]
         )
     ]
 )
