@@ -41,14 +41,14 @@ extension OffColor {
 extension OffColor.Kind {
     var color: Color {
         switch self {
-        case .grey00: return SharedDesignSystemAsset.grey00.swiftUIColor
-        case .grey10: return SharedDesignSystemAsset.grey10.swiftUIColor
-        case .grey25: return SharedDesignSystemAsset.grey25.swiftUIColor
-        case .grey50: return SharedDesignSystemAsset.grey50.swiftUIColor
-        case .grey75: return SharedDesignSystemAsset.grey75.swiftUIColor
-        case .grey100: return SharedDesignSystemAsset.grey100.swiftUIColor
-        case .red: return SharedDesignSystemAsset.red.swiftUIColor
-        case .blue: return SharedDesignSystemAsset.blue.swiftUIColor
+        case .grey00: return Color("grey00")
+        case .grey10: return Color("grey10")
+        case .grey25: return Color("grey25")
+        case .grey50: return Color("grey50")
+        case .grey75: return Color("grey75")
+        case .grey100: return Color("grey100")
+        case .red: return Color("red")
+        case .blue: return Color("blue")
         }
     }
 }

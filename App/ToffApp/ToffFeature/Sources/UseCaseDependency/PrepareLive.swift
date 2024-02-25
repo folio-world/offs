@@ -9,7 +9,6 @@ import Foundation
 
 import Dependencies
 
-import ToffData
 import ToffDomain
 
 extension DependencyValues {

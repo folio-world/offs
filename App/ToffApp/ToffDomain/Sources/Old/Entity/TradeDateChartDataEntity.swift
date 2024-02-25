@@ -7,6 +7,8 @@
 
 import Foundation
 
+import SharedFoundation
+
 public struct TradeDateChartData: Equatable, Hashable {
     public let date: Date
     public let buyCount: Int

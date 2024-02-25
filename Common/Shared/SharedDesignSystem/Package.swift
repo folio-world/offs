@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "SharedDesignSystem",
+    platforms: [.iOS(.v17)],
     products: [
         .library(
             name: "SharedDesignSystem",
@@ -14,7 +15,7 @@ let package = Package(
         .target(
             name: "SharedDesignSystem",
             resources: [
-                .process("Resources")
+                .embedInCode("Resources/")
             ]
         )
     ]

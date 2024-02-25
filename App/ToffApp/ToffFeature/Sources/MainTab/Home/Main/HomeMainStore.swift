@@ -15,8 +15,7 @@ import SharedDesignSystem
 public struct HomeMainStore: Reducer {
     public init() {}
     
-    @ObservableState
-    public struct State {
+    public struct State: Equatable {
         public let id: UUID
         
         public var tickers: [Ticker]
