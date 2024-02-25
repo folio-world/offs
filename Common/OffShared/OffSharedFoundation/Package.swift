@@ -9,6 +9,7 @@ let package = Package(
     products: [
         .library(
             name: "OffSharedFoundation",
+            type: .static,
             targets: ["OffSharedFoundation"]),
     ],
     targets: [

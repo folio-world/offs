@@ -9,7 +9,9 @@ let package = Package(
     products: [
         .library(
             name: "OffSharedDesignSystem",
-            targets: ["OffSharedDesignSystem"]),
+            type: .static,
+            targets: ["OffSharedDesignSystem"]
+        ),
     ],
     targets: [
         .target(

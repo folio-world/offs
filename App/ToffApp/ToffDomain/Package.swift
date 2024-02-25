@@ -9,6 +9,7 @@ let package = Package(
     products: [
         .library(
             name: "ToffDomain",
+            type: .static,
             targets: ["ToffDomain"]),
     ],
     dependencies: [
