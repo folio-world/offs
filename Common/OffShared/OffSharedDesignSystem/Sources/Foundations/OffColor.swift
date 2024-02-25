@@ -41,14 +41,14 @@ extension OffColor {
 extension OffColor.Kind {
     var color: Color {
         switch self {
-        case .grey00: return Color("grey00")
-        case .grey10: return Color("grey10")
-        case .grey25: return Color("grey25")
-        case .grey50: return Color("grey50")
-        case .grey75: return Color("grey75")
-        case .grey100: return Color("grey100")
-        case .red: return Color("red")
-        case .blue: return Color("blue")
+        case .grey00: return Color("grey00", bundle: Bundle.module)
+        case .grey10: return Color("grey10", bundle: Bundle.module)
+        case .grey25: return Color("grey25", bundle: Bundle.module)
+        case .grey50: return Color("grey50", bundle: Bundle.module)
+        case .grey75: return Color("grey75", bundle: Bundle.module)
+        case .grey100: return Color("grey100", bundle: Bundle.module)
+        case .red: return Color("red", bundle: Bundle.module)
+        case .blue: return Color("blue", bundle: Bundle.module)
         }
     }
 }
