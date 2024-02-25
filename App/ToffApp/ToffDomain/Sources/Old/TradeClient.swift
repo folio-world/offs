@@ -10,7 +10,7 @@ import SwiftData
 
 import ComposableArchitecture
 
-import SharedDesignSystem
+import OffSharedDesignSystem
 
 public enum TradeError: Error {
     case unknown

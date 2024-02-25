@@ -12,11 +12,11 @@ import AuthenticationServices
 import ComposableArchitecture
 import Supabase
 
-import Shared
+import OffShared
 
 public struct OnboardingSignInView: View {
     let store: StoreOf<OnboardingSignInStore>
-    let client = SupabaseClient(supabaseURL: URL(string: Shared.Environment.supabaseProjectURL)!, supabaseKey: Shared.Environment.supabaseAPIpublicKey)
+    let client = SupabaseClient(supabaseURL: URL(string: OffShared.Environment.supabaseProjectURL)!, supabaseKey: OffShared.Environment.supabaseAPIpublicKey)
     
     public init(store: StoreOf<OnboardingSignInStore>) {
         self.store = store

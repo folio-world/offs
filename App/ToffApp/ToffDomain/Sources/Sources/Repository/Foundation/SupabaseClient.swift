@@ -9,7 +9,7 @@ import Foundation
 
 import Supabase
 
-import Shared
+import OffShared
 
 public class SupabaseClientProvider {
     static let client = SupabaseClient(

@@ -10,7 +10,7 @@ import SwiftUI
 import ComposableArchitecture
 
 import ToffDomain
-import Shared
+import OffShared
 
 public struct TradePreviewItemCellView: View {
     private let store: StoreOf<TradePreviewItemCellStore>

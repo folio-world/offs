@@ -7,9 +7,9 @@
 
 import ComposableArchitecture
 
-import Core
+import OffCore
 import ToffDomain
-import Shared
+import OffShared
 
 public struct MainTabStore: Reducer {
     public init() {}

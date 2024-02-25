@@ -4,16 +4,19 @@
 import PackageDescription
 
 let package = Package(
-    name: "SharedFoundation",
+    name: "OffSharedDesignSystem",
     platforms: [.iOS(.v17)],
     products: [
         .library(
-            name: "SharedFoundation",
-            targets: ["SharedFoundation"]),
+            name: "OffSharedDesignSystem",
+            targets: ["OffSharedDesignSystem"]),
     ],
     targets: [
         .target(
-            name: "SharedFoundation"
+            name: "OffSharedDesignSystem",
+            resources: [
+                .embedInCode("Resources/")
+            ]
         )
     ]
 )

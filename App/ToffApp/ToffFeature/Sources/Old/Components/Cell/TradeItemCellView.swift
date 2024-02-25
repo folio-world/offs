@@ -9,7 +9,7 @@ import SwiftUI
 
 import ComposableArchitecture
 
-import Shared
+import OffShared
 import ToffDomain
 
 public struct TradeItemCellView: View {

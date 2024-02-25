@@ -4,18 +4,22 @@
 import PackageDescription
 
 let package = Package(
-    name: "SharedDesignSystem",
+    name: "OffCore",
     platforms: [.iOS(.v17)],
     products: [
         .library(
-            name: "SharedDesignSystem",
-            targets: ["SharedDesignSystem"]),
+            name: "OffCore",
+            targets: ["OffCore"]
+        ),
+    ],
+    dependencies: [
+        .package(path: "../OffShared")
     ],
     targets: [
         .target(
-            name: "SharedDesignSystem",
-            resources: [
-                .embedInCode("Resources/")
+            name: "OffCore",
+            dependencies: [
+                .product(name: "OffShared", package: "OffShared")
             ]
         )
     ]

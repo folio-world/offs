@@ -10,7 +10,7 @@ import SwiftUI
 import ComposableArchitecture
 
 import ToffDomain
-import SharedDesignSystem
+import OffSharedDesignSystem
 
 public struct OnboardingMainView: View {
     typealias State = OnboardingMainStore.State

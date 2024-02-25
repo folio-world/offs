@@ -10,7 +10,7 @@ import StoreKit
 
 import ComposableArchitecture
 
-import Shared
+import OffShared
 
 public struct MyPageMainView: View {
     let store: StoreOf<MyPageMainStore>

@@ -11,7 +11,7 @@ import Combine
 import ComposableArchitecture
 
 import ToffDomain
-import SharedDesignSystem
+import OffSharedDesignSystem
 
 public struct HomeMainView: View {
     typealias State = HomeMainStore.State

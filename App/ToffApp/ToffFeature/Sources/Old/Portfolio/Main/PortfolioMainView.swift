@@ -10,7 +10,7 @@ import Charts
 
 import ComposableArchitecture
 
-import Shared
+import OffShared
 
 public struct PortfolioMainView: View {
     public let store: StoreOf<PortfolioMainStore>

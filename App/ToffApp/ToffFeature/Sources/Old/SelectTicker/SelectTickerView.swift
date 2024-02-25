@@ -9,7 +9,7 @@ import SwiftUI
 
 import ComposableArchitecture
 
-import Shared
+import OffShared
 
 public struct SelectTickerView: View {
     public let store: StoreOf<SelectTickerStore>

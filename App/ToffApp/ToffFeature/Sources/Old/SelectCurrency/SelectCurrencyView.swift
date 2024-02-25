@@ -10,7 +10,7 @@ import SwiftUI
 import ComposableArchitecture
 
 import ToffDomain
-import Shared
+import OffShared
 
 public struct SelectCurrencyView: View {
     let store: StoreOf<SelectCurrencyStore>

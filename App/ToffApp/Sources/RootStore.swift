@@ -11,17 +11,19 @@ import ComposableArchitecture
 import ToffFeature
 import ToffDomain
 
-struct RootStore: Reducer {
-    enum State {
+public struct RootStore: Reducer {
+    public init() {}
+    
+    public enum State {
         case onboarding(OnboardingNavigationStackStore.State = .init())
         case mainTab(MainTabStore.State = .init())
 
-        init() {
+        public init() {
             self = .mainTab()
         }
     }
     
-    enum Action {
+    public enum Action {
         case onAppear
         
         case refreshResponse(Result<Void, any Error>)

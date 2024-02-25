@@ -12,13 +12,13 @@ let package = Package(
             targets: ["ToffDomain"]),
     ],
     dependencies: [
-        .package(path: "../../../Common/Core")
+        .package(path: "../../../Common/OffCore")
     ],
     targets: [
         .target(
             name: "ToffDomain",
             dependencies: [
-                .product(name: "Core", package: "Core")
+                .product(name: "OffCore", package: "OffCore")
             ]
         )
     ]

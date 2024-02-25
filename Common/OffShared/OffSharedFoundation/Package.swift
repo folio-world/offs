@@ -4,23 +4,16 @@
 import PackageDescription
 
 let package = Package(
-    name: "Core",
+    name: "OffSharedFoundation",
     platforms: [.iOS(.v17)],
     products: [
         .library(
-            name: "Core",
-            targets: ["Core"]
-        ),
-    ],
-    dependencies: [
-        .package(path: "../Shared")
+            name: "OffSharedFoundation",
+            targets: ["OffSharedFoundation"]),
     ],
     targets: [
         .target(
-            name: "Core",
-            dependencies: [
-                .product(name: "Shared", package: "Shared")
-            ]
+            name: "OffSharedFoundation"
         )
     ]
 )

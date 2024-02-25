@@ -11,8 +11,8 @@ import SwiftUI
 import ComposableArchitecture
 
 import ToffDomain
-import Shared
-import SharedDesignSystem
+import OffShared
+import OffSharedDesignSystem
 
 public struct SelectTagView: View {
     let store: StoreOf<SelectTagStore>

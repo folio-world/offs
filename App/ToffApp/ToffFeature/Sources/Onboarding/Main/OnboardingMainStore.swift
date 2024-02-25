@@ -10,7 +10,7 @@ import Foundation
 import ComposableArchitecture
 
 import ToffDomain
-import SharedDesignSystem
+import OffSharedDesignSystem
 
 public struct OnboardingMainStore: Reducer {
     public init() {}

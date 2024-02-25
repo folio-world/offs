@@ -9,16 +9,16 @@
 import UIKit
 import SwiftUI
 
-import FirebaseCore
-import GoogleMobileAds
+//import FirebaseCore
+//import GoogleMobileAds
 
 import AppTrackingTransparency
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        GADMobileAds.sharedInstance().start(completionHandler: nil)
-        FirebaseApp.configure()
+//        GADMobileAds.sharedInstance().start(completionHandler: nil)
+//        FirebaseApp.configure()
 
       return true
     }

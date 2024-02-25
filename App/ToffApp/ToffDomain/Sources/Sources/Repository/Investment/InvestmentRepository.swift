@@ -8,7 +8,7 @@
 import Supabase
 import Dependencies
 
-import Shared
+import OffShared
 import AuthenticationServices
 
 public protocol InvestmentRepositoryInterface {

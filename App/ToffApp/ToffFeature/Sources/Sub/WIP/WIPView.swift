@@ -12,7 +12,7 @@ import SwiftUI
 import ComposableArchitecture
 
 import ToffDomain
-import SharedDesignSystem
+import OffSharedDesignSystem
 
 public struct WIPView: View {
     typealias State = WIPStore.State

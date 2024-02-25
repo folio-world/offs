@@ -12,14 +12,14 @@ import ComposableArchitecture
 
 import ToffFeature
 
-struct RootView: View {
+public struct RootView: View {
     let store: StoreOf<RootStore>
     
-    init(store: StoreOf<RootStore>) {
+    public init(store: StoreOf<RootStore>) {
         self.store = store
     }
     
-    var body: some View {
+    public var body: some View {
         SwitchStore(self.store) {
             switch $0 {
             case .onboarding:

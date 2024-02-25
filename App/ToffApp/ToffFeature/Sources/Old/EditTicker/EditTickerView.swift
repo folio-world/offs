@@ -11,8 +11,8 @@ import SwiftData
 import ComposableArchitecture
 
 import ToffDomain
-import Shared
-import SharedDesignSystem
+import OffShared
+import OffSharedDesignSystem
 
 public struct EditTickerView: View {
     let store: StoreOf<EditTickerStore>

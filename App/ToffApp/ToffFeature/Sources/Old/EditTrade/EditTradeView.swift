@@ -12,8 +12,8 @@ import PhotosUI
 import ComposableArchitecture
 
 import ToffDomain
-import Shared
-import SharedDesignSystem
+import OffShared
+import OffSharedDesignSystem
 
 public struct EditTradeView: View {
     let store: StoreOf<EditTradeStore>

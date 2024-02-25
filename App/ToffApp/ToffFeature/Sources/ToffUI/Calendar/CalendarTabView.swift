@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-import SharedDesignSystem
+import OffSharedDesignSystem
 
 import IdentifiedCollections
 import ToffDomain

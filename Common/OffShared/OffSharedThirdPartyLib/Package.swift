@@ -4,13 +4,13 @@
 import PackageDescription
 
 let package = Package(
-    name: "SharedThirdPartyLib",
+    name: "OffSharedThirdPartyLib",
     platforms: [.iOS(.v17)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "SharedThirdPartyLib",
-            targets: ["SharedThirdPartyLib"]),
+            name: "OffSharedThirdPartyLib",
+            targets: ["OffSharedThirdPartyLib"]),
     ],
     dependencies: [
         .package(
@@ -32,17 +32,14 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "SharedThirdPartyLib",
+            name: "OffSharedThirdPartyLib",
             dependencies: [
                 .composableArchitecture,
                 .googleMobileAds,
                 .supabase,
-                .firebaseCore
+//                .firebaseCore
             ]
-        ),
-        .testTarget(
-            name: "SharedThirdPartyLibTests",
-            dependencies: ["SharedThirdPartyLib"]),
+        )
     ]
 )
 
