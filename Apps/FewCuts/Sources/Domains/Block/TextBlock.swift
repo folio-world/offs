@@ -1,0 +1,20 @@
+//
+//  TextBlock.swift
+//  FewCuts
+//
+//  Created by 송영모 on 6/9/25.
+//
+
+import Foundation
+
+@Observable
+public class TextBlock: Block, Identifiable {
+    public var id: UUID = .init()
+    public var rect: CGRect
+    public var text: String
+    
+    public init(rect: CGRect, text: String) {
+        self.rect = rect
+        self.text = text
+    }
+}
