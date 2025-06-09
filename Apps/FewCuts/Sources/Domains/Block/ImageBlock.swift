@@ -9,7 +9,7 @@ import Foundation
 
 @Observable
 public class ImageBlock: Block, Identifiable {
-    public var id: UUID = .init()
+    public var id: BlockID = .init()
     public var rect: CGRect
     
     public init(rect: CGRect) {

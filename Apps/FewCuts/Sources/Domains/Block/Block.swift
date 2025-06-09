@@ -7,7 +7,19 @@
 
 import Foundation
 
+public struct BlockID: Hashable, Identifiable {
+    public let id: UUID
+    
+    public init() {
+        self.id = UUID()
+    }
+    
+    public init(id: UUID) {
+        self.id = id
+    }
+}
+
 public protocol Block {
-    var id: UUID { get }
+    var id: BlockID { get }
     var rect: CGRect { get set }
 }
